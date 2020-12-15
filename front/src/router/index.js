@@ -71,6 +71,20 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/group',
+    component: Layout,
+    meta: { title: '模板组管理', icon: 'table' },
+    redirect: '/group/list',
+    children: [
+      {
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/group/index'),
+        meta: { title: '模板组管理' }
+      }
+    ]
+  },
+  {
     path: '/template',
     component: Layout,
     meta: { title: '模板管理', icon: 'table' },
