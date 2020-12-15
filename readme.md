@@ -14,7 +14,7 @@
 - 解压zip，如果是Mac/Linux操作系统，运行`startup.sh`文件启动，Windows操作系统运行cmd输入`java -jar gen.jar`启动
 - 浏览器访问`http://localhost:9999/`
 
-默认端口是6969，更改端口号按如下方式：
+默认端口是9999，更改端口号按如下方式：
 
 - Mac/Linux操作系统：打开`startup.sh`文件，修改`--server.port`参数值
 - Windows操作系统：可执行：`java -jar gen.jar --server.port=端口号`
@@ -27,7 +27,7 @@
 
 下载完毕后，执行`docker run --name gen -p 9999:9999 -d <镜像ID>`
 
-浏览器访问`http://ip:6969/`
+浏览器访问`http://ip:9999/`
 
 - 方式二：本地构建镜像
 
