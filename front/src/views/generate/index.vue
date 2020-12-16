@@ -199,7 +199,7 @@ export default {
     return {
       groupId: '',
       groupData: {},
-      showTable: true,
+      showTable: false,
       clientParam: {
         datasourceConfigId: '',
         tableNames: [],
