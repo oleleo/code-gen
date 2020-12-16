@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface TemplateConfigMapper {
 
-    TemplateConfig getByName(String name);
+    TemplateConfig getByNameAndGroupId(String name, Integer groupId);
 
     /**
      * 查询所有记录

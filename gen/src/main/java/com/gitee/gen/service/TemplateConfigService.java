@@ -26,16 +26,16 @@ public class TemplateConfigService {
     }
 
     public void insert(TemplateConfig templateConfig) {
-//        TemplateConfig existObj = templateConfigMapper.getByName(templateConfig.getName());
-//        if (existObj != null) {
-//            throw new RuntimeException("模板名称已存在");
-//        }
+        TemplateConfig existObj = templateConfigMapper.getByNameAndGroupId(templateConfig.getName(), templateConfig.getGroupId());
+        if (existObj != null) {
+            throw new RuntimeException("模板名称已存在");
+        }
         templateConfig.setIsDeleted(0);
         templateConfigMapper.insert(templateConfig);
     }
 
     public void update(TemplateConfig templateConfig) {
-        TemplateConfig existObj = templateConfigMapper.getByName(templateConfig.getName());
+        TemplateConfig existObj = templateConfigMapper.getByNameAndGroupId(templateConfig.getName(), templateConfig.getGroupId());
         if (existObj != null && !Objects.equals(templateConfig.getId(), existObj.getId())) {
             throw new RuntimeException("模板名称已存在");
         }

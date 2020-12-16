@@ -30,11 +30,11 @@
         WHERE t.is_deleted = 0
     </select>
 
-    <select id="getByName" resultMap="BaseResultMap">
+    <select id="getByNameAndGroupId" resultMap="BaseResultMap">
         SELECT
         <include refid="baseColumns"/>
         FROM template_config t
-        WHERE name = #{name}
+        WHERE name = #{name} and group_id = #{groupId}
     </select>
 
     <!-- 根据主键获取单条记录 -->
