@@ -68,7 +68,9 @@ clone代码，然后执行`docker-build.sh`脚本
 Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist/gen`文件夹下。
 
 - 手动构建：
-    
+
+> 前提：安装nodejs
+
     `cd front`
     
     - 执行`npm run build:prod`
