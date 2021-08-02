@@ -69,7 +69,7 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist/gen`
 
 - 手动构建：
 
-> 前提：安装nodejs
+> 前提：安装nodejs，Java8，maven3
 
     `cd front`
     
