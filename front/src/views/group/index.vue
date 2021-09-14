@@ -24,6 +24,8 @@
     <el-dialog
       :title="groupTitle"
       :visible.sync="groupDlgShow"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <el-form
         ref="dialogForm"
