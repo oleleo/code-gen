@@ -67,8 +67,10 @@
 </template>
 
 <script>
-import JSZip from "jszip"
+import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
+
+const CUR_GROUP_ID_KEY = 'gen.cur.groupid'
 
 export default {
   data() {
@@ -79,7 +81,7 @@ export default {
       currentTab: { id: 0 },
       importDialogVisible: false,
       importLoading: false,
-      importFiles: [],
+      importFiles: []
     }
   },
   created() {
@@ -87,6 +89,10 @@ export default {
   },
   methods: {
     reload() {
+      const groupId = this.getAttr(CUR_GROUP_ID_KEY)
+      if (groupId) {
+        this.currentTab.id = parseInt(groupId)
+      }
       this.loadGroup()
     },
     loadGroup: function() {
@@ -111,6 +117,7 @@ export default {
       this.loadTable(id)
     },
     loadTable: function(groupId) {
+      this.setAttr(CUR_GROUP_ID_KEY, groupId)
       this.activeName = `${groupId}`
       this.post(`/template/list?groupId=${groupId}`, {}, function(resp) {
         this.tableData = resp.data

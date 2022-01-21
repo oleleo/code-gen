@@ -26,7 +26,7 @@
         },
         {
           "expression": "${pk.javaTypeBox}",
-          "text": "主键字段的java装箱类型,如Integer"
+          "text": "主键字段装箱类型,如Integer"
         },
         {
           "expression": "${pk.isIdentity}",
@@ -34,7 +34,7 @@
         },
         {
           "expression": "${pk.mybatisJdbcType}",
-          "text": "mybatis定义的jdbcType"
+          "text": "mybatis的jdbcType"
         },
         {
           "expression": "${pk.comment}",
@@ -101,6 +101,26 @@
         {
           "expression": "${context.mybatisPkType}",
           "text": "主键对应的mybatis类型"
+        },
+        {
+          "expression": "${context.randomInt}",
+          "text": "int随机数"
+        },
+        {
+          "expression": "${context.randomLong}",
+          "text": "long随机数"
+        },
+        {
+          "expression": "${context.randomBoolean}",
+          "text": "boolean随机"
+        },
+        {
+          "expression": "${context.uuid}",
+          "text": "生成uuid"
+        },
+        {
+          "expression": "${context.nextId}",
+          "text": "生成唯一id，基于雪花算法"
         }
       ]
     },
@@ -135,6 +155,10 @@
           "text": "表中字段名"
         },
         {
+          "expression": "${column.columnNameLF}",
+          "text": "表中字段名首字母小写"
+        },
+        {
           "expression": "${column.type}",
           "text": "字段的数据库类型"
         },
@@ -152,7 +176,7 @@
         },
         {
           "expression": "${column.javaTypeBox}",
-          "text": "字段的java装箱类型,如Integer"
+          "text": "字段装箱类型,如Integer"
         },
         {
           "expression": "${column.isIdentity}",
@@ -168,7 +192,7 @@
         },
         {
           "expression": "${column.mybatisJdbcType}",
-          "text": "mybatis定义的jdbcType"
+          "text": "mybatis的jdbcType"
         },
         {
           "expression": "${column.comment}",
@@ -185,6 +209,10 @@
         {
           "expression": "${column.scale}",
           "text": "小数位长度"
+        },
+        {
+          "expression": "${column.isNullable}",
+          "text": "字段是否可空,返回boolean"
         }
       ]
     }

@@ -40,7 +40,7 @@ public class OracleColumnSelector extends ColumnSelector {
 
 	private static final String COLUMN_SQL = " SELECT " +
 			" atc.COLUMN_NAME FIELD, atc.DATA_TYPE TYPE, atc.DATA_SCALE SCALE, atc.DATA_LENGTH MAXLENGTH, " +
-			" CASE atc.NULLABLE WHEN 'N' THEN '否' ELSE '是' END 可空, " +
+			" CASE atc.NULLABLE NULLABLE , " +
 			" atc.DATA_DEFAULT 默认值, acc.COMMENTS COMMENTS, atc.TABLE_NAME 表名, " +
 			" CASE atc.COLUMN_NAME " +
 			" WHEN " +
@@ -104,6 +104,9 @@ public class OracleColumnSelector extends ColumnSelector {
 
 		String scale = FieldUtil.convertString(rowMap.get("SCALE"));
 		columnDefinition.setScale(new Integer(StringUtils.isEmpty(scale) ? "0" : scale));
+
+		String isNullable = FieldUtil.convertString(rowMap.get("NULLABLE"));
+		columnDefinition.setIsNullable(!"N".equalsIgnoreCase(isNullable));
 
 		return columnDefinition;
 	}

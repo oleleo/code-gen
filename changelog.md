@@ -1,5 +1,21 @@
 # changelog
 
+## 1.5.6
+
+- 【新增】常用变量
+```
+${context.randomInt}：int随机数
+${context.randomLong}：long随机数
+${context.randomBoolean}：boolean随机
+${context.uuid}：生成uuid
+${context.nextId}：生成唯一id，基于雪花算法
+```
+
+- 【新增】新增velocity变量， `${column.isNullable}`：字段是否可空,返回boolean [#I4QAMO](https://gitee.com/durcframework/code-gen/issues/I4QAMO)
+- 【新增】新增velocity变量， `${column.columnNameLF}`：表中字段名首字母小写 [#I4QJJY](https://gitee.com/durcframework/code-gen/issues/I4QJJY)
+- 【优化】多个模板组切换问题 [#I4QFDO](https://gitee.com/durcframework/code-gen/issues/I4QFDO)
+- 【修复】修复升级1.4.0表名重复问题 [#I4LQJW](https://gitee.com/durcframework/code-gen/issues/I4LQJW)
+
 ## 1.5.5
 
 - 优化窗口关闭

@@ -42,7 +42,7 @@ public interface UpgradeMapper {
      * @param tableName 表名
      * @return 返回字段信息
      */
-    List<ColumnInfo> listColumnInfoMysql(@Param("tableName") String tableName);
+    List<ColumnInfo> listColumnInfoMysql(@Param("tableName") String tableName, @Param("dbName") String dbName);
 
     List<String> listTableName();
 

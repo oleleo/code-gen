@@ -21,7 +21,7 @@
     <select id="listColumnInfoMysql" resultType="com.gitee.gen.entity.ColumnInfo">
         select COLUMN_NAME as 'name', DATA_TYPE as 'type'
         from information_schema.COLUMNS
-        where table_name = '${tableName}'
+        where table_name = #{tableName} and table_schema = #{dbName}
     </select>
 
 

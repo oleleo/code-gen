@@ -50,24 +50,30 @@
         </el-form>
       </el-col>
       <el-col :span="8">
-        <div :class="{ 'hasFix': needFix }">
-          <h3>
+        <div :class="{ 'hasFix': needFix }" style="font-size: 14px;">
+          <h4 style="margin: 5px 0">
             Velocity变量
             <span class="velocity-tip">
               点击变量直接插入
             </span>
-          </h3>
-          <el-tabs v-model="activeName" type="card" @tab-click="onTabClick">
+          </h4>
+          <el-tabs v-model="activeName" @tab-click="onTabClick">
             <el-tab-pane v-for="item in velocityConfig" :key="item.name" :label="item.label" :name="item.name" :content="item" />
           </el-tabs>
           <div class="velocity-var">
-            <el-collapse v-model="collapseActiveName" accordion>
-              <el-collapse-item v-for="(item, index) in treeData" :key="item.expression" :title="item.expression" :name="`${index}`">
-                <li v-for="child in item.children" :key="child.expression">
-                  <a @click="onExpressionClick(child.expression)">{{ child.expression }}</a>：{{ child.text }}
-                </li>
-              </el-collapse-item>
-            </el-collapse>
+            <el-tree
+              :data="treeData"
+              :props="defaultProps"
+              :indent="4"
+              accordion
+            >
+              <span slot-scope="{ data }">
+                <span v-if="data.children && data.children.length > 0">{{ data.expression }}</span>
+                <span v-else>
+                  <a @click="onExpressionClick(data.expression)">{{ data.expression }}</a>：{{ data.text }}
+                </span>
+              </span>
+            </el-tree>
           </div>
         </div>
       </el-col>
@@ -154,7 +160,7 @@ export default {
       velocityConfig: [],
       defaultProps: {
         children: 'children',
-        label: 'text'
+        label: 'expression'
       },
       needFix: false
     }
@@ -213,6 +219,9 @@ export default {
       codemirror.replaceSelection(exp)
       // 重新获得光标
       codemirror.focus()
+    },
+    handleNodeClick(node) {
+      console.log(node)
     },
     onSave() {
       this.$refs.dialogForm.validate((valid) => {

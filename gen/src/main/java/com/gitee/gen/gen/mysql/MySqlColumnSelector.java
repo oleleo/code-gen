@@ -8,6 +8,7 @@ import com.gitee.gen.util.FieldUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -78,6 +79,9 @@ public class MySqlColumnSelector extends ColumnSelector {
 
 		String scale = FieldUtil.convertString(rowMap.get("SCALE"));
 		columnDefinition.setScale(new Integer(StringUtils.isEmpty(scale) ? "0" : scale));
+
+		String isNullable = FieldUtil.convertString(rowMap.get("NULL"));
+		columnDefinition.setIsNullable("YES".equalsIgnoreCase(isNullable));
 
 		return columnDefinition;
 	}

@@ -32,6 +32,9 @@ public class UpgradeService {
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
 
+    @Value("${gen.db-name:gen}")
+    private String dbName;
+
     public static void initDatabase() {
         String filename = "gen.db";
         String filepath = System.getProperty("user.dir") + "/" + filename;
@@ -157,7 +160,7 @@ public class UpgradeService {
      * @return true：存在
      */
     public boolean isColumnExist(String tableName, String columnName) {
-        List<ColumnInfo> columnInfoList = isMysql() ? upgradeMapper.listColumnInfoMysql(tableName) :
+        List<ColumnInfo> columnInfoList = isMysql() ? upgradeMapper.listColumnInfoMysql(tableName, dbName) :
                 upgradeMapper.listColumnInfo(tableName);
         return columnInfoList
                 .stream()

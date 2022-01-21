@@ -1,10 +1,13 @@
 package com.gitee.gen.gen;
 
+import com.gitee.gen.common.IdWorker;
 import com.gitee.gen.util.FieldUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 /**
  * SQL上下文,这里可以取到表,字段信息<br>
@@ -60,6 +63,26 @@ public class SQLContext {
 
     public String getTime() {
         return localDateTime.format(TIME_FORMATTER);
+    }
+
+    public int getRandomInt() {
+        return RandomUtils.nextInt(Integer.MAX_VALUE);
+    }
+
+    public long getRandomLong() {
+        return RandomUtils.nextLong();
+    }
+
+    public boolean getRandomBoolean() {
+        return RandomUtils.nextBoolean();
+    }
+
+    public String getUuid() {
+        return UUID.randomUUID().toString();
+    }
+
+    public long getNextId() {
+        return IdWorker.getInstance().nextId();
     }
 
     /**

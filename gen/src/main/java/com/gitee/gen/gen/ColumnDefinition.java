@@ -1,6 +1,7 @@
 package com.gitee.gen.gen;
 
 import com.gitee.gen.gen.converter.ColumnTypeConverter;
+import com.gitee.gen.util.FieldUtil;
 import org.springframework.util.StringUtils;
 
 /**
@@ -36,6 +37,19 @@ public class ColumnDefinition {
      * 小数位长度
      */
     private Integer scale;
+
+    /**
+     * 字段是否允许为null
+     */
+    private boolean isNullable = false;
+
+    /**
+     * 数据库字段名首字母小写
+     * @return
+     */
+    public String getColumnNameLF() {
+        return FieldUtil.lowerFirstLetter(this.columnName);
+    }
 
     public String getLabel() {
         return StringUtils.hasLength(comment) ? comment : columnName;
@@ -132,5 +146,13 @@ public class ColumnDefinition {
 
     public ColumnTypeConverter getColumnTypeConverter() {
         throw new UnsupportedOperationException("未覆盖com.gitee.gen.gen.ColumnDefinition.getColumnTypeConverter方法");
+    }
+
+    public Boolean getIsNullable() {
+        return isNullable;
+    }
+
+    public void setIsNullable(Boolean isNullable) {
+        this.isNullable = isNullable;
     }
 }

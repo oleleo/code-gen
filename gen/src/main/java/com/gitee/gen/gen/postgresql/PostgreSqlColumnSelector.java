@@ -3,6 +3,7 @@ package com.gitee.gen.gen.postgresql;
 import com.gitee.gen.gen.ColumnDefinition;
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
+import com.gitee.gen.util.FieldUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Map;
@@ -25,6 +26,7 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
             " pg_attribute.attname AS colname,  " +
             " atttypid::regtype AS type,  " +
             " numeric_scale as SCALE,  " +
+            " C.is_nullable as NULLABLE,  " +
             " col_description ( pg_attribute.attrelid, pg_attribute.attnum ) AS cmt,  " +
             " pg_attribute.attnum = pg_constraint.conkey [ 1 ] AS is_pk,  " +
             "CASE WHEN POSITION ( 'nextval' IN column_default ) > 0 THEN 1 ELSE 0 END AS is_identity  " +
@@ -89,6 +91,9 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
         columnDefinition.setType(SQL_TYPE_FORMATTER.format(type));
 
         columnDefinition.setComment(convertString(rowMap.get("CMT")));
+
+        String isNullable = FieldUtil.convertString(rowMap.get("NULLABLE"));
+        columnDefinition.setIsNullable(!"NO".equalsIgnoreCase(isNullable));
 
         return columnDefinition;
     }

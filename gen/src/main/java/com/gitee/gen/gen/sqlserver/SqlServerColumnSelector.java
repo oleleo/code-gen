@@ -12,12 +12,14 @@ import java.util.Set;
 public class SqlServerColumnSelector extends ColumnSelector {
 
 	private static final SqlServerTypeFormatter TYPE_FORMATTER = new SqlServerTypeFormatter();
-	
+
+	// https://blog.csdn.net/qq_14880455/article/details/92842329
 	private static String TABKE_DETAIL_SQL = new StringBuilder()
 		.append("SELECT")
 		.append("	 col.name AS column_name")
 		.append("	, col.max_length AS MaxLength")  //sqlserver 字段长度
 		.append("	, col.scale AS Scale")  //sqlserver 字段精度
+		.append("	, col.is_nullable AS NULLABLE")  //1 =列可以为空。
 		.append("	, bt.name AS type")
 		.append("	, col.is_identity")
 		.append("	, ext.value AS comment")
@@ -111,7 +113,9 @@ public class SqlServerColumnSelector extends ColumnSelector {
 		//sqlserver 字段精度
 		String scale = FieldUtil.convertString(rowMap.get("SCALE"));
 		columnDefinition.setScale(Integer.parseInt(StringUtils.isEmpty(scale) ? "0" : scale));
-		
+
+		String isNullable = FieldUtil.convertString(rowMap.get("NULLABLE"));
+		columnDefinition.setIsNullable("1".equalsIgnoreCase(isNullable));
 		return columnDefinition;
 	}
 
