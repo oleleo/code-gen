@@ -33,6 +33,7 @@
 
 - 方式二：本地构建镜像
 
+
 clone代码，然后执行`docker-build.sh`脚本
 
 执行`docker run --name gen -p 6969:6969 -d <镜像ID>`
@@ -82,6 +83,14 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist/gen`
     - 将`gen-1.0.0-SNAPSHOT.jar`放在`dist/gen`下，确保jar和`view`在同一目录
     - 执行`java -jar gen-xx-SNAPSHOT.jar`
     - 浏览器访问`http://localhost:6969/`
+## 构建多平台
+
+  - 安装多平台buildx : `docker buildx create --use --name m1_builder`
+
+  - 查看并启动 builder 实例：`docker buildx inspect --bootstrap` 
+
+  - 打包多平台镜像：`docker buildx build -t tanghc2020/gen --platform=linux/amd64,linux/arm64/v8 -o type=docker .`
+
 
 ## 效果图
 
