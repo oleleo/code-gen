@@ -40,7 +40,7 @@ public class OracleColumnSelector extends ColumnSelector {
 
 	private static final String COLUMN_SQL = " SELECT " +
 			" atc.COLUMN_NAME FIELD, atc.DATA_TYPE TYPE, atc.DATA_SCALE SCALE, atc.DATA_LENGTH MAXLENGTH, " +
-			" CASE atc.NULLABLE NULLABLE , " +
+			" atc.NULLABLE NULLABLE , " +
 			" atc.DATA_DEFAULT 默认值, acc.COMMENTS COMMENTS, atc.TABLE_NAME 表名, " +
 			" CASE atc.COLUMN_NAME " +
 			" WHEN " +
@@ -48,7 +48,7 @@ public class OracleColumnSelector extends ColumnSelector {
 			"	LEFT JOIN all_cons_columns col ON con.table_name = col.table_name " +
 			"	AND con.OWNER = col.OWNER AND con.CONSTRAINT_NAME = col.CONSTRAINT_NAME " +
 			"   WHERE con.constraint_type = 'P' " +
-			"	AND col.table_name = '%s' AND con.OWNER = '%s' ) " +
+			"	AND col.table_name = '%s' AND con.OWNER = '%s' AND col.column_name = atc.COLUMN_NAME ) " +
 			" THEN 'true' ELSE 'false' END AS KEY " +
 			" FROM ALL_TAB_COLUMNS atc " +
 			" LEFT JOIN ALL_COL_COMMENTS acc " +
