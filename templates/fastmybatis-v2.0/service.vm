@@ -1,0 +1,16 @@
+## filename=${context.javaBeanName}Service.java, folder=service
+package ${context.packageName}.mapper;
+
+import com.gitee.fastmybatis.core.support.IService;
+import ${context.packageName}.dao.entity.${context.javaBeanName};
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @author xxx
+ */
+@Service
+public class ${context.javaBeanName}Service implements IService<${context.javaBeanName}, ${pk.javaTypeBox}> {
+
+}
