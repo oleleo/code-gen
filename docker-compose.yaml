@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  code-gen:
+    restart: always
+    container_name: code-gen
+    image: trainliang/codegen
+    #    deploy:
+    #      resources:
+    #        limits:
+    #          cpus: '0.9'
+    #          memory: 500M
+    environment:
+      DATASOURCE_DRIVE: com.mysql.cj.jdbc.Driver
+      DATASOURCE_URL: jdbc:mysql://mysql:3306/code_gen?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+      DATASOURCE_USERNAME: root
+      DATASOURCE_PASSWORD: root@123
+
+    ports:
+      - 6969:6969
+#    volumes:
+#      #      - /usr/share/fonts:/usr/share/fonts
+#      - /home/www:/hww
+#      - /www:/www
+#      - ./logs:/logs
+networks:
+  default:
+    external:
+      name: online-network

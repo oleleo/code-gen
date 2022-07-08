@@ -63,6 +63,7 @@ public class GeneratorService {
                 if (StringUtils.isEmpty(folder)) {
                     folder = template.getName();
                 }
+                folder =doGenerator(sqlContext, folder);
                 String fileName = doGenerator(sqlContext, template.getFileName());
                 String content = doGenerator(sqlContext, template.getContent());
                 content = this.formatCode(fileName, content);
