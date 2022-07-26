@@ -3,6 +3,10 @@
     <el-backtop />
     <el-row :gutter="20">
       <el-col :span="16">
+        <el-button-group :class="{ 'hasFix': needFix }" style="margin-bottom: 10px;z-index: 999">
+          <el-button type="primary" @click="onSave">保 存</el-button>
+          <el-button @click="goRoute('/template/list')">返 回</el-button>
+        </el-button-group>
         <el-form
           ref="dialogForm"
           :rules="formRules"
@@ -10,8 +14,27 @@
           size="mini"
           label-position="top"
         >
+          <el-form-item prop="groupId" label="组名称">
+            <el-select
+              v-model="formData.groupId"
+              placeholder="选择模板所在组"
+            >
+              <el-option
+                v-for="item in groupData"
+                :key="item.id"
+                :label="item.groupName"
+                :value="item.id"
+              >
+                {{ item.groupName }}
+              </el-option>
+            </el-select>
+          </el-form-item>
+
           <el-form-item prop="name" label="模板名称">
             <el-input v-model="formData.name" show-word-limit maxlength="64" />
+          </el-form-item>
+          <el-form-item prop="folder" label="文件目录">
+            <el-input v-model="formData.folder" placeholder="为空则是模板名" show-word-limit maxlength="64" />
           </el-form-item>
           <el-form-item prop="fileName" label="文件名称">
             <el-input v-model="formData.fileName" placeholder="可使用velocity变量" show-word-limit maxlength="100" />
@@ -25,28 +48,32 @@
             />
           </el-form-item>
         </el-form>
-        <el-button type="primary" @click="onSave">保 存</el-button>
-        <el-button @click="goRoute('/template/list')">返 回</el-button>
       </el-col>
       <el-col :span="8">
-        <h3>Velocity变量</h3>
-        <p class="velocity-tip">
-          点击变量直接插入
-        </p>
-        <el-tabs v-model="activeName" type="card" @tab-click="onTabClick">
-          <el-tab-pane v-for="item in velocityConfig" :key="item.name" :label="item.label" :name="item.name" :content="item" />
-        </el-tabs>
-        <div v-for="item in treeData" :key="item.expression" class="velocity-var">
-          <div v-if="!item.children">
-            <li>
-                <a @click="onExpressionClick(item.expression)">{{ item.expression }}</a>：{{ item.text }}
-            </li>
-          </div>
-          <div v-else>
-            <h4>{{ item.expression }}</h4>
-            <li v-for="child in item.children" :key="child.expression">
-                <a @click="onExpressionClick(child.expression)">{{ child.expression }}</a>：{{ child.text }}
-            </li>
+        <div :class="{ 'hasFix': needFix }" style="font-size: 14px;">
+          <h4 style="margin: 5px 0">
+            Velocity变量
+            <span class="velocity-tip">
+              点击变量直接插入
+            </span>
+          </h4>
+          <el-tabs v-model="activeName" @tab-click="onTabClick">
+            <el-tab-pane v-for="item in velocityConfig" :key="item.name" :label="item.label" :name="item.name" :content="item" />
+          </el-tabs>
+          <div class="velocity-var">
+            <el-tree
+              :data="treeData"
+              :props="defaultProps"
+              :indent="4"
+              accordion
+            >
+              <span slot-scope="{ data }">
+                <span v-if="data.children && data.children.length > 0">{{ data.expression }}</span>
+                <span v-else>
+                  <a @click="onExpressionClick(data.expression)">{{ data.expression }}</a>：{{ data.text }}
+                </span>
+              </span>
+            </el-tree>
           </div>
         </div>
       </el-col>
@@ -63,8 +90,10 @@
   .velocity-tip {
     color: #606266;
     font-size: 13px;
+    font-weight: normal;
   }
-  .velocity-var {}
+  .velocity-var {
+  }
   .velocity-var li {
     font-size: 14px;
     color: #606266;
@@ -77,6 +106,10 @@
   .velocity-var a:hover {
     color: rgba(64, 158, 255, 0.75);
   }
+  .hasFix {
+    position: fixed;
+    top: 0;
+  }
 </style>
 
 <script>
@@ -88,13 +121,20 @@ export default {
   components: { codemirror },
   data() {
     return {
+      groupData: [],
       formData: {
         id: 0,
+        groupId: '',
+        groupName: '',
         name: '',
+        folder: '',
         fileName: '',
         content: ''
       },
       formRules: {
+        groupId: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
         name: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
@@ -115,12 +155,14 @@ export default {
       isVelocityBarFixed: false,
       // tree
       activeName: 'java',
+      collapseActiveName: '0',
       treeData: [],
       velocityConfig: [],
       defaultProps: {
         children: 'children',
-        label: 'text'
-      }
+        label: 'expression'
+      },
+      needFix: false
     }
   },
   created() {
@@ -131,8 +173,18 @@ export default {
       })
     }
     this.loadVelocityVar()
+    this.loadGroups(this.$route.query.groupId)
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handlerScroll)
   },
   methods: {
+    handlerScroll() {
+      const scrollTop = window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop
+      this.needFix = scrollTop > 80
+    },
     loadVelocityVar() {
       this.getFile(`velocity/java.json?q=${new Date().getTime()}`, content => {
         this.velocityConfig.push({
@@ -150,12 +202,26 @@ export default {
         })
       })
     },
+    loadGroups(groupId) {
+      this.post(`/group/list/`, {}, function(resp) {
+        this.groupData = resp.data
+        if (!groupId && this.groupData.length > 0) {
+          groupId = this.groupData[0].id
+        }
+        if (groupId && !this.formData.groupId) {
+          this.formData.groupId = parseInt(groupId);
+        }
+      })
+    },
     onExpressionClick(exp) {
       const codemirror = this.$refs.editor.codemirror
       // 插入表达式
       codemirror.replaceSelection(exp)
       // 重新获得光标
       codemirror.focus()
+    },
+    handleNodeClick(node) {
+      console.log(node)
     },
     onSave() {
       this.$refs.dialogForm.validate((valid) => {

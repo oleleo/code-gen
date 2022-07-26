@@ -2,10 +2,12 @@ package com.gitee.gen.gen.sqlserver;
 
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
-import com.gitee.gen.gen.TableSelector;
 import com.gitee.gen.gen.TableDefinition;
+import com.gitee.gen.gen.TableSelector;
 
 import java.util.Map;
+
+import static com.gitee.gen.util.FieldUtil.convertString;
 
 public class SqlServerTableSelector extends TableSelector {
 	
@@ -15,9 +17,9 @@ public class SqlServerTableSelector extends TableSelector {
 	}
 
 	@Override
-	protected String getShowTablesSQL(String dbName) {
+	protected String getShowTablesSQL(GeneratorConfig generatorConfig) {
 		return "SELECT SS.name + '.' + t.name AS table_name " +
-				",ISNULL(ext.value, '') as comment " +
+				",CONVERT(varchar(50),ISNULL(ext.value, '')) as comment " +
 				"FROM sysobjects t " +
 				"INNER JOIN sys.objects SO ON t.name = SO.name " +
 				"INNER JOIN sys.schemas  SS ON SO.schema_id = SS.schema_id " +
@@ -50,8 +52,8 @@ public class SqlServerTableSelector extends TableSelector {
 	@Override
 	protected TableDefinition buildTableDefinition(Map<String, Object> tableMap) {
 		TableDefinition tableDefinition = new TableDefinition();
-		tableDefinition.setTableName((String)tableMap.get("TABLE_NAME"));
-		tableDefinition.setComment((String)tableMap.get("COMMENT"));
+		tableDefinition.setTableName(convertString(tableMap.get("TABLE_NAME")));
+		tableDefinition.setComment(convertString(tableMap.get("COMMENT")));
 		return tableDefinition;
 	}
 

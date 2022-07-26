@@ -1,14 +1,15 @@
 package com.gitee.gen.mapper;
 
-import java.util.List;
-
 import com.gitee.gen.entity.TemplateConfig;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface TemplateConfigMapper {
 
-    TemplateConfig getByName(String name);
+    TemplateConfig getByName(@Param("name") String name, @Param("groupId") Integer groupId);
 
     /**
      * 查询所有记录
@@ -66,4 +67,11 @@ public interface TemplateConfigMapper {
      */
     int delete(TemplateConfig templateConfig);
 
+    List<TemplateConfig> listByGroupId(String groupId);
+
+    int updateGroupNameByGroupId(Integer groupId, String groupName);
+
+    int deleteByGroupId(Integer id);
+
+    List<TemplateConfig> listTemplate(@Param("idList") List<Integer> idList);
 }

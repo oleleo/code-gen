@@ -14,6 +14,10 @@ public class GeneratorParam {
 
 	private String packageName;
 
+	private String delPrefix;
+
+	private String author;
+
 	private String charset = "UTF-8";
 
 	public int getDatasourceConfigId() {
@@ -48,6 +52,22 @@ public class GeneratorParam {
 		this.packageName = packageName;
 	}
 
+	public String getDelPrefix() {
+		return delPrefix;
+	}
+
+	public void setDelPrefix(String delPrefix) {
+		this.delPrefix = delPrefix;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
 	public String getCharset() {
 		return charset;
 	}
@@ -56,4 +76,16 @@ public class GeneratorParam {
 		this.charset = charset;
 	}
 
+	@Override
+	public String toString() {
+		return "GeneratorParam{" +
+				"datasourceConfigId=" + datasourceConfigId +
+				", tableNames=" + tableNames +
+				", templateConfigIdList=" + templateConfigIdList +
+				", packageName='" + packageName + '\'' +
+				", delPrefix='" + delPrefix + '\'' +
+				", author='" + author + '\'' +
+				", charset='" + charset + '\'' +
+				'}';
+	}
 }

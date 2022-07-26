@@ -27,6 +27,7 @@ Object.assign(Vue.prototype, {
       if (code === '0') { // 成功
         callback && callback.call(that, resp)
       } else {
+        errorCallback && errorCallback.call(that, resp)
         that.$message.error(resp.msg)
       }
     }).catch(function(error) {
@@ -76,6 +77,9 @@ Object.assign(Vue.prototype, {
       }
     }).catch(function() {})
   },
+  handleCommand: function(command) {
+    command()
+  },
   /**
    * 重置表单
    * @param formName 表单元素的ref
@@ -83,6 +87,15 @@ Object.assign(Vue.prototype, {
   resetForm(formName) {
     const frm = this.$refs[formName]
     frm && frm.resetFields()
+  },
+  setAttr: function(key, val) {
+    if (val === undefined) {
+      val = ''
+    }
+    localStorage.setItem(key, val + '')
+  },
+  getAttr: function(key) {
+    return localStorage.getItem(key)
   },
   logout: function() {
     const fullPath = this.$route.fullPath
@@ -133,6 +146,6 @@ Object.assign(Vue.prototype, {
 
     element.click()
 
-    document.body.removeChild(element);
+    document.body.removeChild(element)
   }
 })

@@ -14,6 +14,11 @@ import java.util.List;
 public class TableDefinition {
 
     /**
+     * PSSQL对应的schema
+     */
+    private String schema;
+
+    /**
      * 表名
      */
     private String tableName;
@@ -95,6 +100,15 @@ public class TableDefinition {
         return false;
     }
 
+    public boolean getHasJsonbField() {
+        for (ColumnDefinition definition : columnDefinitions) {
+            if ("jsonb".equals(definition.getType())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * 获取主键信息
      *
@@ -111,10 +125,7 @@ public class TableDefinition {
                 return column;
             }
         }
-        if (pk != null) {
-            return pk;
-        }
-        throw new RuntimeException(tableName + "表未设置主键");
+        return pk;
     }
 
     public String getTableName() {
@@ -147,5 +158,13 @@ public class TableDefinition {
 
     public void setCsharpColumnDefinitions(List<CsharpColumnDefinition> csharpColumnDefinitions) {
         this.csharpColumnDefinitions = csharpColumnDefinitions;
+    }
+
+    public String getSchema() {
+        return schema;
+    }
+
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 }

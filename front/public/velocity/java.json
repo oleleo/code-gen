@@ -26,7 +26,7 @@
         },
         {
           "expression": "${pk.javaTypeBox}",
-          "text": "主键字段的java装箱类型,如Integer"
+          "text": "主键字段装箱类型,如Integer"
         },
         {
           "expression": "${pk.isIdentity}",
@@ -34,11 +34,15 @@
         },
         {
           "expression": "${pk.mybatisJdbcType}",
-          "text": "mybatis定义的jdbcType"
+          "text": "mybatis的jdbcType"
         },
         {
           "expression": "${pk.comment}",
           "text": "主键字段注释"
+        },
+        {
+          "expression": "${pk.label}",
+          "text": "返回注释，没有则返回数据库字段名"
         }
       ]
     },
@@ -46,6 +50,10 @@
       "expression": "${context}",
       "text": "",
       "children": [
+        {
+          "expression": "${context.author}",
+          "text": "作者名"
+        },
         {
           "expression": "${context.dbName}",
           "text": "数据库名"
@@ -55,12 +63,28 @@
           "text": "包名"
         },
         {
+          "expression": "${context.delPrefix}",
+          "text": "删除前缀"
+        },
+        {
           "expression": "${context.javaBeanName}",
           "text": "Java类名"
         },
         {
           "expression": "${context.javaBeanNameLF}",
           "text": "Java类名且首字母小写"
+        },
+        {
+          "expression": "${context.datetime}",
+          "text": "日期时间，年月日时分秒"
+        },
+        {
+          "expression": "${context.date}",
+          "text": "日期，年月日"
+        },
+        {
+          "expression": "${context.time}",
+          "text": "时间，时分秒"
         },
         {
           "expression": "${context.pkName}",
@@ -77,6 +101,26 @@
         {
           "expression": "${context.mybatisPkType}",
           "text": "主键对应的mybatis类型"
+        },
+        {
+          "expression": "${context.randomInt}",
+          "text": "int随机数"
+        },
+        {
+          "expression": "${context.randomLong}",
+          "text": "long随机数"
+        },
+        {
+          "expression": "${context.randomBoolean}",
+          "text": "boolean随机"
+        },
+        {
+          "expression": "${context.uuid}",
+          "text": "生成uuid"
+        },
+        {
+          "expression": "${context.nextId}",
+          "text": "生成唯一id，基于雪花算法"
         }
       ]
     },
@@ -91,6 +135,10 @@
         {
           "expression": "${table.comment}",
           "text": "表注释"
+        },
+        {
+          "expression": "${table.schema}",
+          "text": "PostgreSQL中的Schema"
         }
       ]
     },
@@ -105,6 +153,10 @@
         {
           "expression": "${column.columnName}",
           "text": "表中字段名"
+        },
+        {
+          "expression": "${column.columnNameLF}",
+          "text": "表中字段名首字母小写"
         },
         {
           "expression": "${column.type}",
@@ -124,7 +176,7 @@
         },
         {
           "expression": "${column.javaTypeBox}",
-          "text": "字段的java装箱类型,如Integer"
+          "text": "字段装箱类型,如Integer"
         },
         {
           "expression": "${column.isIdentity}",
@@ -140,11 +192,27 @@
         },
         {
           "expression": "${column.mybatisJdbcType}",
-          "text": "mybatis定义的jdbcType"
+          "text": "mybatis的jdbcType"
         },
         {
           "expression": "${column.comment}",
           "text": "字段注释"
+        },
+        {
+          "expression": "${column.label}",
+          "text": "返回注释，没有则返回数据库字段名"
+        },
+        {
+          "expression": "${column.maxLength}",
+          "text": "字段长度"
+        },
+        {
+          "expression": "${column.scale}",
+          "text": "小数位长度"
+        },
+        {
+          "expression": "${column.isNullable}",
+          "text": "字段是否可空,返回boolean"
         }
       ]
     }

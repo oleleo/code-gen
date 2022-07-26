@@ -1,12 +1,25 @@
 package com.gitee.gen.gen;
 
+import com.gitee.gen.common.IdWorker;
 import com.gitee.gen.util.FieldUtil;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 /**
  * SQL上下文,这里可以取到表,字段信息<br>
  * 最终会把SQL上下文信息放到velocity中
  */
 public class SQLContext {
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+    private final LocalDateTime localDateTime = LocalDateTime.now();
 
     /**
      * 表结构定义
@@ -17,16 +30,59 @@ public class SQLContext {
      * 包名
      */
     private String packageName;
+
+    /**
+     * 删除的前缀
+     */
+    private String delPrefix;
+
     /**
      * 数据库名
      */
     private String dbName;
+
+    /**
+     * 作者名
+     */
+    private String author;
 
     public SQLContext(TableDefinition tableDefinition) {
         this.tableDefinition = tableDefinition;
         // 默认为全字母小写的类名
         this.packageName = getJavaBeanName().toLowerCase();
         this.javaPkColumn = (JavaColumnDefinition) this.tableDefinition.getPkColumn();
+    }
+
+    public String getDatetime() {
+        return localDateTime.format(DATE_TIME_FORMATTER);
+    }
+
+    public String getDate() {
+        return localDateTime.format(DATE_FORMATTER);
+    }
+
+    public String getTime() {
+        return localDateTime.format(TIME_FORMATTER);
+    }
+
+    public int getRandomInt() {
+        return RandomUtils.nextInt(Integer.MAX_VALUE);
+    }
+
+    public long getRandomLong() {
+        return RandomUtils.nextLong();
+    }
+
+    public boolean getRandomBoolean() {
+        return RandomUtils.nextBoolean();
+    }
+
+    public String getUuid() {
+        return UUID.randomUUID().toString();
+    }
+
+    public long getNextId() {
+        return IdWorker.getInstance().nextId();
     }
 
     /**
@@ -54,6 +110,13 @@ public class SQLContext {
      */
     public String getJavaBeanNameLF() {
         String tableName = tableDefinition.getTableName();
+        if(delPrefix != null){
+            String[] split = delPrefix.split("\\s*,\\s*");
+            for (String prefix : split){
+                tableName = StringUtils.removeStart(tableName, prefix);
+            }
+        }
+
         tableName = FieldUtil.underlineFilter(tableName);
         tableName = FieldUtil.dotFilter(tableName);
         return FieldUtil.lowerFirstLetter(tableName);
@@ -99,11 +162,27 @@ public class SQLContext {
         this.packageName = packageName;
     }
 
+    public String getDelPrefix() {
+        return delPrefix;
+    }
+
+    public void setDelPrefix(String delPrefix) {
+        this.delPrefix = delPrefix;
+    }
+
     public String getDbName() {
         return dbName;
     }
 
     public void setDbName(String dbName) {
         this.dbName = dbName;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

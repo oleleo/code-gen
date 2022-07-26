@@ -22,12 +22,12 @@ public class PostgreSqlTypeFormatter implements TypeFormatter {
 
     @Override
     public boolean isTinyint(String columnType) {
-        return contains(Arrays.asList("int2", "serial2", "smallint"), columnType);
+        return false;
     }
 
     @Override
     public boolean isSmallint(String columnType) {
-        return false;
+        return contains(Arrays.asList("int2", "serial2", "smallint"), columnType);
     }
 
     @Override
@@ -68,5 +68,10 @@ public class PostgreSqlTypeFormatter implements TypeFormatter {
     @Override
     public boolean isBlob(String columnType) {
         return contains(Collections.singletonList("blob"), columnType);
+    }
+
+    @Override
+    public boolean isJsonb(String columnType) {
+        return contains(Collections.singletonList("jsonb"), columnType);
     }
 }

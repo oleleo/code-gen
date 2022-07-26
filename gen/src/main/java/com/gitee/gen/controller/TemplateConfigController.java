@@ -3,12 +3,20 @@ package com.gitee.gen.controller;
 import com.gitee.gen.common.Action;
 import com.gitee.gen.common.Result;
 import com.gitee.gen.entity.TemplateConfig;
+import com.gitee.gen.entity.TemplateGroup;
 import com.gitee.gen.service.TemplateConfigService;
+import com.gitee.gen.service.TemplateGroupService;
+import com.gitee.gen.util.TemplateMetaUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author tanghc
@@ -19,6 +27,9 @@ public class TemplateConfigController {
 
     @Autowired
     private TemplateConfigService templateConfigService;
+
+    @Autowired
+    private TemplateGroupService templateGroupService;
 
     @RequestMapping("/add")
     public Result add(@RequestBody TemplateConfig templateConfig) {
@@ -32,8 +43,25 @@ public class TemplateConfigController {
     }
 
     @RequestMapping("/list")
-    public Result list() {
-        return Action.ok(templateConfigService.listAll());
+    public Result list(String groupId) {
+        List<TemplateConfig> templateConfigs = null;
+        if(StringUtils.isEmpty(groupId)){
+            templateConfigs = templateConfigService.listAll();
+        }else {
+            templateConfigs = templateConfigService.listByGroupId(groupId);
+        }
+        Map<Integer, String> idMap = templateGroupService.listAll()
+                .stream()
+                .collect(Collectors.toMap(TemplateGroup::getId, TemplateGroup::getGroupName));
+        for (TemplateConfig templateConfig : templateConfigs) {
+            Integer gid = templateConfig.getGroupId();
+            if (gid != null) {
+                String groupName = idMap.getOrDefault(gid, "");
+                templateConfig.setGroupName(groupName);
+            }
+            templateConfig.setContent(TemplateMetaUtils.generateMetaContent(templateConfig));
+        }
+        return Action.ok(templateConfigs);
     }
 
     @RequestMapping("/update")
@@ -45,6 +73,12 @@ public class TemplateConfigController {
     @RequestMapping("/del")
     public Result del(@RequestBody TemplateConfig templateConfig) {
         templateConfigService.delete(templateConfig);
+        return Action.ok();
+    }
+
+    @RequestMapping("/save")
+    public Result save(@RequestBody TemplateConfig templateConfig) {
+        templateConfigService.save(templateConfig);
         return Action.ok();
     }
 

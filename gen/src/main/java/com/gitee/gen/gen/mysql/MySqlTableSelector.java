@@ -2,10 +2,12 @@ package com.gitee.gen.gen.mysql;
 
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
-import com.gitee.gen.gen.TableSelector;
 import com.gitee.gen.gen.TableDefinition;
+import com.gitee.gen.gen.TableSelector;
 
 import java.util.Map;
+
+import static com.gitee.gen.util.FieldUtil.convertString;
 
 /**
  * 查询mysql数据库表
@@ -18,9 +20,12 @@ public class MySqlTableSelector extends TableSelector {
 	}
 
 	@Override
-	protected String getShowTablesSQL(String dbName) {
-		// 兼容dbName包含'-'字段会报错的情况
-		dbName = dbName.contains("-") ? String.format("`%s`",dbName): dbName;
+	protected String getShowTablesSQL(GeneratorConfig generatorConfig) {
+		String dbName = generatorConfig.getDbName();
+		// 兼容dbName包含特殊字符会报错的情况
+		if (!(dbName.startsWith("`") && dbName.endsWith("`"))) {
+			dbName = String.format("`%s`",dbName);
+		}
 		String sql = "SHOW TABLE STATUS FROM " + dbName;
 		if(this.getSchTableNames() != null && this.getSchTableNames().size() > 0) {
 			StringBuilder tables = new StringBuilder();
@@ -35,8 +40,8 @@ public class MySqlTableSelector extends TableSelector {
 	@Override
 	protected TableDefinition buildTableDefinition(Map<String, Object> tableMap) {
 		TableDefinition tableDefinition = new TableDefinition();
-		tableDefinition.setTableName((String)tableMap.get("NAME"));
-		tableDefinition.setComment((String)tableMap.get("COMMENT"));
+		tableDefinition.setTableName(convertString(tableMap.get("NAME")));
+		tableDefinition.setComment(convertString(tableMap.get("COMMENT")));
 		return tableDefinition;
 	}
 

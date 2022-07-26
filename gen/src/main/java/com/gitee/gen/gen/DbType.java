@@ -13,12 +13,12 @@ public enum DbType {
     ORACLE(2,
             "Oracle",
             "oracle.jdbc.driver.OracleDriver",
-            "jdbc:oracle:thin:@%s:%s:%s"),
+            "jdbc:oracle:thin:@%s:%s%s"),
 
     SQL_SERVER(3,
             "SQL Server",
-            "net.sourceforge.jtds.jdbc.Driver",
-            "jdbc:jtds:sqlserver://%s:%s;databaseName=%s"),
+            "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+            "jdbc:sqlserver://%s:%s;DatabaseName=%s"),
 
     POSTGRE_SQL(4,
             "PostgreSQL",
