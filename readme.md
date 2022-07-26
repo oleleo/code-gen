@@ -100,4 +100,5 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist/gen`
 
 ![代码生成](https://images.gitee.com/uploads/images/2020/0724/180853_df66e76d_332975.png "gen7.png")
 
-![生成结果](https://images.gitee.com/uploads/images/2020/0731/085506_9d66201f_332975.png "gen8.png")
+Q群：167643071
+123
