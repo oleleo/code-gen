@@ -37,7 +37,7 @@ public class SqlTypeUtil {
 		javaTypeMap.put("smallmoney", "BigDecimal");
 		javaTypeMap.put("sql_variant", "String");
 		javaTypeMap.put("text", "String");
-		javaTypeMap.put("tinyint", "byte");
+		javaTypeMap.put("tinyint", "int");
 		javaTypeMap.put("timestamp", "Date");
 		javaTypeMap.put("uniqueidentifier", "String");
 		javaTypeMap.put("varbinary", "byte[]");
@@ -70,7 +70,7 @@ public class SqlTypeUtil {
 		javaBoxTypeMap.put("smallmoney", "BigDecimal");
 		javaBoxTypeMap.put("sql_variant", "String");
 		javaBoxTypeMap.put("text", "String");
-		javaBoxTypeMap.put("tinyint", "Byte");
+		javaBoxTypeMap.put("tinyint", "Integer");
 		javaBoxTypeMap.put("timestamp", "Date");
 		javaBoxTypeMap.put("uniqueidentifier", "String");
 		javaBoxTypeMap.put("varbinary", "Byte[]");
