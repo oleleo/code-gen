@@ -10,12 +10,20 @@
         ALTER TABLE ${tableName} ADD ${columnName} ${type}
     </update>
 
+    <update id="addColumnDm">
+        alter table ${tableName} add column(${columnName} ${type});
+    </update>
+
     <update id="addColumnMysql">
         ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${type}
     </update>
 
     <select id="listColumnInfo" resultType="com.gitee.gen.entity.ColumnInfo">
         PRAGMA table_info('${tableName}')
+    </select>
+
+    <select id="listColumnInfoDm" resultType="com.gitee.gen.entity.ColumnInfo">
+        SELECT COLUMN_NAME as 'name',DATA_TYPE as 'type' FROM USER_TAB_COLUMNS WHERE TABLE_NAME = 'DATASOURCE_CONFIG';
     </select>
 
     <select id="listColumnInfoMysql" resultType="com.gitee.gen.entity.ColumnInfo">
@@ -27,6 +35,10 @@
 
     <select id="listTableName" resultType="String">
         SELECT name FROM sqlite_master WHERE type='table'
+    </select>
+
+    <select id="listTableNameDm" resultType="String">
+        SELECT TABLE_NAME FROM USER_TABLES;
     </select>
 
     <select id="listTableNameMysql" resultType="String">
