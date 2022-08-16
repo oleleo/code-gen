@@ -1,5 +1,6 @@
 package com.gitee.gen.gen;
 
+import com.gitee.gen.gen.dm.DmService;
 import com.gitee.gen.gen.mysql.MySqlService;
 import com.gitee.gen.gen.oracle.OracleService;
 import com.gitee.gen.gen.postgresql.PostgreSqlService;
@@ -18,6 +19,8 @@ public class SQLServiceFactory {
         SERVICE_CONFIG.put(DbType.ORACLE.getType(), new OracleService());
         SERVICE_CONFIG.put(DbType.SQL_SERVER.getType(), new SqlServerService());
         SERVICE_CONFIG.put(DbType.POSTGRE_SQL.getType(), new PostgreSqlService());
+        SERVICE_CONFIG.put(DbType.DM.getType(), new DmService());
+
     }
 
     public static SQLService build(GeneratorConfig generatorConfig) {

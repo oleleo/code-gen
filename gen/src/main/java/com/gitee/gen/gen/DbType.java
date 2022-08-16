@@ -25,6 +25,11 @@ public enum DbType {
             "org.postgresql.Driver",
             "jdbc:postgresql://%s:%s/%s"),
 
+    DM(5,
+            "DM",
+            "dm.jdbc.driver.DmDriver",
+            "jdbc:dm://%s:%s/%s"),
+
     ;
     private final int type;
     private final String displayName;
