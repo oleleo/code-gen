@@ -49,7 +49,8 @@ public class JavaColumnDefinition extends ColumnDefinition {
      * @return 返回java字段
      */
     public String getJavaFieldName() {
-        return FieldUtil.underlineFilter(getColumnName());
+        String fieldName = FieldUtil.underlineFilter(getColumnName());
+        return  fieldName.replaceAll("_", "");
     }
 
     /**
