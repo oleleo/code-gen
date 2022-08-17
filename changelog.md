@@ -1,5 +1,9 @@
 # changelog
 
+## 1.5.9
+
+- 支持达梦数据库 [pr](https://gitee.com/durcframework/code-gen/pulls/22)
+
 ## 1.5.8
 
 - 修复oracle数据源时，生成代码页面加载不到表列表问题 [pr](https://gitee.com/durcframework/code-gen/pulls/18)  [#I4AIPV](https://gitee.com/durcframework/code-gen/issues/I4AIPV)
