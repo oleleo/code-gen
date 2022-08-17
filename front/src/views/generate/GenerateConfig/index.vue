@@ -231,6 +231,7 @@ const DB_TYPE = {
   Oracle: 2,
   SQL_Server: 3,
   PostgreSQL: 4,
+  Dm: 5
 }
 export default {
   name: 'GenerateConfig',
