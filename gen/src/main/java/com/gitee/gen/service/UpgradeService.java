@@ -113,6 +113,8 @@ public class UpgradeService {
         if (!isColumnExist(tableName, columnName)) {
             if (isMysql()) {
                 upgradeMapper.addColumnMysql(tableName, columnName, type);
+            } else if(isDm()){
+                upgradeMapper.addColumnDm(tableName, columnName, type);
             } else {
                 upgradeMapper.addColumn(tableName, columnName, type);
             }
@@ -136,9 +138,11 @@ public class UpgradeService {
     }
 
     private String loadDDL(String tableName) {
+        String tmp_dm = "ddl_%s_dm.txt";
         String tmp_mysql = "ddl_%s_mysql.txt";
         String tmp_sqlite = "ddl_%s_sqlite.txt";
-        String tmp = isMysql() ? tmp_mysql : tmp_sqlite;
+        String tmp = isDm() ? tmp_dm : (isMysql() ? tmp_mysql : tmp_sqlite);
+
         String filename = "upgrade/" + String.format(tmp, tableName);
         ClassPathResource resource = new ClassPathResource(filename);
         if (!resource.exists()) {
@@ -160,8 +164,8 @@ public class UpgradeService {
      * @return true：存在
      */
     public boolean isColumnExist(String tableName, String columnName) {
-        List<ColumnInfo> columnInfoList = isMysql() ? upgradeMapper.listColumnInfoMysql(tableName, dbName) :
-                upgradeMapper.listColumnInfo(tableName);
+        List<ColumnInfo> columnInfoList = isDm() ? upgradeMapper.listColumnInfoDm(tableName) :
+                ( isMysql() ? upgradeMapper.listColumnInfoMysql(tableName, dbName) : upgradeMapper.listColumnInfo(tableName) );
         return columnInfoList
                 .stream()
                 .anyMatch(columnInfo -> Objects.equals(columnInfo.getName(), columnName));
@@ -176,7 +180,9 @@ public class UpgradeService {
         List<String> tableNameList;
         if (isMysql()) {
             tableNameList = upgradeMapper.listTableNameMysql();
-        } else {
+        } else if(isDm()){
+            tableNameList = upgradeMapper.listTableNameDm();
+        }else {
             tableNameList = upgradeMapper.listTableName();
         }
         return tableNameList != null && tableNameList.contains(tableName);
@@ -185,4 +191,9 @@ public class UpgradeService {
     private boolean isMysql() {
         return this.driverClassName.contains("mysql");
     }
+
+    private boolean isDm() {
+        return this.driverClassName.contains("dm");
+    }
+
 }
