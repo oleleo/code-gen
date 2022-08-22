@@ -107,6 +107,7 @@
           </el-table-column>
         </el-table>
         <el-button v-show="showTable" type="primary" @click="onGenerate">生成代码</el-button>
+        <el-button v-show="showTable" type="primary" @click="onGenerate('_blank')">生成代码(新窗口)</el-button>
       </el-col>
     </el-row>
 
@@ -550,7 +551,7 @@ export default {
         })
       })
     },
-    onGenerate() {
+    onGenerate(target) {
       this.$refs.genForm.validate((valid) => {
         if (valid) {
           if (this.clientParam.tableNames.length === 0) {
@@ -562,7 +563,13 @@ export default {
             return
           }
           const config = JSON.stringify(this.clientParam)
-          this.goRouteNewWindow(`result/${config}`)
+          console.log(target);
+          if (target === '_blank') {
+            //新窗口打开
+            this.goRouteNewWindow(`result/${config}`)
+          }else{
+            this.goRoute(`result/${config}`)
+          }
         }
       })
     },
