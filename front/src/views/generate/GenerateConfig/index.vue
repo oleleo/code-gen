@@ -540,7 +540,7 @@ export default {
             return
           }
           const config = JSON.stringify(this.clientParam)
-          this.goRoute(`result/${config}`)
+          this.goRouteNewWindow(`result/${config}`)
         }
       })
     },
