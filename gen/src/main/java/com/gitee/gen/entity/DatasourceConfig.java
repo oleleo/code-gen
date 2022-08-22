@@ -15,6 +15,8 @@ public class DatasourceConfig {
     private Integer dbType;
     /** 数据库驱动 */
     private String driverClass;
+    /** 数据库别名 */
+    private String dbDesc;
     /** 数据库名称 */
     private String dbName;
     /** schema(PGSQL专用) */
@@ -150,12 +152,21 @@ public class DatasourceConfig {
         this.author = author;
     }
 
+    public String getDbDesc() {
+        return dbDesc;
+    }
+
+    public void setDbDesc(String dbDesc) {
+        this.dbDesc = dbDesc;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DatasourceConfig that = (DatasourceConfig) o;
         return Objects.equals(id, that.id) &&
+                Objects.equals(dbDesc, that.dbDesc) &&
                 Objects.equals(dbType, that.dbType) &&
                 Objects.equals(driverClass, that.driverClass) &&
                 Objects.equals(dbName, that.dbName) &&
@@ -172,7 +183,7 @@ public class DatasourceConfig {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dbType, driverClass, dbName, host, port, username, password, isDeleted, packageName, delPrefix, groupId, author);
+        return Objects.hash(id, dbType, dbDesc, driverClass, dbName, host, port, username, password, isDeleted, packageName, delPrefix, groupId, author);
     }
 
     @Override
@@ -180,6 +191,7 @@ public class DatasourceConfig {
         return "DatasourceConfig{" +
                 "id=" + id +
                 ", dbType=" + dbType +
+                ", dbDesc=" + dbDesc +
                 ", driverClass='" + driverClass + '\'' +
                 ", dbName='" + dbName + '\'' +
                 ", host='" + host + '\'' +

@@ -132,6 +132,9 @@
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="数据库描述" prop="dbDesc">
+          <el-input v-model="datasourceFormData.dbDesc" placeholder="数据库描述" show-word-limit maxlength="255" />
+        </el-form-item>
         <el-form-item label="Host" prop="host">
           <el-input v-model="datasourceFormData.host" placeholder="地址" show-word-limit maxlength="100" />
         </el-form-item>
@@ -259,6 +262,7 @@ export default {
       datasourceFormData: {
         id: 0,
         dbType: 1,
+        dbDesc: '',
         host: '',
         port: '',
         username: '',
@@ -291,6 +295,9 @@ export default {
         val: 2
       }],
       datasourceRule: {
+        dbDesc: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
         host: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
@@ -383,7 +390,7 @@ export default {
     },
     getDatasourceLabel(item) {
       const schema = item.schemaName ? `/${item.schemaName}` : ''
-      return `${item.dbName}${schema} (${item.host}) - ${item.username}`
+      return `${item.dbDesc}   ${item.dbName}${schema} (${item.host}) - ${item.username}`
     },
     loadGroups() {
       this.post(`/group/list/`, {}, function(resp) {
