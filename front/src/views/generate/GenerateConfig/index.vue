@@ -295,9 +295,6 @@ export default {
         val: 2
       }],
       datasourceRule: {
-        dbDesc: [
-          { required: true, message: '不能为空', trigger: 'blur' }
-        ],
         host: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
