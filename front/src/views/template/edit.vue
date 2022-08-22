@@ -4,7 +4,7 @@
     <el-row :gutter="20">
       <el-col :span="16">
         <el-button-group :class="{ 'hasFix': needFix }" style="margin-bottom: 10px;z-index: 999">
-          <el-button type="primary" @click="onSave">保 存（Ctrl+S）</el-button>
+          <el-button type="primary" @click="onSave">保 存</el-button>
           <el-button @click="goRoute('/template/list')">返 回</el-button>
         </el-button-group>
         <el-form
@@ -40,7 +40,14 @@
             <el-input v-model="formData.fileName" placeholder="可使用velocity变量" show-word-limit maxlength="100" />
           </el-form-item>
           <el-form-item prop="content" label="模板内容">
-            <el-link type="primary" :underline="false" href="https://www.cnblogs.com/codingsilence/archive/2011/03/29/2146580.html" target="_blank">Velocity语法</el-link>
+            <el-row :gutter="20">
+              <el-col :span="6">
+                <el-link type="primary" :underline="false" href="https://www.cnblogs.com/codingsilence/archive/2011/03/29/2146580.html" target="_blank">Velocity语法</el-link>
+              </el-col>
+              <el-col :span="12" :offset="6">
+                <div>[代码样式：<el-button v-for="item in codeThemeList" type="text" @click="changeCodeTheme(item)">{{ item }}</el-button>]</div>
+              </el-col>
+            </el-row>
             <codemirror
               ref="editor"
               v-model="formData.content"
@@ -75,6 +82,15 @@
               </span>
             </el-tree>
           </div>
+        </div>
+      </el-col>
+
+      <el-col :span="8">
+        <h4 style="margin: 10px 0">
+          快捷键
+        </h4>
+        <div v-for="item in shortcutKeyList" style="padding: 5px">
+          <el-tag size="small">{{ item }}</el-tag>
         </div>
       </el-col>
     </el-row>
@@ -114,14 +130,39 @@
 
 <script>
 import { codemirror } from 'vue-codemirror'
+
 import 'codemirror/theme/neat.css'
+import "codemirror/theme/darcula.css";
+import "codemirror/theme/material.css";
+
+/** 搜索 替换框置顶*/
+import 'codemirror/addon/scroll/annotatescrollbar.js'
+import 'codemirror/addon/search/matchesonscrollbar.js'
+import 'codemirror/addon/search/match-highlighter.js'
+import 'codemirror/addon/search/jump-to-line.js'
+
+import 'codemirror/addon/dialog/dialog.js'
+import 'codemirror/addon/dialog/dialog.css'
+import 'codemirror/addon/search/searchcursor.js'
+import 'codemirror/addon/search/search.js'
 
 require('codemirror/mode/velocity/velocity')
+
+const TEMPLATE_CODE_THEME = 'gen.template.code.theme'
+
 export default {
   components: { codemirror },
   data() {
     return {
       groupData: [],
+      codeThemeList: ['neat', 'darcula','material'],
+      shortcutKeyList: [
+        '保存：Ctrl+S',
+        '删除当行：Ctrl+D',
+        '复制当行：Ctrl+C',
+        '剪切当行：Ctrl+X',
+        '替换：Ctrl+Shift+F'
+      ],
       formData: {
         id: 0,
         groupId: '',
@@ -145,6 +186,7 @@ export default {
           { required: true, message: '不能为空', trigger: 'blur' }
         ]
       },
+      //code mirror配置
       cmOptions: {
         value: '',
         mode: 'text/velocity',
@@ -174,13 +216,15 @@ export default {
     }
     this.loadVelocityVar()
     this.loadGroups(this.$route.query.groupId)
+    //初始化代码主题
+    this.cmOptions.theme = this.getAttr(TEMPLATE_CODE_THEME) || 'neat'
   },
   mounted() {
     window.addEventListener('scroll', this.handlerScroll)
-    this.saveOnkeydown()
+    this.watchKeydown()
   },
   methods: {
-    saveOnkeydown(){
+    watchKeydown(){
       let _this = this;
       document.onkeydown = function(e) {
         let key = window.event.keyCode;
@@ -188,6 +232,10 @@ export default {
           window.event.preventDefault() //关闭浏览器快捷键
           _this.onSave();
         }
+        if (event.ctrlKey && key == 82) {
+          window.event.preventDefault() //关闭浏览器快捷键
+        }
+
       };
     },
     handlerScroll() {
@@ -251,6 +299,10 @@ export default {
     onTabClick(tab) {
       const item = tab.$attrs.content
       this.treeData = item.data
+    },
+    changeCodeTheme(theme){
+      this.cmOptions.theme = theme
+      this.setAttr(TEMPLATE_CODE_THEME,theme)
     }
   }
 }
