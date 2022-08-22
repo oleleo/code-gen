@@ -1,0 +1,12 @@
+## filename=${context.javaBeanName}Mapper.java, folder=mapper
+package ${context.packageName}.dao.mapper;
+
+import com.gitee.fastmybatis.core.mapper.CrudMapper;
+import ${context.packageName}.dao.entity.${context.javaBeanName};
+
+/**
+ * @author xxx
+ */
+public interface ${context.javaBeanName}Mapper extends CrudMapper<${context.javaBeanName}, ${pk.javaTypeBox}> {
+	
+}
