@@ -4,7 +4,7 @@
     <el-row :gutter="20">
       <el-col :span="16">
         <el-button-group :class="{ 'hasFix': needFix }" style="margin-bottom: 10px;z-index: 999">
-          <el-button type="primary" @click="onSave">保 存</el-button>
+          <el-button type="primary" @click="onSave">保 存（Ctrl+S）</el-button>
           <el-button @click="goRoute('/template/list')">返 回</el-button>
         </el-button-group>
         <el-form
@@ -177,8 +177,19 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', this.handlerScroll)
+    this.saveOnkeydown()
   },
   methods: {
+    saveOnkeydown(){
+      let _this = this;
+      document.onkeydown = function(e) {
+        let key = window.event.keyCode;
+        if (key== 83 && event.ctrlKey) {//s == 83 && event.ctrlKey
+          window.event.preventDefault() //关闭浏览器快捷键
+          _this.onSave();
+        }
+      };
+    },
     handlerScroll() {
       const scrollTop = window.pageYOffset ||
         document.documentElement.scrollTop ||
