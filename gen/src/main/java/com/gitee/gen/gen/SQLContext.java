@@ -136,6 +136,25 @@ public class SQLContext {
         return getJavaBeanNameLF().toLowerCase();
     }
 
+    /**
+     * 返回Java类名驼峰转横杠
+     *
+     * @return
+     */
+    public String getJavaBeanNameHB() {
+        String tableName = tableDefinition.getTableName();
+        if(delPrefix != null){
+            String[] split = delPrefix.split("\\s*,\\s*");
+            for (String prefix : split){
+                tableName = StringUtils.removeStart(tableName, prefix);
+            }
+        }
+
+        tableName = tableName.replace("_","-");
+        tableName = FieldUtil.dotFilter(tableName);
+        return tableName;
+    }
+
     public String getPkName() {
         if (javaPkColumn != null) {
             return javaPkColumn.getColumnName();

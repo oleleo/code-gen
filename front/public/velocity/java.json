@@ -79,6 +79,10 @@
           "text": "Java类名全部小写"
         },
         {
+          "expression": "${context.javaBeanNameHB}",
+          "text": "Java类名驼峰转横杠"
+        },
+        {
           "expression": "${context.datetime}",
           "text": "日期时间，年月日时分秒"
         },
