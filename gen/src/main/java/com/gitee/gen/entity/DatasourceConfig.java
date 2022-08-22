@@ -39,6 +39,8 @@ public class DatasourceConfig {
     private Integer groupId;
     /** 作者名*/
     private String author;
+    /** 数据库分组名称 */
+    private String dbGroupName;
 
     public Integer getId() {
         return id;
@@ -160,6 +162,14 @@ public class DatasourceConfig {
         this.dbDesc = dbDesc;
     }
 
+    public String getDbGroupName() {
+        return dbGroupName;
+    }
+
+    public void setDbGroupName(String dbGroupName) {
+        this.dbGroupName = dbGroupName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -178,12 +188,13 @@ public class DatasourceConfig {
                 Objects.equals(packageName, that.packageName) &&
                 Objects.equals(delPrefix, that.delPrefix) &&
                 Objects.equals(groupId, that.groupId) &&
-                Objects.equals(author, that.author);
+                Objects.equals(author, that.author) &&
+                Objects.equals(dbGroupName, that.dbGroupName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dbType, dbDesc, driverClass, dbName, host, port, username, password, isDeleted, packageName, delPrefix, groupId, author);
+        return Objects.hash(id, dbType, dbDesc, driverClass, dbName, host, port, username, password, isDeleted, packageName, delPrefix, groupId, author, dbGroupName);
     }
 
     @Override
@@ -203,6 +214,7 @@ public class DatasourceConfig {
                 ", delPrefix='" + delPrefix + '\'' +
                 ", groupId='" + groupId + '\'' +
                 ", author='" + author + '\'' +
+                ", dbGroupName='" + dbGroupName + '\'' +
                 '}';
     }
 }

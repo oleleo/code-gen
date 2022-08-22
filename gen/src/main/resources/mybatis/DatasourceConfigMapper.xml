@@ -17,6 +17,7 @@
         <result column="del_prefix" property="delPrefix" />
         <result column="group_id" property="groupId" />
         <result column="author" property="author" />
+        <result column="db_group_name" property="dbGroupName" />
     </resultMap>
 
     <!-- 表字段 -->
@@ -36,6 +37,7 @@
         , t.del_prefix
         , t.group_id
         , t.author
+        , t.db_group_name
         </sql>
 
     <!-- 查询全部 -->
@@ -74,6 +76,7 @@
             del_prefix,
             group_id,
             author,
+            db_group_name,
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             #{dbType},
@@ -90,6 +93,7 @@
             #{delPrefix},
             #{groupId},
             #{author},
+            #{dbGroupName},
         </trim>
     </insert>
 
@@ -142,6 +146,9 @@
             <if test="author != null">
                 author,
             </if>
+            <if test="dbGroupName != null">
+                db_group_name,
+            </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             <if test="dbType != null" >
@@ -186,6 +193,9 @@
             <if test="author != null" >
                 #{author},
             </if>
+            <if test="dbGroupName != null" >
+                #{dbGroupName},
+            </if>
         </trim>
     </insert>
 
@@ -207,6 +217,7 @@
             del_prefix=#{delPrefix},
             group_id=#{groupId},
             author=#{author},
+            db_group_name=#{dbGroupName},
         </set>
         WHERE id = #{id}
     </update>
@@ -257,6 +268,9 @@
             </if>
             <if test="author != null" >
                 author=#{author},
+            </if>
+            <if test="dbGroupName != null" >
+                db_group_name=#{dbGroupName},
             </if>
         </set>
         WHERE id = #{id}

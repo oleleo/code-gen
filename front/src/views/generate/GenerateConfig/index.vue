@@ -7,21 +7,24 @@
           placeholder="选择数据源"
           @change="onDataSourceChange"
         >
-          <el-option
-            v-for="item in datasourceConfigList"
-            :key="item.id"
-            :label="getDatasourceLabel(item)"
-            :value="item.id"
-          >
-            <span style="float: left">{{ getDatasourceLabel(item) }}</span>
-            <span style="float: right; color: #8492a6; font-size: 13px">
+          <el-option-group v-for="(datasourceConfigList,group) in datasourceGroupMap" :key="group" :label="group">
+            <el-option
+              v-for="item in datasourceConfigList"
+              :key="item.id"
+              :label="getDatasourceLabel(item)"
+              :value="item.id"
+            >
+              <span style="float: left">{{ getDatasourceLabel(item) }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">
               <el-tooltip placement="top" content="Duplicate">
                 <el-link type="primary" icon="el-icon-document-copy" style="margin-right: 20px;" @click.stop="onDataSourceDuplicate(item)"></el-link>
               </el-tooltip>
               <el-link type="primary" icon="el-icon-edit" style="margin-right: 20px;" @click.stop="onDataSourceUpdate(item)"></el-link>
               <el-link type="danger" icon="el-icon-delete" @click.stop="onDataSourceDelete(item)"></el-link>
             </span>
-          </el-option>
+            </el-option>
+          </el-option-group>
+
         </el-select>
         <el-button type="text" @click="onDataSourceAdd">新建数据源</el-button>
       </el-form-item>
@@ -120,6 +123,9 @@
         size="mini"
         label-width="120px"
       >
+        <el-form-item label="数据库分组" prop="dbGroupName">
+          <el-input v-model="datasourceFormData.dbGroupName" placeholder="数据库分组名称(名称自定义，可重复)" show-word-limit maxlength="64" />
+        </el-form-item>
         <el-form-item label="数据库类型">
           <el-select
             v-model="datasourceFormData.dbType"
@@ -135,7 +141,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="数据库描述" prop="dbDesc">
-          <el-input v-model="datasourceFormData.dbDesc" placeholder="数据库描述" show-word-limit maxlength="255" />
+          <el-input v-model="datasourceFormData.dbDesc" placeholder="数据库描述" show-word-limit maxlength="64" />
         </el-form-item>
         <el-form-item label="Host" prop="host">
           <el-input v-model="datasourceFormData.host" placeholder="地址" show-word-limit maxlength="100" />
@@ -255,6 +261,7 @@ export default {
         author: ''
       },
       tableSearch: '',
+      datasourceGroupMap: {},
       datasourceConfigList: [],
       tableListData: [],
       templateListData: [],
@@ -264,6 +271,7 @@ export default {
       datasourceDlgShow: false,
       datasourceFormData: {
         id: 0,
+        dbGroupName: '',
         dbType: 1,
         dbDesc: '',
         host: '',
@@ -402,6 +410,7 @@ export default {
       this.post('/datasource/list', {}, resp => {
         let id
         const list = resp.data
+        this.getDatasourceGroupMap(list)
         this.datasourceConfigList = list
         for (const item of list) {
           // 缓存id是否有效
@@ -417,6 +426,15 @@ export default {
           this.onDataSourceChange(parseInt(id))
         }
       })
+    },
+    getDatasourceGroupMap(list) {
+      const groups = {}
+      for (const item of list) {
+        let groupName = item.dbGroupName || '';
+        groups[groupName] = groups[groupName] || []
+        groups[groupName].push(item)
+      }
+      this.datasourceGroupMap = groups
     },
     loadTemplate() {
       this.post('/template/list', {}, resp => {
