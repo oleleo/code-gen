@@ -82,4 +82,10 @@ public class TemplateConfigController {
         return Action.ok();
     }
 
+    @RequestMapping("/copy")
+    public Result copy(@RequestBody TemplateConfig templateConfig) {
+        templateConfigService.copy(templateConfig);
+        return Action.ok();
+    }
+
 }

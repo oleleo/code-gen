@@ -77,6 +77,21 @@ public class TemplateConfigService {
     }
 
     /**
+     * 复制模板
+     * @param templateConfig
+     */
+    public void copy(TemplateConfig templateConfig) {
+        Integer id = templateConfig.getId();
+        TemplateConfig templateConfigById = this.getById(id);
+        if(templateConfigById == null){
+            throw new RuntimeException("要复制的模板不存在");
+        }
+        templateConfigById.setId(null);
+        templateConfigById.setName(templateConfig.getName());
+        this.save(templateConfigById);
+    }
+
+    /**
      * 解析模板元信息, 即开始第一行是注释时
      * <p>
      * 格式: ## filename=#{xxx}.java, folder=entity
