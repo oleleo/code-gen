@@ -32,6 +32,11 @@ public class SQLContext {
     private String packageName;
 
     /**
+     * 包的子路径
+     */
+    private String packageSubPath;
+
+    /**
      * 删除的前缀
      */
     private String delPrefix;
@@ -122,6 +127,15 @@ public class SQLContext {
         return FieldUtil.lowerFirstLetter(tableName);
     }
 
+    /**
+     * 返回Java类名全小写
+     *
+     * @return
+     */
+    public String getJavaBeanNameL() {
+        return getJavaBeanNameLF().toLowerCase();
+    }
+
     public String getPkName() {
         if (javaPkColumn != null) {
             return javaPkColumn.getColumnName();
@@ -184,5 +198,13 @@ public class SQLContext {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getPackageSubPath() {
+        return packageSubPath;
+    }
+
+    public void setPackageSubPath(String packageSubPath) {
+        this.packageSubPath = packageSubPath;
     }
 }
