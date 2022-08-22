@@ -10,7 +10,7 @@ import java.util.Map;
 import static com.gitee.gen.util.FieldUtil.convertString;
 
 /**
- * 查询mysql数据库表
+ * 查询oracle数据库表
  */
 public class OracleTableSelector extends TableSelector {
 

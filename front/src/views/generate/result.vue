@@ -203,8 +203,9 @@ export default {
         const children = row.children
         const isFolder = children.length > 0
         if (isFolder) {
-          // 创建文件夹
-          const folderZip = zip.folder(row.fileName)
+          // 创建文件夹 将文件层级的点 改为 路径 斜杠
+          let folderName = row.fileName.replaceAll('.','/');
+          const folderZip = zip.folder(folderName)
           children.forEach(child => {
             // 文件放入文件夹中
             folderZip.file(child.fileName, child.content)
