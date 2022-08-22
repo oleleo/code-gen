@@ -68,6 +68,7 @@
         <el-select
           v-model="groupId"
           placeholder="选择模板所在组"
+          @change="onTemplateGroupChange"
           size="mini"
           style="margin-bottom: 10px; width: 100%;"
         >
@@ -81,6 +82,7 @@
           </el-option>
         </el-select>
         <el-table
+          ref="templateListSelect"
           :data="templateListData"
           border
           :cell-style="cellStyleSmall()"
@@ -256,6 +258,7 @@ export default {
       datasourceConfigList: [],
       tableListData: [],
       templateListData: [],
+      templateListSelect: [],
       // add datasource
       datasourceTitle: '新建连接',
       datasourceDlgShow: false,
@@ -483,6 +486,10 @@ export default {
           this.datasourceFormData.groupId = this.groupData[0].id
         }
       })
+    },
+    onTemplateGroupChange(templateId) {
+      //切换模板下拉框  清除先前被选中的模板
+      this.$refs.templateListSelect.clearSelection();
     },
     onTableListSelect(selectedRows) {
       this.clientParam.tableNames = selectedRows
