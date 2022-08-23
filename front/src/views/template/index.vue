@@ -139,10 +139,14 @@ export default {
       this.$prompt('请输入复制后的模板名称', '复制模板', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        inputValue: '',
+        inputValue: row.name + ' Copy',
         inputPattern: /^.{1,64}$/,
         inputErrorMessage: '不能为空且长度在64以内'
       }).then(({value}) => {
+        if (value === row.name) {
+          this.tip('名称不能重复', 'error')
+          return
+        }
         const data = {
           name: value,
           id: row.id,

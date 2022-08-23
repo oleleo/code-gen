@@ -40,14 +40,20 @@
             <el-input v-model="formData.fileName" placeholder="可使用velocity变量" show-word-limit maxlength="100" />
           </el-form-item>
           <el-form-item prop="content" label="模板内容">
-            <el-row :gutter="20">
-              <el-col :span="6">
-                <el-link type="primary" :underline="false" href="https://www.cnblogs.com/codingsilence/archive/2011/03/29/2146580.html" target="_blank">Velocity语法</el-link>
-              </el-col>
-              <el-col :span="12" :offset="6">
-                <div>[代码样式：<el-button v-for="item in codeThemeList" type="text" @click="changeCodeTheme(item)">{{ item }}</el-button>]</div>
-              </el-col>
-            </el-row>
+            <div style="display: inline-block;margin-bottom: 5px;">
+              <el-link type="primary" :underline="false" href="https://www.cnblogs.com/codingsilence/archive/2011/03/29/2146580.html" target="_blank">Velocity语法</el-link>
+              <span class="split">|</span>
+              <el-dropdown @command="changeCodeTheme">
+                <span class="el-dropdown-link">
+                  代码样式<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item v-for="item in codeThemeList" :command="item">{{ item }}</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+              <span class="split">|</span>
+              快捷键：<el-tag v-for="item in shortcutKeyList" effect="plain" size="mini" style="margin-right: 5px">{{ item }}</el-tag>
+            </div>
             <codemirror
               ref="editor"
               v-model="formData.content"
@@ -84,15 +90,6 @@
           </div>
         </div>
       </el-col>
-
-      <el-col :span="8">
-        <h4 style="margin: 10px 0">
-          快捷键
-        </h4>
-        <div v-for="item in shortcutKeyList" style="padding: 5px">
-          <el-tag size="small">{{ item }}</el-tag>
-        </div>
-      </el-col>
     </el-row>
   </div>
 </template>
@@ -126,6 +123,17 @@
     position: fixed;
     top: 0;
   }
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
+  span.split {
+    color: #ccc;
+    margin: 0 3px;
+  }
 </style>
 
 <script>
@@ -157,11 +165,11 @@ export default {
       groupData: [],
       codeThemeList: ['neat', 'darcula','material'],
       shortcutKeyList: [
-        '保存：Ctrl+S',
-        '删除当行：Ctrl+D',
-        '复制当行：Ctrl+C',
-        '剪切当行：Ctrl+X',
-        '替换：Ctrl+Shift+F'
+        '保存(Ctrl+S)',
+        '删除当行(Ctrl+D)',
+        '复制当行(Ctrl+C)',
+        '剪切当行(Ctrl+X)',
+        '替换(Ctrl+Shift+F)'
       ],
       formData: {
         id: 0,
@@ -204,7 +212,8 @@ export default {
         children: 'children',
         label: 'expression'
       },
-      needFix: false
+      needFix: false,
+      keywordHelpShow: false
     }
   },
   created() {
