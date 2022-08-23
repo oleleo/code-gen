@@ -15,6 +15,8 @@ public class DatasourceConfig {
     private Integer dbType;
     /** 数据库驱动 */
     private String driverClass;
+    /** 数据库别名 */
+    private String dbDesc;
     /** 数据库名称 */
     private String dbName;
     /** schema(PGSQL专用) */
@@ -37,6 +39,8 @@ public class DatasourceConfig {
     private Integer groupId;
     /** 作者名*/
     private String author;
+    /** 数据库分组名称 */
+    private String dbGroupName;
 
     public Integer getId() {
         return id;
@@ -150,12 +154,29 @@ public class DatasourceConfig {
         this.author = author;
     }
 
+    public String getDbDesc() {
+        return dbDesc;
+    }
+
+    public void setDbDesc(String dbDesc) {
+        this.dbDesc = dbDesc;
+    }
+
+    public String getDbGroupName() {
+        return dbGroupName;
+    }
+
+    public void setDbGroupName(String dbGroupName) {
+        this.dbGroupName = dbGroupName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DatasourceConfig that = (DatasourceConfig) o;
         return Objects.equals(id, that.id) &&
+                Objects.equals(dbDesc, that.dbDesc) &&
                 Objects.equals(dbType, that.dbType) &&
                 Objects.equals(driverClass, that.driverClass) &&
                 Objects.equals(dbName, that.dbName) &&
@@ -167,12 +188,13 @@ public class DatasourceConfig {
                 Objects.equals(packageName, that.packageName) &&
                 Objects.equals(delPrefix, that.delPrefix) &&
                 Objects.equals(groupId, that.groupId) &&
-                Objects.equals(author, that.author);
+                Objects.equals(author, that.author) &&
+                Objects.equals(dbGroupName, that.dbGroupName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dbType, driverClass, dbName, host, port, username, password, isDeleted, packageName, delPrefix, groupId, author);
+        return Objects.hash(id, dbType, dbDesc, driverClass, dbName, host, port, username, password, isDeleted, packageName, delPrefix, groupId, author, dbGroupName);
     }
 
     @Override
@@ -180,6 +202,7 @@ public class DatasourceConfig {
         return "DatasourceConfig{" +
                 "id=" + id +
                 ", dbType=" + dbType +
+                ", dbDesc=" + dbDesc +
                 ", driverClass='" + driverClass + '\'' +
                 ", dbName='" + dbName + '\'' +
                 ", host='" + host + '\'' +
@@ -191,6 +214,7 @@ public class DatasourceConfig {
                 ", delPrefix='" + delPrefix + '\'' +
                 ", groupId='" + groupId + '\'' +
                 ", author='" + author + '\'' +
+                ", dbGroupName='" + dbGroupName + '\'' +
                 '}';
     }
 }
