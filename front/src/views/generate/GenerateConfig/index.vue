@@ -399,7 +399,8 @@ export default {
     },
     getDatasourceLabel(item) {
       const schema = item.schemaName ? `/${item.schemaName}` : ''
-      return `${item.dbDesc}   ${item.dbName}${schema} (${item.host}) - ${item.username}`
+      const dbDesc = item.dbDesc ? item.dbDesc + '   ' : ''
+      return `${dbDesc}${item.dbName}${schema} (${item.host}) - ${item.username}`
     },
     loadGroups() {
       this.post(`/group/list/`, {}, function(resp) {
