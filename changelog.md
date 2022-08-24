@@ -1,5 +1,24 @@
 # changelog
 
+## 1.6.0
+
+本次更新主要来自[PR](https://gitee.com/durcframework/code-gen/pulls/24)，再次感谢这位小伙伴的分享。
+
+- 【新增】生成代码按钮 增加在新标签页打开
+- 【新增】数据源配置 新增分组名称（可为空）；选择数据源下拉框 根据分组名称进行分组
+- 【新增】增加Java类名驼峰转横杠的变量
+- 【新增】模板编辑页面监听Ctrl+S按键，可快捷保存
+- 【新增】新增模板复制功能
+- 【新增】新增数据库描述字段（可为空），选择数据源时增加描述字段的展示
+- 【新增】模板的文件目录可以使用变量；生成的压缩包内文件带‘.’的包名有层级
+- 【优化】生成代码时 切换模板下拉框 清除先前被选中的模板
+- 【优化】前端 配置数据源 去掉数据库描述不能为空的限制
+- 【优化】前端代码编辑框增加代码样式选择，增加快捷键提示，美化搜索和替换框
+
+## 1.5.9
+
+- 支持达梦数据库 [pr](https://gitee.com/durcframework/code-gen/pulls/22)
+
 ## 1.5.8
 
 - 修复oracle数据源时，生成代码页面加载不到表列表问题 [pr](https://gitee.com/durcframework/code-gen/pulls/18)  [#I4AIPV](https://gitee.com/durcframework/code-gen/issues/I4AIPV)

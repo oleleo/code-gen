@@ -62,8 +62,13 @@ public class GeneratorService {
                 String folder = template.getFolder();
                 if (StringUtils.isEmpty(folder)) {
                     folder = template.getName();
+                }else{
+                    //文件目录可以使用变量
+                    folder = doGenerator(sqlContext, folder);
                 }
-                folder =doGenerator(sqlContext, folder);
+                setFolder(sqlContext, folder);
+
+                //获取文件名
                 String fileName = doGenerator(sqlContext, template.getFileName());
                 String content = doGenerator(sqlContext, template.getContent());
                 content = this.formatCode(fileName, content);

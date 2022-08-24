@@ -106,6 +106,10 @@ Object.assign(Vue.prototype, {
   goRoute: function(path) {
     this.$router.push({ path: path })
   },
+  goRouteNewWindow: function(path) {
+    let routeData = this.$router.resolve({ path: path })
+    window.open(routeData.href, '_blank');
+  },
   cellStyleSmall: function() {
     return { padding: '5px 0' }
   },

@@ -7,21 +7,24 @@
           placeholder="选择数据源"
           @change="onDataSourceChange"
         >
-          <el-option
-            v-for="item in datasourceConfigList"
-            :key="item.id"
-            :label="getDatasourceLabel(item)"
-            :value="item.id"
-          >
-            <span style="float: left">{{ getDatasourceLabel(item) }}</span>
-            <span style="float: right; color: #8492a6; font-size: 13px">
+          <el-option-group v-for="(datasourceConfigList,group) in datasourceGroupMap" :key="group" :label="group">
+            <el-option
+              v-for="item in datasourceConfigList"
+              :key="item.id"
+              :label="getDatasourceLabel(item)"
+              :value="item.id"
+            >
+              <span style="float: left">{{ getDatasourceLabel(item) }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">
               <el-tooltip placement="top" content="Duplicate">
                 <el-link type="primary" icon="el-icon-document-copy" style="margin-right: 20px;" @click.stop="onDataSourceDuplicate(item)"></el-link>
               </el-tooltip>
               <el-link type="primary" icon="el-icon-edit" style="margin-right: 20px;" @click.stop="onDataSourceUpdate(item)"></el-link>
               <el-link type="danger" icon="el-icon-delete" @click.stop="onDataSourceDelete(item)"></el-link>
             </span>
-          </el-option>
+            </el-option>
+          </el-option-group>
+
         </el-select>
         <el-button type="text" @click="onDataSourceAdd">新建数据源</el-button>
       </el-form-item>
@@ -68,6 +71,7 @@
         <el-select
           v-model="groupId"
           placeholder="选择模板所在组"
+          @change="onTemplateGroupChange"
           size="mini"
           style="margin-bottom: 10px; width: 100%;"
         >
@@ -81,6 +85,7 @@
           </el-option>
         </el-select>
         <el-table
+          ref="templateListSelect"
           :data="templateListData"
           border
           :cell-style="cellStyleSmall()"
@@ -102,6 +107,7 @@
           </el-table-column>
         </el-table>
         <el-button v-show="showTable" type="primary" @click="onGenerate">生成代码</el-button>
+        <el-button v-show="showTable" type="primary" @click="onGenerate('_blank')">生成代码(新窗口)</el-button>
       </el-col>
     </el-row>
 
@@ -118,6 +124,9 @@
         size="mini"
         label-width="120px"
       >
+        <el-form-item label="数据库分组" prop="dbGroupName">
+          <el-input v-model="datasourceFormData.dbGroupName" placeholder="数据库分组名称(名称自定义，可重复)" show-word-limit maxlength="64" />
+        </el-form-item>
         <el-form-item label="数据库类型">
           <el-select
             v-model="datasourceFormData.dbType"
@@ -131,6 +140,9 @@
               :value="item.dbType"
             />
           </el-select>
+        </el-form-item>
+        <el-form-item label="数据库描述" prop="dbDesc">
+          <el-input v-model="datasourceFormData.dbDesc" placeholder="数据库描述" show-word-limit maxlength="64" />
         </el-form-item>
         <el-form-item label="Host" prop="host">
           <el-input v-model="datasourceFormData.host" placeholder="地址" show-word-limit maxlength="100" />
@@ -231,6 +243,7 @@ const DB_TYPE = {
   Oracle: 2,
   SQL_Server: 3,
   PostgreSQL: 4,
+  Dm: 5
 }
 export default {
   name: 'GenerateConfig',
@@ -249,15 +262,19 @@ export default {
         author: ''
       },
       tableSearch: '',
+      datasourceGroupMap: {},
       datasourceConfigList: [],
       tableListData: [],
       templateListData: [],
+      templateListSelect: [],
       // add datasource
       datasourceTitle: '新建连接',
       datasourceDlgShow: false,
       datasourceFormData: {
         id: 0,
+        dbGroupName: '',
         dbType: 1,
+        dbDesc: '',
         host: '',
         port: '',
         username: '',
@@ -382,7 +399,8 @@ export default {
     },
     getDatasourceLabel(item) {
       const schema = item.schemaName ? `/${item.schemaName}` : ''
-      return `${item.dbName}${schema} (${item.host}) - ${item.username}`
+      const dbDesc = item.dbDesc ? item.dbDesc + '   ' : ''
+      return `${dbDesc}${item.dbName}${schema} (${item.host}) - ${item.username}`
     },
     loadGroups() {
       this.post(`/group/list/`, {}, function(resp) {
@@ -394,6 +412,7 @@ export default {
       this.post('/datasource/list', {}, resp => {
         let id
         const list = resp.data
+        this.getDatasourceGroupMap(list)
         this.datasourceConfigList = list
         for (const item of list) {
           // 缓存id是否有效
@@ -409,6 +428,15 @@ export default {
           this.onDataSourceChange(parseInt(id))
         }
       })
+    },
+    getDatasourceGroupMap(list) {
+      const groups = {}
+      for (const item of list) {
+        let groupName = item.dbGroupName || '';
+        groups[groupName] = groups[groupName] || []
+        groups[groupName].push(item)
+      }
+      this.datasourceGroupMap = groups
     },
     loadTemplate() {
       this.post('/template/list', {}, resp => {
@@ -479,6 +507,10 @@ export default {
         }
       })
     },
+    onTemplateGroupChange(templateId) {
+      //切换模板下拉框  清除先前被选中的模板
+      this.$refs.templateListSelect.clearSelection();
+    },
     onTableListSelect(selectedRows) {
       this.clientParam.tableNames = selectedRows
         .filter(row => row.hidden === undefined || row.hidden === false)
@@ -520,7 +552,7 @@ export default {
         })
       })
     },
-    onGenerate() {
+    onGenerate(target) {
       this.$refs.genForm.validate((valid) => {
         if (valid) {
           if (this.clientParam.tableNames.length === 0) {
@@ -532,7 +564,13 @@ export default {
             return
           }
           const config = JSON.stringify(this.clientParam)
-          this.goRoute(`result/${config}`)
+          console.log(target);
+          if (target === '_blank') {
+            //新窗口打开
+            this.goRouteNewWindow(`result/${config}`)
+          }else{
+            this.goRoute(`result/${config}`)
+          }
         }
       })
     },
