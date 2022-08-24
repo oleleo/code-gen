@@ -31,6 +31,9 @@
       <el-form-item v-show="showTable" label="包名（package）">
         <el-input v-model="clientParam.packageName" placeholder="可选，如：cn.studyjava.xxx" show-word-limit maxlength="100" />
       </el-form-item>
+      <el-form-item v-show="showTable" label="项目模块">
+        <el-input v-model="clientParam.projectModule" placeholder="可选，如：xxx" show-word-limit maxlength="100" />
+      </el-form-item>
       <el-form-item v-show="showTable" label="删除前缀">
         <el-input v-model="clientParam.delPrefix" placeholder="可选，如：sys_user对应Java类为User(多前缀逗号隔开)" show-word-limit maxlength="100" />
       </el-form-item>
@@ -185,6 +188,9 @@
         <el-form-item label="包名" prop="packageName">
           <el-input v-model="datasourceFormData.packageName" placeholder="包名（package）" show-word-limit maxlength="100" />
         </el-form-item>
+        <el-form-item label="项目模块" prop="projectModule">
+          <el-input v-model="datasourceFormData.projectModule" placeholder="包名（package）" show-word-limit maxlength="100" />
+        </el-form-item>
         <el-form-item label="删除前缀" prop="delPrefix">
           <el-input v-model="datasourceFormData.delPrefix" placeholder="删除前缀（表名sys_user删除前缀sys_对应bean为User）多前缀逗号隔开" show-word-limit maxlength="200" />
         </el-form-item>
@@ -257,6 +263,7 @@ export default {
         tableNames: [],
         templateConfigIdList: [],
         packageName: '',
+        projectModule: '',
         delPrefix: '',
         groupId: '',
         author: ''
@@ -284,6 +291,7 @@ export default {
         oracleRole: '',
         schemaName: '',
         packageName: '',
+        projectModule: '',
         delPrefix: '',
         groupId: '',
         author: ''
@@ -333,6 +341,7 @@ export default {
           this.groupId = item.groupId
           Object.assign(this.clientParam, {
             packageName: item.packageName,
+            projectModule: item.projectModule,
             delPrefix: item.delPrefix,
             groupId: item.groupId,
             author: item.author

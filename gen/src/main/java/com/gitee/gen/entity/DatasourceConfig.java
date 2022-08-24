@@ -33,6 +33,8 @@ public class DatasourceConfig {
     private Integer isDeleted;
     /** 包名*/
     private String packageName;
+    /** 项目模版*/
+    private String projectModule;
     /** 删除的前缀*/
     private String delPrefix;
     /** 代码生成器模板组id*/
@@ -121,7 +123,13 @@ public class DatasourceConfig {
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
+    public String getProjectModule() {
+        return projectModule;
+    }
 
+    public void setProjectModule(String projectModule) {
+        this.projectModule = projectModule;
+    }
     public String getDelPrefix() {
         return delPrefix;
     }
@@ -186,6 +194,7 @@ public class DatasourceConfig {
                 Objects.equals(password, that.password) &&
                 Objects.equals(isDeleted, that.isDeleted) &&
                 Objects.equals(packageName, that.packageName) &&
+                Objects.equals(projectModule, that.projectModule) &&
                 Objects.equals(delPrefix, that.delPrefix) &&
                 Objects.equals(groupId, that.groupId) &&
                 Objects.equals(author, that.author) &&
@@ -194,7 +203,7 @@ public class DatasourceConfig {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dbType, dbDesc, driverClass, dbName, host, port, username, password, isDeleted, packageName, delPrefix, groupId, author, dbGroupName);
+        return Objects.hash(id, dbType, dbDesc, driverClass, dbName, host, port, username, password, isDeleted, packageName,projectModule, delPrefix, groupId, author, dbGroupName);
     }
 
     @Override
@@ -211,6 +220,7 @@ public class DatasourceConfig {
                 ", password='" + password + '\'' +
                 ", isDeleted=" + isDeleted +
                 ", packageName='" + packageName + '\'' +
+                ", projectModule='" + projectModule + '\'' +
                 ", delPrefix='" + delPrefix + '\'' +
                 ", groupId='" + groupId + '\'' +
                 ", author='" + author + '\'' +

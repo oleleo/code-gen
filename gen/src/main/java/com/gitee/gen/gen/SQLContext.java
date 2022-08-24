@@ -30,6 +30,10 @@ public class SQLContext {
      * 包名
      */
     private String packageName;
+    /**
+     * 项目模块
+     */
+    private String projectModule;
 
     /**
      * 包的子路径
@@ -217,6 +221,14 @@ public class SQLContext {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getProjectModule() {
+        return projectModule;
+    }
+
+    public void setProjectModule(String projectModule) {
+        this.projectModule = projectModule;
     }
 
     public String getPackageSubPath() {

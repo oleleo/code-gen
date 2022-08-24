@@ -14,6 +14,8 @@ public class GeneratorParam {
 
 	private String packageName;
 
+	private String projectModule;
+
 	private String delPrefix;
 
 	private String author;
@@ -51,6 +53,13 @@ public class GeneratorParam {
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
 	}
+	public String getProjectModule() {
+		return projectModule;
+	}
+
+	public void setProjectModule(String projectModule) {
+		this.projectModule = projectModule;
+	}
 
 	public String getDelPrefix() {
 		return delPrefix;
@@ -81,6 +90,7 @@ public class GeneratorParam {
 		return "GeneratorParam{" +
 				"datasourceConfigId=" + datasourceConfigId +
 				", tableNames=" + tableNames +
+				", projectModule=" + projectModule +
 				", templateConfigIdList=" + templateConfigIdList +
 				", packageName='" + packageName + '\'' +
 				", delPrefix='" + delPrefix + '\'' +

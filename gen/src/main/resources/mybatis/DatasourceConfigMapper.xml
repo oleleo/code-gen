@@ -14,6 +14,7 @@
         <result column="password" property="password" />
         <result column="is_deleted" property="isDeleted" />
         <result column="package_name" property="packageName" />
+        <result column="project_module" property="projectModule" />
         <result column="del_prefix" property="delPrefix" />
         <result column="group_id" property="groupId" />
         <result column="author" property="author" />
@@ -34,6 +35,7 @@
         , t.password
         , t.is_deleted
         , t.package_name
+        , t.project_module
         , t.del_prefix
         , t.group_id
         , t.author
@@ -73,6 +75,7 @@
             password,
             is_deleted,
             package_name,
+            project_module,
             del_prefix,
             group_id,
             author,
@@ -90,6 +93,7 @@
             #{password},
             #{isDeleted},
             #{packageName},
+            #{projectModule},
             #{delPrefix},
             #{groupId},
             #{author},
@@ -136,6 +140,9 @@
             </if>
             <if test="packageName != null">
                 package_name,
+            </if>
+            <if test="projectModule != null">
+                project_module,
             </if>
             <if test="delPrefix != null">
                 del_prefix,
@@ -184,6 +191,9 @@
             <if test="packageName != null" >
                 #{packageName},
             </if>
+            <if test="projectModule != null">
+                #{projectModule},
+            </if>
             <if test="delPrefix != null" >
                 #{delPrefix},
             </if>
@@ -214,6 +224,7 @@
             password=#{password},
             is_deleted=#{isDeleted},
             package_name=#{packageName},
+            project_module=#{projectModule},
             del_prefix=#{delPrefix},
             group_id=#{groupId},
             author=#{author},
@@ -259,6 +270,10 @@
             </if>
             <if test="packageName != null" >
                 package_name=#{packageName},
+            </if>
+
+            <if test="projectModule != null">
+                project_module=#{projectModule},
             </if>
             <if test="delPrefix != null" >
                 del_prefix=#{delPrefix},

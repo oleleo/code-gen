@@ -54,6 +54,7 @@ public class GeneratorService {
         List<CodeFile> codeFileList = new ArrayList<>();
 
         for (SQLContext sqlContext : contextList) {
+            setProjectModule(sqlContext, generatorParam.getProjectModule());
             setPackageName(sqlContext, generatorParam.getPackageName());
             setDelPrefix(sqlContext, generatorParam.getDelPrefix());
             setAuthor(sqlContext, generatorParam.getAuthor());
@@ -94,7 +95,11 @@ public class GeneratorService {
         }
         return content;
     }
-
+    private void setFolder(SQLContext sqlContext, String folder) {
+        if (StringUtils.hasText(folder)) {
+            sqlContext.setPackageSubPath(folder);
+        }
+    }
 
     /**
      * 返回SQL上下文列表
@@ -126,6 +131,11 @@ public class GeneratorService {
     private void setPackageName(SQLContext sqlContext, String packageName) {
         if (StringUtils.hasText(packageName)) {
             sqlContext.setPackageName(packageName);
+        }
+    }
+    private void setProjectModule(SQLContext sqlContext, String projectModule) {
+        if (StringUtils.hasText(projectModule)) {
+            sqlContext.setProjectModule(projectModule);
         }
     }
 
