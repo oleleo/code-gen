@@ -112,7 +112,7 @@ public class UpgradeService {
     }
 
     private void upgradeV1_6_0() {
-        if (lastVersion < CURRENT_VERSION) {
+        if (lastVersion < 101600) {
             this.addColumn(TABLE_DATASOURCE_CONFIG, "db_desc", "varchar(64)");
             this.addColumn(TABLE_DATASOURCE_CONFIG, "db_group_name", "varchar(64)");
         }
