@@ -3,6 +3,7 @@ package com.gitee.gen.gen;
 import com.gitee.gen.gen.converter.ColumnTypeConverter;
 import com.gitee.gen.gen.converter.JavaColumnTypeConverter;
 import com.gitee.gen.util.FieldUtil;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ public class JavaColumnDefinition extends ColumnDefinition {
     private static final JavaColumnTypeConverter COLUMN_TYPE_CONVERTER = new JavaColumnTypeConverter();
 
     private static final Map<String, String> TYPE_MYBATIS_MAP = new HashMap<>(64);
+
     static {
         TYPE_MYBATIS_MAP.put(TypeEnum.BIT.getType(), "BOOLEAN");
         TYPE_MYBATIS_MAP.put(TypeEnum.BOOLEAN.getType(), "BOOLEAN");
@@ -50,7 +52,11 @@ public class JavaColumnDefinition extends ColumnDefinition {
      */
     public String getJavaFieldName() {
         String fieldName = FieldUtil.underlineFilter(getColumnName());
-        return  fieldName.replaceAll("_", "");
+        if(StringUtils.isEmpty(fieldName)){
+            return fieldName;
+        }
+        fieldName = fieldName.replaceAll("_", "");
+        return fieldName.substring(0, 1).toLowerCase() + fieldName.substring(1);
     }
 
     /**

@@ -110,6 +110,20 @@ public class TableDefinition {
     }
 
     /**
+     * 是否含有Long字段
+     *
+     * @return
+     */
+    public boolean getHasLongField() {
+        for (ColumnDefinition definition : columnDefinitions) {
+            if ("Long".equals(((JavaColumnDefinition) definition).getJavaType())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 获取主键信息
      *
      * @return 返回主键信息，如果没有则抛出异常

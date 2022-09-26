@@ -32,12 +32,12 @@ public class DmTypeFormatter implements TypeFormatter {
 
     @Override
     public boolean isInt(String columnType) {
-        return contains(Arrays.asList("int", "integer"), columnType);
+        return !isLong(columnType) && contains(Arrays.asList("int", "integer"), columnType);
     }
 
     @Override
     public boolean isLong(String columnType) {
-        return !isVarchar(columnType) && contains(Collections.singletonList("long"), columnType);
+        return !isVarchar(columnType) && contains(Collections.singletonList("bigint"), columnType);
     }
 
     @Override
