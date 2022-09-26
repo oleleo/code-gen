@@ -46,6 +46,7 @@
         >
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="onTableUpdate(scope.row)">修改</el-button>
+            <el-button type="text" size="mini" @click="onTableCopy(scope.row)">复制</el-button>
             <el-button type="text" size="mini" @click="onTableDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -131,6 +132,32 @@ export default {
     },
     onTableUpdate: function(row) {
       this.goRoute(`edit/${row.id}`)
+    },
+    onTableCopy: function (row) {
+      let currentGroup = this.currentTab;
+      this.groupTitle = `确认要复制【${row.name}】吗？`
+      this.$prompt('请输入复制后的模板名称', '复制模板', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputValue: row.name + ' Copy',
+        inputPattern: /^.{1,64}$/,
+        inputErrorMessage: '不能为空且长度在64以内'
+      }).then(({value}) => {
+        if (value === row.name) {
+          this.tip('名称不能重复', 'error')
+          return
+        }
+        const data = {
+          name: value,
+          id: row.id,
+          groupName: currentGroup.groupName,
+          groupId: currentGroup.groupId
+        }
+        this.post('/template/copy', data, resp => {
+          this.reload()
+        })
+      }).catch(() => {
+      })
     },
     onTableDelete: function(row) {
       this.confirm(`确认要删除【${row.name}】吗？`, function(done) {

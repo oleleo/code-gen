@@ -2,6 +2,9 @@ package com.gitee.gen.service;
 
 import com.gitee.gen.entity.ColumnInfo;
 import com.gitee.gen.mapper.UpgradeMapper;
+import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -10,21 +13,31 @@ import org.springframework.util.FileCopyUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * 升级
+ *
  * @author tanghc
  */
 @Service
 public class UpgradeService {
 
+    private static final Logger log = LoggerFactory.getLogger(UpgradeService.class);
+
     public static final String TABLE_DATASOURCE_CONFIG = "datasource_config";
     public static final String TABLE_TEMPLATE_CONFIG = "template_config";
     public static final String TABLE_TEMPLATE_GROUP = "template_group";
     public static final String TABLE_GENERATE_HISTORY = "generate_history";
+
+    // 版本号，格式：xx.yy.zz，如：1.16.0,1.16.11
+    private static final int CURRENT_VERSION = 101600;
+
+    private static int lastVersion;
 
     @Autowired
     private UpgradeMapper upgradeMapper;
@@ -35,7 +48,12 @@ public class UpgradeService {
     @Value("${gen.db-name:gen}")
     private String dbName;
 
-    public static void initDatabase() {
+    public static void init() {
+        initDatabase();
+        lastVersion = getLocalVersion();
+    }
+
+    private static void initDatabase() {
         String filename = "gen.db";
         String filepath = System.getProperty("user.dir") + "/" + filename;
         File dbFile = new File(filepath);
@@ -49,14 +67,55 @@ public class UpgradeService {
         }
     }
 
+    private static int getLocalVersion() {
+        String filename = "version.txt";
+        String filepath = System.getProperty("user.dir") + "/" + filename;
+        File versionFile = new File(filepath);
+        if (versionFile.exists()) {
+            try {
+                String val = FileCopyUtils.copyToString(new FileReader(versionFile));
+                return NumberUtils.toInt(val, 0);
+            } catch (IOException e) {
+                log.error("read 'version.txt' error", e);
+            }
+        }
+        return 0;
+    }
+
+    private static void writeNewVersion() {
+        String filename = "version.txt";
+        String filepath = System.getProperty("user.dir") + "/" + filename;
+        File versionFile = new File(filepath);
+        try {
+            FileCopyUtils.copy(String.valueOf(CURRENT_VERSION).getBytes(StandardCharsets.UTF_8), versionFile);
+        } catch (IOException e) {
+            throw new RuntimeException("初始version失败", e);
+        }
+    }
+
     /**
      * 升级
      */
     public void upgrade() {
-        upgradeV1_4_0();
-        upgradeV1_4_12();
-        upgradeV1_4_17();
-        upgradeV1_5_2();
+        if (lastVersion == 0) {
+            upgradeV1_4_0();
+            upgradeV1_4_12();
+            upgradeV1_4_17();
+            upgradeV1_5_2();
+        }
+        doUpgrade();
+        writeNewVersion();
+    }
+
+    private void doUpgrade() {
+        upgradeV1_6_0();
+    }
+
+    private void upgradeV1_6_0() {
+        if (lastVersion < 101600) {
+            this.addColumn(TABLE_DATASOURCE_CONFIG, "db_desc", "varchar(64)");
+            this.addColumn(TABLE_DATASOURCE_CONFIG, "db_group_name", "varchar(64)");
+        }
     }
 
     private void upgradeV1_4_17() {
@@ -104,16 +163,17 @@ public class UpgradeService {
 
     /**
      * 添加表字段
-     * @param tableName 表名
+     *
+     * @param tableName  表名
      * @param columnName 字段名
-     * @param type 字段类型，如：varchar(128),text,integer
+     * @param type       字段类型，如：varchar(128),text,integer
      * @return 返回true，插入成功
      */
     public boolean addColumn(String tableName, String columnName, String type) {
         if (!isColumnExist(tableName, columnName)) {
             if (isMysql()) {
                 upgradeMapper.addColumnMysql(tableName, columnName, type);
-            } else if(isDm()){
+            } else if (isDm()) {
                 upgradeMapper.addColumnDm(tableName, columnName, type);
             } else {
                 upgradeMapper.addColumn(tableName, columnName, type);
@@ -125,6 +185,7 @@ public class UpgradeService {
 
     /**
      * 创建表
+     *
      * @param tableName 表名
      * @return 创建成功返回true
      */
@@ -159,13 +220,14 @@ public class UpgradeService {
 
     /**
      * 判断列是否存在
-     * @param tableName 表名
+     *
+     * @param tableName  表名
      * @param columnName 列名
      * @return true：存在
      */
     public boolean isColumnExist(String tableName, String columnName) {
         List<ColumnInfo> columnInfoList = isDm() ? upgradeMapper.listColumnInfoDm(tableName) :
-                ( isMysql() ? upgradeMapper.listColumnInfoMysql(tableName, dbName) : upgradeMapper.listColumnInfo(tableName) );
+                (isMysql() ? upgradeMapper.listColumnInfoMysql(tableName, dbName) : upgradeMapper.listColumnInfo(tableName));
         return columnInfoList
                 .stream()
                 .anyMatch(columnInfo -> Objects.equals(columnInfo.getName(), columnName));
@@ -173,6 +235,7 @@ public class UpgradeService {
 
     /**
      * 表是否存在
+     *
      * @param tableName
      * @return
      */
@@ -180,9 +243,9 @@ public class UpgradeService {
         List<String> tableNameList;
         if (isMysql()) {
             tableNameList = upgradeMapper.listTableNameMysql();
-        } else if(isDm()){
+        } else if (isDm()) {
             tableNameList = upgradeMapper.listTableNameDm();
-        }else {
+        } else {
             tableNameList = upgradeMapper.listTableName();
         }
         return tableNameList != null && tableNameList.contains(tableName);

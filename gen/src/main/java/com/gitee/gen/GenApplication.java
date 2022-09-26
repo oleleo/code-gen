@@ -16,7 +16,7 @@ public class GenApplication implements ApplicationRunner {
     private UpgradeService upgradeService;
 
     public static void main(String[] args) {
-        UpgradeService.initDatabase();
+        UpgradeService.init();
         SpringApplication.run(GenApplication.class, args);
     }
 

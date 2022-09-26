@@ -1,0 +1,19 @@
+## filename=${context.javaBeanName}Columns, folder=columns
+/**
+ * ${table.tableName}表字段映射关系<br>
+ * 使用方式：
+ * <pre>
+ * {@literal
+ * Query query = new Query().eq(TUserColumns.id, 6);
+ * TUser tUser = mapper.getBySpecifiedColumns(Arrays.asList(TUserColumns.id, TUserColumns.username), query);
+ * }
+ * </pre>
+ * @author xxx
+ */
+public interface ${context.javaBeanName}Columns {
+#foreach($column in $columns)
+	/** ${column.comment} */
+	String ${column.columnName} = "${column.columnName}";
+    
+#end
+}

@@ -40,7 +40,20 @@
             <el-input v-model="formData.fileName" placeholder="可使用velocity变量" show-word-limit maxlength="100" />
           </el-form-item>
           <el-form-item prop="content" label="模板内容">
-            <el-link type="primary" :underline="false" href="https://www.cnblogs.com/codingsilence/archive/2011/03/29/2146580.html" target="_blank">Velocity语法</el-link>
+            <div style="display: inline-block;margin-bottom: 5px;">
+              <el-link type="primary" :underline="false" href="https://www.cnblogs.com/codingsilence/archive/2011/03/29/2146580.html" target="_blank">Velocity语法</el-link>
+              <span class="split">|</span>
+              <el-dropdown @command="changeCodeTheme">
+                <span class="el-dropdown-link">
+                  代码样式<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item v-for="item in codeThemeList" :command="item">{{ item }}</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+              <span class="split">|</span>
+              快捷键：<el-tag v-for="item in shortcutKeyList" effect="plain" size="mini" style="margin-right: 5px">{{ item }}</el-tag>
+            </div>
             <codemirror
               ref="editor"
               v-model="formData.content"
@@ -110,18 +123,54 @@
     position: fixed;
     top: 0;
   }
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
+  span.split {
+    color: #ccc;
+    margin: 0 3px;
+  }
 </style>
 
 <script>
 import { codemirror } from 'vue-codemirror'
+
 import 'codemirror/theme/neat.css'
+import "codemirror/theme/darcula.css";
+import "codemirror/theme/material.css";
+
+/** 搜索 替换框置顶*/
+import 'codemirror/addon/scroll/annotatescrollbar.js'
+import 'codemirror/addon/search/matchesonscrollbar.js'
+import 'codemirror/addon/search/match-highlighter.js'
+import 'codemirror/addon/search/jump-to-line.js'
+
+import 'codemirror/addon/dialog/dialog.js'
+import 'codemirror/addon/dialog/dialog.css'
+import 'codemirror/addon/search/searchcursor.js'
+import 'codemirror/addon/search/search.js'
 
 require('codemirror/mode/velocity/velocity')
+
+const TEMPLATE_CODE_THEME = 'gen.template.code.theme'
+
 export default {
   components: { codemirror },
   data() {
     return {
       groupData: [],
+      codeThemeList: ['neat', 'darcula','material'],
+      shortcutKeyList: [
+        '保存(Ctrl+S)',
+        '删除当行(Ctrl+D)',
+        '复制当行(Ctrl+C)',
+        '剪切当行(Ctrl+X)',
+        '替换(Ctrl+Shift+F)'
+      ],
       formData: {
         id: 0,
         groupId: '',
@@ -145,6 +194,7 @@ export default {
           { required: true, message: '不能为空', trigger: 'blur' }
         ]
       },
+      //code mirror配置
       cmOptions: {
         value: '',
         mode: 'text/velocity',
@@ -162,7 +212,8 @@ export default {
         children: 'children',
         label: 'expression'
       },
-      needFix: false
+      needFix: false,
+      keywordHelpShow: false
     }
   },
   created() {
@@ -174,11 +225,28 @@ export default {
     }
     this.loadVelocityVar()
     this.loadGroups(this.$route.query.groupId)
+    //初始化代码主题
+    this.cmOptions.theme = this.getAttr(TEMPLATE_CODE_THEME) || 'neat'
   },
   mounted() {
     window.addEventListener('scroll', this.handlerScroll)
+    this.watchKeydown()
   },
   methods: {
+    watchKeydown(){
+      let _this = this;
+      document.onkeydown = function(e) {
+        let key = window.event.keyCode;
+        if (key== 83 && event.ctrlKey) {//s == 83 && event.ctrlKey
+          window.event.preventDefault() //关闭浏览器快捷键
+          _this.onSave();
+        }
+        if (event.ctrlKey && key == 82) {
+          window.event.preventDefault() //关闭浏览器快捷键
+        }
+
+      };
+    },
     handlerScroll() {
       const scrollTop = window.pageYOffset ||
         document.documentElement.scrollTop ||
@@ -240,6 +308,10 @@ export default {
     onTabClick(tab) {
       const item = tab.$attrs.content
       this.treeData = item.data
+    },
+    changeCodeTheme(theme){
+      this.cmOptions.theme = theme
+      this.setAttr(TEMPLATE_CODE_THEME,theme)
     }
   }
 }

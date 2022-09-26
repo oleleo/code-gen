@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
-            <version>3.21.0.1</version>
+            <version>3.34.0</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -70,9 +70,9 @@
         </dependency>
         <!-- 达梦 -->
         <dependency>
-            <groupId>com.dm</groupId>
-            <artifactId>DmJdbcDriver</artifactId>
-            <version>18</version>
+            <groupId>com.dameng</groupId>
+            <artifactId>DmJdbcDriver18</artifactId>
+            <version>8.1.2.141</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
