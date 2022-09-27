@@ -51,6 +51,10 @@
       "text": "",
       "children": [
         {
+          "expression": "${context.projectModule}",
+          "text": "项目模块"
+        },
+        {
           "expression": "${context.author}",
           "text": "作者名"
         },

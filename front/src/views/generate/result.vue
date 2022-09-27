@@ -80,7 +80,8 @@ export default {
         datasourceConfigId: '',
         tableNames: [],
         templateConfigIdList: [],
-        packageName: ''
+        packageName: '',
+        projectModule: ''
       },
       treeData: [],
       filterText: '',

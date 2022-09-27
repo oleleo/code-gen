@@ -5,7 +5,7 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-link type="primary" :underline="false" href="https://gitee.com/durcframework/code-gen" target="_blank">Git</el-link>
+<!--      <el-link type="primary" :underline="false" href="https://gitee.com/durcframework/code-gen" target="_blank">Git</el-link>-->
     </div>
   </div>
 </template>
