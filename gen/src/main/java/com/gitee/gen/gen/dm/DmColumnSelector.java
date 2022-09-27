@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class DmColumnSelector extends ColumnSelector {
 
-	private static final TypeFormatter TYPE_FORMATTER = new OracleTypeFormatter();
+	private static final TypeFormatter TYPE_FORMATTER = new DmTypeFormatter();
 
 	private static final String COLUMN_SQL = " SELECT " +
 			" atc.COLUMN_NAME FIELD, atc.DATA_TYPE TYPE, atc.DATA_SCALE SCALE, atc.DATA_LENGTH MAXLENGTH, " +
