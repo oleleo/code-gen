@@ -1,5 +1,11 @@
 # changelog
 
+## 1.6.1
+
+- 【优化】达梦数据库类型映射java类型改为使用DmTypeFormatter [PR](https://gitee.com/durcframework/code-gen/pulls/26)
+- 【优化】解决PostgreSql表同时存在主键与唯一索引造成生成的列重复出现 [PR](https://gitee.com/durcframework/code-gen/pulls/27)
+- 【优化】mysql增加column的排序 [PR](https://gitee.com/durcframework/code-gen/pulls/29)
+
 ## 1.6.0
 
 本次更新主要来自[PR](https://gitee.com/durcframework/code-gen/pulls/24)，再次感谢这位小伙伴的分享。
