@@ -32,7 +32,7 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
             "CASE WHEN POSITION ( 'nextval' IN column_default ) > 0 THEN 1 ELSE 0 END AS is_identity  " +
             "FROM  " +
             " pg_constraint  " +
-            " RIGHT JOIN pg_class ON pg_constraint.conrelid = pg_class.oid  " +
+            " RIGHT JOIN pg_class ON pg_constraint.conrelid = pg_class.oid and pg_constraint.contype = 'p' " +
             " RIGHT JOIN pg_attribute ON pg_attribute.attrelid = pg_class.oid  " +
             " RIGHT JOIN pg_type ON pg_type.oid = pg_attribute.atttypid  " +
             " RIGHT JOIN information_schema.COLUMNS C ON C.TABLE_NAME = pg_class.relname   " +
