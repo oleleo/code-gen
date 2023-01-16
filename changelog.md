@@ -2,14 +2,13 @@
 
 ## 1.6.2
 
-- 【优化】优化mysql字段排序 [#I5Z2FF](https://gitee.com/durcframework/code-gen/issues/I5Z2FF)、[#I4RUJP](https://gitee.com/durcframework/code-gen/issues/I4RUJP)
 - 【优化】修改字符串格式化使用中文括号导致乱码 [pr](https://gitee.com/durcframework/code-gen/pulls/30)
 
 ## 1.6.1
 
 - 【优化】达梦数据库类型映射java类型改为使用DmTypeFormatter [PR](https://gitee.com/durcframework/code-gen/pulls/26)
 - 【优化】解决PostgreSql表同时存在主键与唯一索引造成生成的列重复出现 [PR](https://gitee.com/durcframework/code-gen/pulls/27)
-- 【优化】mysql增加column的排序 [PR](https://gitee.com/durcframework/code-gen/pulls/29)
+- 【优化】mysql增加column的排序 [PR](https://gitee.com/durcframework/code-gen/pulls/29)、[#I5Z2FF](https://gitee.com/durcframework/code-gen/issues/I5Z2FF)、[#I4RUJP](https://gitee.com/durcframework/code-gen/issues/I4RUJP)
 
 ## 1.6.0
 
