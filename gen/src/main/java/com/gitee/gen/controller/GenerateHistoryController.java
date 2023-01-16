@@ -66,7 +66,7 @@ public class GenerateHistoryController {
         if (datasourceConfig == null) {
             return null;
         }
-        String tpl = "%s（%s:%s）";
+        String tpl = "%s(%s:%s)";
         return String.format(tpl, datasourceConfig.getDbName(), datasourceConfig.getHost(), datasourceConfig.getPort());
     }
 
