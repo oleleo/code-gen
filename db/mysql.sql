@@ -22,6 +22,8 @@ CREATE TABLE `datasource_config`
     `group_id`     int(11)                                                 NULL     DEFAULT NULL,
     `schema_name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL     DEFAULT NULL,
     `author`       varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL     DEFAULT NULL,
+    `db_desc`       varchar(64) character set utf8 collate utf8_general_ci  null     default null comment '数据库别名',
+    `db_group_name` varchar(64) character set utf8 collate utf8_general_ci  null     default null comment '数据库分组名称',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
