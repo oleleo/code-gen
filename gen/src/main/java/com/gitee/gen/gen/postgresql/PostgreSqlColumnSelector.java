@@ -90,6 +90,9 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
 
         columnDefinition.setType(SQL_TYPE_FORMATTER.format(type));
 
+        String maxLength = FieldUtil.convertString(rowMap.get("MAXLENGTH"));
+        columnDefinition.setMaxLength(new Integer(StringUtils.isEmpty(maxLength) ? "0" : maxLength));
+
         columnDefinition.setComment(convertString(rowMap.get("CMT")));
 
         String isNullable = FieldUtil.convertString(rowMap.get("NULLABLE"));
