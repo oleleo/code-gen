@@ -25,6 +25,7 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
     private static final String SHOW_COLUMN_SQL = "SELECT  " +
             " pg_attribute.attname AS colname,  " +
             " atttypid::regtype AS type,  " +
+            " pg_attribute.atttypmod - 4 AS type_length,  " +
             " numeric_scale as SCALE,  " +
             " C.is_nullable as NULLABLE,  " +
             " col_description ( pg_attribute.attrelid, pg_attribute.attnum ) AS cmt,  " +
@@ -89,6 +90,10 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
         }
 
         columnDefinition.setType(SQL_TYPE_FORMATTER.format(type));
+
+        String maxLength = FieldUtil.convertString(rowMap.get("TYPE_LENGTH"));
+        int length = Integer.parseInt((StringUtils.isEmpty(maxLength) ? "0" : maxLength));
+        columnDefinition.setMaxLength(Math.max(length, 0));
 
         columnDefinition.setComment(convertString(rowMap.get("CMT")));
 
