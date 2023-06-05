@@ -1,5 +1,9 @@
 # changelog
 
+## 1.6.3
+
+- 字段长度信息增加支持pgsql [pr](https://gitee.com/durcframework/code-gen/pulls/32)
+
 ## 1.6.2
 
 - 【优化】修改字符串格式化使用中文括号导致乱码 [pr](https://gitee.com/durcframework/code-gen/pulls/30)
