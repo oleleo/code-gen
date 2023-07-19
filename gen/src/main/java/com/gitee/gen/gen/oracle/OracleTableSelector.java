@@ -32,7 +32,8 @@ public class OracleTableSelector extends TableSelector {
 		StringBuilder sb = new StringBuilder("");
 		sb.append(" SELECT a.TABLE_NAME as NAME,b.COMMENTS" +
 				"  FROM ALL_TABLES a,USER_TAB_COMMENTS b" +
-				"  WHERE a.TABLE_NAME=b.TABLE_NAME");
+				"  WHERE a.TABLE_NAME=b.TABLE_NAME" +
+				"  AND a.OWNER = SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA')");
 		sb.append(" AND 1=1 ");
 		if(this.getSchTableNames() != null && this.getSchTableNames().size() > 0) {
 			StringBuilder tables = new StringBuilder();
