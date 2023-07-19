@@ -63,7 +63,7 @@ public class OracleColumnSelector extends ColumnSelector {
 
 	@Override
 	protected String getColumnInfoSQL(String tableName) {
-		String owner = this.getGeneratorConfig().getSchemaName();
+		String owner = this.getGeneratorConfig().getUsername().toUpperCase();
 		return String.format(COLUMN_SQL, tableName, owner, tableName, owner);
 	}
 
