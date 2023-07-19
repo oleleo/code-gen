@@ -15,7 +15,7 @@ public class JavaColumnTypeConverter implements ColumnTypeConverter {
     static {
         TYPE_MAP.put(TypeEnum.BIT.getType(), "boolean");
         TYPE_MAP.put(TypeEnum.BOOLEAN.getType(), "boolean");
-        TYPE_MAP.put(TypeEnum.TINYINT.getType(), "byte");
+        TYPE_MAP.put(TypeEnum.TINYINT.getType(), "int");
         TYPE_MAP.put(TypeEnum.SMALLINT.getType(), "short");
         TYPE_MAP.put(TypeEnum.INT.getType(), "int");
         TYPE_MAP.put(TypeEnum.BIGINT.getType(), "long");
@@ -29,7 +29,7 @@ public class JavaColumnTypeConverter implements ColumnTypeConverter {
 
         TYPE_BOX_MAP.put(TypeEnum.BIT.getType(), "Boolean");
         TYPE_BOX_MAP.put(TypeEnum.BOOLEAN.getType(), "Boolean");
-        TYPE_BOX_MAP.put(TypeEnum.TINYINT.getType(), "Byte");
+        TYPE_BOX_MAP.put(TypeEnum.TINYINT.getType(), "Integer");
         TYPE_BOX_MAP.put(TypeEnum.SMALLINT.getType(), "Short");
         TYPE_BOX_MAP.put(TypeEnum.INT.getType(), "Integer");
         TYPE_BOX_MAP.put(TypeEnum.BIGINT.getType(), "Long");
