@@ -45,6 +45,9 @@ public interface TypeFormatter {
         if (isVarchar(columnType)) {
             return TypeEnum.VARCHAR.getType();
         }
+        if (isDate(columnType)) {
+            return TypeEnum.DATE.getType();
+        }
         if (isDatetime(columnType)) {
             return TypeEnum.DATETIME.getType();
         }
@@ -56,6 +59,11 @@ public interface TypeFormatter {
     }
 
     default boolean contains(List<String> columnTypes, String type) {
+        for (String columnType : columnTypes) {
+            if (type.equalsIgnoreCase(columnType)) {
+                return true;
+            }
+        }
         for (String columnType : columnTypes) {
             if (StringUtils.containsIgnoreCase(type, columnType)) {
                 return true;
@@ -75,6 +83,7 @@ public interface TypeFormatter {
     boolean isDecimal(String columnType);
     boolean isVarchar(String columnType);
     boolean isDatetime(String columnType);
+    boolean isDate(String columnType);
     boolean isBlob(String columnType);
     boolean isJsonb(String columnType);
 }

@@ -62,7 +62,12 @@ public class SqlServerTypeFormatter implements TypeFormatter {
 
     @Override
     public boolean isDatetime(String columnType) {
-        return contains(Arrays.asList("DATE", "TIME", "DATETIME", "TIMESTAMP", "datetime2", "smalldatetime", "datetimeoffset"), columnType);
+        return contains(Arrays.asList("TIME", "DATETIME", "TIMESTAMP", "datetime2", "smalldatetime", "datetimeoffset"), columnType);
+    }
+
+    @Override
+    public boolean isDate(String columnType) {
+        return contains(Collections.singletonList("DATE"), columnType);
     }
 
     @Override

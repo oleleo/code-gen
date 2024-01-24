@@ -28,6 +28,7 @@ public enum TypeEnum {
     VARCHAR("varchar"),
 
     DATETIME("datetime"),
+    DATE("date"),
 
     BLOB("blob"),
 
