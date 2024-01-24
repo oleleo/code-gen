@@ -45,11 +45,11 @@ public interface TypeFormatter {
         if (isVarchar(columnType)) {
             return TypeEnum.VARCHAR.getType();
         }
-        if (isDate(columnType)) {
-            return TypeEnum.DATE.getType();
-        }
         if (isDatetime(columnType)) {
             return TypeEnum.DATETIME.getType();
+        }
+        if (isDate(columnType)) {
+            return TypeEnum.DATE.getType();
         }
         if (isBlob(columnType)) {
             return TypeEnum.BLOB.getType();
