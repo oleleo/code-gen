@@ -403,7 +403,7 @@ export default {
       return `${dbDesc}${item.dbName}${schema} (${item.host}) - ${item.username}`
     },
     loadGroups() {
-      this.post(`/group/list/`, {}, function(resp) {
+      this.post(`/group/list`, {}, function(resp) {
         this.groupData = resp.data
       })
     },

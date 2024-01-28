@@ -11,26 +11,26 @@ import com.gitee.gen.entity.TemplateConfig;
 import com.gitee.gen.service.DatasourceConfigService;
 import com.gitee.gen.service.GenerateHistoryService;
 import com.gitee.gen.service.TemplateConfigService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.annotation.Mapping;
+import org.noear.solon.annotation.Controller;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("history")
+@Controller
+@Mapping("history")
 public class GenerateHistoryController {
 
-    @Autowired
+    @Inject
     private GenerateHistoryService generateHistoryService;
 
-    @Autowired
+    @Inject
     private DatasourceConfigService datasourceConfigService;
 
-    @Autowired
+    @Inject
     private TemplateConfigService templateConfigService;
 
     /**
@@ -38,7 +38,7 @@ public class GenerateHistoryController {
      *
      * @return 返回集合，没有返回空List
      */
-    @RequestMapping("list")
+    @Mapping("list")
     public Result listAll() {
         List<GenerateHistory> generateHistories = generateHistoryService.listAll();
         List<GenerateHistoryVO> generateHistoryVOS = generateHistories.stream()

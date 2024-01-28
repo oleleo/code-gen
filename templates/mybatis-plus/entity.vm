@@ -1,0 +1,88 @@
+## filename=${context.javaBeanName}DO.java, folder=entity
+#set($fileName="${context.javaBeanName}DO")
+package ${context.packageName}.dao.entity;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serial;
+import java.io.Serializable;
+#if(${table.hasLocalDateField})
+import java.time.LocalDate;
+#end
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+/**
+#if("$!{table.comment}" != "")
+ * ${table.comment}
+#end
+ *
+ * @author ${context.author}
+ */
+@Getter
+@Setter
+@TableName("${table.tableName}")
+public class ${fileName} implements Serializable {
+
+	@Serial
+    private static final long serialVersionUID = 1L;
+
+#foreach($column in $columns)
+#if("$!{column.comment}" != "")
+    /**
+     * ${column.comment}
+     */
+#end
+#if(${column.columnName} == "id")
+    @TableId(value = "id", type = IdType.AUTO)
+#end
+#if(${column.columnName} == "del_flag")
+    @com.baomidou.mybatisplus.annotation.TableLogic
+#end
+#if(${column.columnName} == "created_at")
+    @TableField(fill = FieldFill.INSERT)
+#end
+#if(${column.columnName} == "updated_at")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+#end
+	private ${column.javaTypeBox} ${column.javaFieldName};
+
+#end
+
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) { 
+        	return true; 
+        }
+        if (o == null || getClass() != o.getClass()) {
+        	return false;
+        }
+        ${fileName} that = (${fileName}) o;
+        return Objects.equals(${pk.javaFieldName}, that.${pk.javaFieldName});
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(${pk.javaFieldName});
+    }
+    
+    @Override
+    public String toString() {
+        return "{" +
+#foreach(${column} in ${columns})
+#if($velocityCount == 1)
+				"\"${column.javaFieldName}\":\"" + ${column.javaFieldName} + "\"" +
+#else
+				",\"${column.javaFieldName}\":\"" + ${column.javaFieldName} + "\"" +
+#end
+#end
+				'}';
+    }
+
+}

@@ -271,7 +271,7 @@ export default {
       })
     },
     loadGroups(groupId) {
-      this.post(`/group/list/`, {}, function(resp) {
+      this.post(`/group/list`, {}, function(resp) {
         this.groupData = resp.data
         if (!groupId && this.groupData.length > 0) {
           groupId = this.groupData[0].id

@@ -1,0 +1,54 @@
+solon.app:
+  name: gen
+server:
+  port: 6969
+
+# sqlite3
+DATASOURCE_URL: jdbc:sqlite:gen.db
+DATASOURCE_DRIVE: org.sqlite.JDBC
+DATASOURCE_USERNAME:
+DATASOURCE_PASSWORD:
+
+# mysql
+#DATASOURCE_URL: jdbc:mysql://localhost:3306/gen?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+#DATASOURCE_DRIVE: com.mysql.cj.jdbc.Driver
+#DATASOURCE_USERNAME: root
+#DATASOURCE_PASSWORD: root
+
+# 配置数据源
+gen.db1:
+  url: ${DATASOURCE_URL}
+  driverClassName: ${DATASOURCE_DRIVE}
+  userName: ${DATASOURCE_USERNAME}
+  password: ${DATASOURCE_PASSWORD}
+
+# 配置数据源对应的 mybatis 信息（要与 DataSource bean 的名字对上）
+mybatis.db1:
+  mappers:        #支持包名 或 类名（大写开头 或 *）或 xml（.xml结尾）//支持 ** 或 * 占位符
+    - "com.gitee.gen.mapper.*" #这个表达式同上效果
+    - "classpath:mybatis/**/*.xml"
+  configuration:  #扩展配置（要与 Configuration 类的属性一一对应）
+    cacheEnabled: false
+    mapperVerifyEnabled: true #如果为 true，则要求所有 mapper 有 @Mapper 主解
+    mapUnderscoreToCamelCase: true
+
+gen:
+  format-xml: ${GEN_FORMAT_XML:true}
+  db-name: ${GEN_DBNAME:gen}
+
+# log
+solon.logging.appender:
+  console:
+    level: INFO
+    enable: true #是否启用
+  file:
+    name: "log/${solon.app.name}"
+    level: INFO
+    enable: true #是否启用
+    extension: ".log"   #v2.2.18 后支持（例：.log, .log.gz, .log.zip）
+    maxFileSize: "10 MB"
+    maxHistory: "7"
+  cloud:
+    level: INFO
+    enable: false #是否启用
+

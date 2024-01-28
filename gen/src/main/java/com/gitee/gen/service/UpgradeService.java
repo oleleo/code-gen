@@ -1,21 +1,26 @@
 package com.gitee.gen.service;
 
+import com.gitee.gen.App;
 import com.gitee.gen.entity.ColumnInfo;
 import com.gitee.gen.mapper.UpgradeMapper;
-import org.apache.commons.lang.math.NumberUtils;
+import com.gitee.gen.util.SystemUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.solon.annotation.Db;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.core.AppClassLoader;
+import org.noear.solon.core.util.IoUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +29,7 @@ import java.util.Objects;
  *
  * @author tanghc
  */
-@Service
+@Component
 public class UpgradeService {
 
     private static final Logger log = LoggerFactory.getLogger(UpgradeService.class);
@@ -35,46 +40,61 @@ public class UpgradeService {
     public static final String TABLE_GENERATE_HISTORY = "generate_history";
 
     // 版本号，格式：xx.yy.zz，如：1.16.0,1.16.11
-    private static final int CURRENT_VERSION = 101600;
+    private static final int CURRENT_VERSION = 200000;
 
     private static int lastVersion;
 
-    @Autowired
+    @Db
     private UpgradeMapper upgradeMapper;
 
-    @Value("${spring.datasource.driver-class-name}")
+    @Inject("${gen.db1.driverClassName}")
     private String driverClassName;
 
-    @Value("${gen.db-name:gen}")
+    @Inject("${gen.db-name:gen}")
     private String dbName;
 
-    public static void init() {
+    @Inject("${gen.db-file-name:gen.db}")
+    private String dbFileName;
+
+    public void init() {
         initDatabase();
         lastVersion = getLocalVersion();
+        upgrade();
     }
 
-    private static void initDatabase() {
-        String filename = "gen.db";
-        String filepath = System.getProperty("user.dir") + "/" + filename;
-        File dbFile = new File(filepath);
+    private void initDatabase() {
+        File dbFile = getDbFile();
         if (!dbFile.exists()) {
-            ClassPathResource resource = new ClassPathResource(filename);
             try {
-                FileCopyUtils.copy(resource.getInputStream(), new FileOutputStream(dbFile));
+                dbFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try (InputStream inputStream = App.class.getClassLoader().getResourceAsStream("gen_init.db")) {
+                Path path = dbFile.toPath();
+                log.info("初始化数据库文件, path={}", path);
+                OutputStream outputStream = Files.newOutputStream(path);
+                IoUtil.transferTo(inputStream, outputStream);
+                outputStream.close();
             } catch (IOException e) {
                 throw new RuntimeException("初始化数据库失败", e);
             }
         }
     }
 
+    private File getDbFile() {
+        String currentPath = SystemUtil.getBinPath();
+        return new File(currentPath + "/" + dbFileName);
+    }
+
     private static int getLocalVersion() {
-        String filename = "version.txt";
-        String filepath = System.getProperty("user.dir") + "/" + filename;
+        String filepath = getVersionFile();
         File versionFile = new File(filepath);
         if (versionFile.exists()) {
             try {
-                String val = FileCopyUtils.copyToString(new FileReader(versionFile));
-                return NumberUtils.toInt(val, 0);
+                InputStream is = Files.newInputStream(Paths.get(filepath));
+                String val = IoUtil.transferToString(is);
+                return Integer.parseInt(val);
             } catch (IOException e) {
                 log.error("read 'version.txt' error", e);
             }
@@ -83,14 +103,20 @@ public class UpgradeService {
     }
 
     private static void writeNewVersion() {
-        String filename = "version.txt";
-        String filepath = System.getProperty("user.dir") + "/" + filename;
-        File versionFile = new File(filepath);
+        String filepath = getVersionFile();
         try {
-            FileCopyUtils.copy(String.valueOf(CURRENT_VERSION).getBytes(StandardCharsets.UTF_8), versionFile);
+            OutputStream out = Files.newOutputStream(Paths.get(filepath));
+            byte[] bytes = String.valueOf(CURRENT_VERSION).getBytes(StandardCharsets.UTF_8);
+            out.write(bytes); //  write(byte[] b)
+            out.close();
         } catch (IOException e) {
             throw new RuntimeException("初始version失败", e);
         }
+    }
+
+    private static String getVersionFile() {
+        String filename = "version.txt";
+       return SystemUtil.getBinPath() + "/" + filename;
     }
 
     /**
@@ -203,15 +229,14 @@ public class UpgradeService {
         String tmp_mysql = "ddl_%s_mysql.txt";
         String tmp_sqlite = "ddl_%s_sqlite.txt";
         String tmp = isDm() ? tmp_dm : (isMysql() ? tmp_mysql : tmp_sqlite);
-
         String filename = "upgrade/" + String.format(tmp, tableName);
-        ClassPathResource resource = new ClassPathResource(filename);
-        if (!resource.exists()) {
+//        ClassPathResource resource = new ClassPathResource(filename);
+        InputStream inputStream = AppClassLoader.getSystemResourceAsStream(filename);
+        if (inputStream == null) {
             throw new RuntimeException("找不到文件：" + filename);
         }
         try {
-            byte[] bytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
-            return new String(bytes);
+            return IoUtil.transferToString(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("打开文件出错", e);

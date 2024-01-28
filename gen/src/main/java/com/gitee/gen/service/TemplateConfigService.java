@@ -2,24 +2,25 @@ package com.gitee.gen.service;
 
 import com.gitee.gen.entity.TemplateConfig;
 import com.gitee.gen.mapper.TemplateConfigMapper;
+import com.gitee.gen.util.StringUtil;
 import com.gitee.gen.util.TemplateMetaUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.solon.annotation.Db;
+import org.noear.solon.annotation.Component;
+import org.smartboot.http.common.utils.CollectionUtils;
+
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 /**
  * @author tanghc
  */
-@Service
+@Component
 public class TemplateConfigService {
 
-    @Autowired
+    @Db
     private TemplateConfigMapper templateConfigMapper;
 
     public List<TemplateConfig> listTemplate(List<Integer> idList) {
@@ -97,7 +98,7 @@ public class TemplateConfigService {
      * 格式: ## filename=#{xxx}.java, folder=entity
      */
     private void handleContent(TemplateConfig template) {
-        String content = StringUtils.trimLeadingWhitespace(template.getContent());
+        String content = StringUtil.trimLeadingWhitespace(template.getContent());
         // 解析元信息
         Map<String, String> data = TemplateMetaUtils.parseMetaContent(content);
         if (StringUtils.isEmpty(template.getFileName())) {

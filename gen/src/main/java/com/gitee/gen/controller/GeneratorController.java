@@ -7,22 +7,22 @@ import com.gitee.gen.entity.DatasourceConfig;
 import com.gitee.gen.gen.GeneratorConfig;
 import com.gitee.gen.service.DatasourceConfigService;
 import com.gitee.gen.service.GeneratorService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.noear.solon.annotation.Inject;
+
+import org.noear.solon.annotation.Mapping;
+import org.noear.solon.annotation.Controller;
 
 /**
  * @author tanghc
  */
-@RestController
-@RequestMapping("generate")
+@Controller
+@Mapping("generate")
 public class GeneratorController {
 
-    @Autowired
+    @Inject
     private DatasourceConfigService datasourceConfigService;
 
-    @Autowired
+    @Inject
     private GeneratorService generatorService;
 
     /**
@@ -31,8 +31,8 @@ public class GeneratorController {
      * @param generatorParam 生成参数
      * @return 返回代码内容
      */
-    @RequestMapping("/code")
-    public Result code(@RequestBody GeneratorParam generatorParam) {
+    @Mapping("/code")
+    public Result code(GeneratorParam generatorParam) {
         int datasourceConfigId = generatorParam.getDatasourceConfigId();
         DatasourceConfig datasourceConfig = datasourceConfigService.getById(datasourceConfigId);
         GeneratorConfig generatorConfig = GeneratorConfig.build(datasourceConfig);

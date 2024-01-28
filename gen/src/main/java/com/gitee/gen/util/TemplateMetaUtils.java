@@ -1,10 +1,11 @@
 package com.gitee.gen.util;
 
 import com.gitee.gen.entity.TemplateConfig;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.util.StringUtils;
 
 /**
  * 模板元信息工具类
@@ -18,7 +19,7 @@ public final class TemplateMetaUtils {
      * 解析模板内容中的元信息
      */
     public static Map<String, String> parseMetaContent(String content) {
-        content = StringUtils.trimLeadingWhitespace(content);
+        content = StringUtil.trimLeadingWhitespace(content);
         if (content != null && content.startsWith("##")) {
             int rowIdx = content.indexOf('\n');
             String metaInfo = content.substring(2, rowIdx);
@@ -44,7 +45,7 @@ public final class TemplateMetaUtils {
      * 生成元数据的模板内容
      */
     public static String generateMetaContent(TemplateConfig template) {
-        String content = StringUtils.trimLeadingWhitespace(template.getContent());
+        String content = StringUtil.trimLeadingWhitespace(template.getContent());
         String metaRow = generateMetaRow(template);
         if (content.startsWith("##")) {
             int rowIdx = content.indexOf('\n');

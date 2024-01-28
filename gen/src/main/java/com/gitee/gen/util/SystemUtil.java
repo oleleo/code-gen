@@ -1,9 +1,5 @@
 package com.gitee.gen.util;
 
-import org.springframework.boot.system.ApplicationHome;
-
-import java.io.File;
-
 /**
  * @author tanghc
  */
@@ -14,11 +10,10 @@ public class SystemUtil {
      * @return 返回路径
      */
     public static String getBinPath() {
-        ApplicationHome applicationHome = new ApplicationHome(SystemUtil.class);
-        File file = applicationHome.getSource();
-        if (file == null) {
-            return System.getProperty("user.dir");
-        }
-        return file.getParentFile().toString();
+        return System.getProperty("user.dir");
+    }
+
+    public static String getUserHome() {
+        return System.getProperty("user.home");
     }
 }

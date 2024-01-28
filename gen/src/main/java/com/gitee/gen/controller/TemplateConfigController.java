@@ -7,12 +7,12 @@ import com.gitee.gen.entity.TemplateGroup;
 import com.gitee.gen.service.TemplateConfigService;
 import com.gitee.gen.service.TemplateGroupService;
 import com.gitee.gen.util.TemplateMetaUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.commons.lang3.StringUtils;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.annotation.Path;
+
+import org.noear.solon.annotation.Mapping;
+import org.noear.solon.annotation.Controller;
 
 import java.util.List;
 import java.util.Map;
@@ -21,28 +21,28 @@ import java.util.stream.Collectors;
 /**
  * @author tanghc
  */
-@RestController
-@RequestMapping("template")
+@Controller
+@Mapping("template")
 public class TemplateConfigController {
 
-    @Autowired
+    @Inject
     private TemplateConfigService templateConfigService;
 
-    @Autowired
+    @Inject
     private TemplateGroupService templateGroupService;
 
-    @RequestMapping("/add")
-    public Result add(@RequestBody TemplateConfig templateConfig) {
+    @Mapping("/add")
+    public Result add(TemplateConfig templateConfig) {
         templateConfigService.insert(templateConfig);
         return Action.ok(templateConfig);
     }
 
-    @RequestMapping("/get/{id}")
-    public Result get(@PathVariable("id") int id) {
+    @Mapping("/get/{id}")
+    public Result get(@Path("id") int id) {
         return Action.ok(templateConfigService.getById(id));
     }
 
-    @RequestMapping("/list")
+    @Mapping("/list")
     public Result list(String groupId) {
         List<TemplateConfig> templateConfigs = null;
         if(StringUtils.isEmpty(groupId)){
@@ -64,26 +64,26 @@ public class TemplateConfigController {
         return Action.ok(templateConfigs);
     }
 
-    @RequestMapping("/update")
-    public Result update(@RequestBody TemplateConfig templateConfig) {
+    @Mapping("/update")
+    public Result update(TemplateConfig templateConfig) {
         templateConfigService.update(templateConfig);
         return Action.ok();
     }
 
-    @RequestMapping("/del")
-    public Result del(@RequestBody TemplateConfig templateConfig) {
+    @Mapping("/del")
+    public Result del(TemplateConfig templateConfig) {
         templateConfigService.delete(templateConfig);
         return Action.ok();
     }
 
-    @RequestMapping("/save")
-    public Result save(@RequestBody TemplateConfig templateConfig) {
+    @Mapping("/save")
+    public Result save(TemplateConfig templateConfig) {
         templateConfigService.save(templateConfig);
         return Action.ok();
     }
 
-    @RequestMapping("/copy")
-    public Result copy(@RequestBody TemplateConfig templateConfig) {
+    @Mapping("/copy")
+    public Result copy(TemplateConfig templateConfig) {
         templateConfigService.copy(templateConfig);
         return Action.ok();
     }

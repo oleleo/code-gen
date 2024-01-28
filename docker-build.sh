@@ -1,16 +1,10 @@
 #!/bin/sh
 
+# 打包docker镜像
+
 git pull
 
-sh build.sh
+sh release.sh
 
-# 打包并运行docker镜像
-
-# 创建镜像
-docker build -t tanghc2020/gen .
-
-sleep 1
-
-echo "推送到docker，命令：docker push tanghc2020/gen:latest"
-
-docker push tanghc2020/gen:latest
+echo "开始创建阿里云docker镜像:latest"
+docker build -f Dockerfile -t registry.cn-hangzhou.aliyuncs.com/tanghc/gen:latest .

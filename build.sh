@@ -1,34 +1,42 @@
 #!/bin/sh
 
-# 版本号
-app_name="gen"
 # 构建目录
 dist_dir="dist"
+# 服务端文件夹名称
+# 执行文件名称
+app_name="gen"
+
+build_folder="${app_name}"
+
 # 输出目录
-target_dir="$dist_dir/$app_name"
+target_dir="$dist_dir/${build_folder}"
 
-rm -rf $dist_dir
-
-echo "开始构建..."
-
+# 先执行前端构建
 cd front
 
-npm install --unsafe-perm
-
-npm run build:prod --unsafe-perm
+sh build.sh
 
 cd ..
 
+# ----
+
+echo "开始构建服务端..."
+
 mvn clean package
 
-echo "复制文件到$target_dir"
+# 复制文件
+if [ ! -d "$target_dir" ]; then
+  mkdir -p $target_dir
+fi
 
-cp -r gen/target/*.jar $target_dir/gen.jar
-cp -r script/* $target_dir
+rm -rf $target_dir/*
 
-echo "打成zip包"
+# 复制前端资源
+echo "复制前端文件到$target_dir"
+cp -r front/dist ./$target_dir
 
-cd $dist_dir
-zip -r -q "$app_name.zip" $app_name
+# 复制服务端资源
+echo "复制服务端文件到$target_dir"
+cp -r gen/target/gen/gen/* ./$target_dir
 
-echo "构建完毕"
+echo "服务端构建完毕，构建结果在${target_dir}文件夹下"

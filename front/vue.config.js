@@ -24,8 +24,11 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
+    // 解决内网穿透出现Invalid Host header
+    disableHostCheck: true,
     port: port,
-    open: true,
+    // 关闭执行 npm run dev立即打开网页
+    open: false,
     overlay: {
       warnings: false,
       errors: true

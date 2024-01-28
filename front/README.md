@@ -4,7 +4,8 @@
 
 1. 启动服务端程序
 2. `cd front`
-3. 执行`npm install --registry=https://registry.npm.taobao.org`，（下载依赖，执行一次即可）
+3. 执行`npm install`，（下载依赖，执行一次即可）;
+> macOS可以执行：`npm install --unsafe-perm=true --allow-root`
 4. 执行`npm run dev`，访问`http://localhost:9528/`，（后续每次启动都需要执行）
 
 

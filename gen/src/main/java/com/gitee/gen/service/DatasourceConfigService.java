@@ -3,18 +3,18 @@ package com.gitee.gen.service;
 import com.gitee.gen.entity.DatasourceConfig;
 import com.gitee.gen.gen.DbType;
 import com.gitee.gen.mapper.DatasourceConfigMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.solon.annotation.Db;
+import org.noear.solon.annotation.Component;
 
 import java.util.List;
 
 /**
  * @author tanghc
  */
-@Service
+@Component
 public class DatasourceConfigService {
 
-    @Autowired
+    @Db
     private DatasourceConfigMapper datasourceConfigMapper;
 
     public DatasourceConfig getById(int id) {

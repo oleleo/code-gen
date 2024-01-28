@@ -1,9 +1,9 @@
 package com.gitee.gen.mapper;
 
-import java.util.List;
-
 import com.gitee.gen.entity.DatasourceConfig;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface DatasourceConfigMapper {

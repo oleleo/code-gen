@@ -1,0 +1,12 @@
+## filename=${context.javaBeanName}Dao.java, folder=mapper
+package ${context.packageName}.dao.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import ${context.packageName}.dao.entity.${context.javaBeanName}DO;
+
+/**
+ * @author ${context.author}
+ */
+public interface ${context.javaBeanName}Dao extends BaseMapper<${context.javaBeanName}DO> {
+	
+}

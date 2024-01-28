@@ -2,8 +2,8 @@ package com.gitee.gen.gen;
 
 import com.gitee.gen.common.IdWorker;
 import com.gitee.gen.util.FieldUtil;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -71,7 +71,7 @@ public class SQLContext {
     }
 
     public int getRandomInt() {
-        return RandomUtils.nextInt(Integer.MAX_VALUE);
+        return RandomUtils.nextInt(1, Integer.MAX_VALUE);
     }
 
     public long getRandomLong() {

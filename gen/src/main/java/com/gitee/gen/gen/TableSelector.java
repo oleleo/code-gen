@@ -1,7 +1,7 @@
 package com.gitee.gen.gen;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.util.CollectionUtils;
+
+import org.noear.solon.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
 
 public abstract class TableSelector {
 
@@ -48,11 +49,18 @@ public abstract class TableSelector {
         return tablesList;
     }
 
-    private <T> List<T> buildRealColumnDefinitions(List<ColumnDefinition> columnDefinitions, Supplier<T> supplier) {
+    private <T extends ColumnDefinition> List<T> buildRealColumnDefinitions(List<ColumnDefinition> columnDefinitions, Supplier<T> supplier) {
         return columnDefinitions.stream()
                 .map(columnDefinition -> {
                     T t = supplier.get();
-                    BeanUtils.copyProperties(columnDefinition, t);
+                    t.setMaxLength(columnDefinition.getMaxLength());
+                    t.setScale(columnDefinition.getScale());
+                    t.setColumnName(columnDefinition.getColumnName());
+                    t.setType(columnDefinition.getType());
+                    t.setIsIdentity(columnDefinition.getIsIdentity());
+                    t.setIsPk(columnDefinition.getIsPk());
+                    t.setComment(columnDefinition.getComment());
+                    t.setIsNullable(columnDefinition.getIsNullable());
                     return t;
                 })
                 .collect(Collectors.toList());
@@ -71,7 +79,7 @@ public abstract class TableSelector {
 
     public List<String> wrapTableNames() {
         List<String> schTableNames = this.getSchTableNames();
-        if (CollectionUtils.isEmpty(schTableNames)) {
+        if (Utils.isEmpty(schTableNames)) {
             return Collections.emptyList();
         }
         return schTableNames.stream()

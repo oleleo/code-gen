@@ -1,16 +1,19 @@
 package com.gitee.gen.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+
+import org.noear.solon.annotation.Controller;
+import org.noear.solon.annotation.Get;
+import org.noear.solon.annotation.Mapping;
+import org.noear.solon.core.handle.Context;
 
 @Controller
 public class HomeController {
 
-    private static final String REDIRECT_INDEX = "forward:index.html";
 
-    @GetMapping("/")
-    public String index() {
-        return REDIRECT_INDEX;
+    @Get
+    @Mapping("/")
+    public void index(Context context) {
+        context.redirect("index.html");
     }
 
 }

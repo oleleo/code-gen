@@ -3,8 +3,8 @@ package com.gitee.gen.service;
 import com.gitee.gen.entity.TemplateGroup;
 import com.gitee.gen.mapper.TemplateConfigMapper;
 import com.gitee.gen.mapper.TemplateGroupMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.solon.annotation.Db;
+import org.noear.solon.annotation.Component;
 
 import java.util.List;
 
@@ -13,13 +13,13 @@ import java.util.List;
  * @date Date : 2020-12-15 9:50
  * @Description: TODO
  */
-@Service
+@Component
 public class TemplateGroupService {
 
-    @Autowired
+    @Db
     private TemplateGroupMapper templateGroupMapper;
 
-    @Autowired
+    @Db
     private TemplateConfigMapper templateConfigMapper;
 
     /**

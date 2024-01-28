@@ -11,11 +11,10 @@ import com.gitee.gen.gen.TableDefinition;
 import com.gitee.gen.gen.TableSelector;
 import com.gitee.gen.util.FormatUtil;
 import com.gitee.gen.util.VelocityUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,18 +26,18 @@ import java.util.concurrent.Executors;
 /**
  * 生成代码逻辑
  */
-@Service
+@Component
 public class GeneratorService {
 
     static ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-    @Autowired
+    @Inject
     private TemplateConfigService templateConfigService;
 
-    @Autowired
+    @Inject
     private GenerateHistoryService generateHistoryService;
 
-    @Value("${gen.format-xml:false}")
+    @Inject("${gen.format-xml:false}")
     private String formatXml;
 
 
@@ -125,25 +124,25 @@ public class GeneratorService {
     }
 
     private void setPackageName(SQLContext sqlContext, String packageName) {
-        if (StringUtils.hasText(packageName)) {
+        if (StringUtils.isNotBlank(packageName)) {
             sqlContext.setPackageName(packageName);
         }
     }
 
     private void setFolder(SQLContext sqlContext, String folder) {
-        if (StringUtils.hasText(folder)) {
+        if (StringUtils.isNotBlank(folder)) {
             sqlContext.setPackageSubPath(folder);
         }
     }
 
     private void setDelPrefix(SQLContext sqlContext, String delPrefix) {
-        if (StringUtils.hasText(delPrefix)) {
+        if (StringUtils.isNotBlank(delPrefix)) {
             sqlContext.setDelPrefix(delPrefix);
         }
     }
 
     private void setAuthor(SQLContext sqlContext, String author) {
-        if (StringUtils.hasText(author)) {
+        if (StringUtils.isNotBlank(author)) {
             sqlContext.setAuthor(author);
         }
     }

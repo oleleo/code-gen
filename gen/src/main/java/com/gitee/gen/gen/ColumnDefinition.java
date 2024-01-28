@@ -2,7 +2,7 @@ package com.gitee.gen.gen;
 
 import com.gitee.gen.gen.converter.ColumnTypeConverter;
 import com.gitee.gen.util.FieldUtil;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 表字段信息
@@ -52,7 +52,7 @@ public class ColumnDefinition {
     }
 
     public String getLabel() {
-        return StringUtils.hasLength(comment) ? comment : columnName;
+        return StringUtils.isNotBlank(comment) ? comment : columnName;
     }
 
     public void setMaxLength(Integer maxLength) {

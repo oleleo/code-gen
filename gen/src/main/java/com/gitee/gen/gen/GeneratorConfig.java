@@ -1,7 +1,7 @@
 package com.gitee.gen.gen;
 
 import com.gitee.gen.entity.DatasourceConfig;
-import org.springframework.beans.BeanUtils;
+
 
 public class GeneratorConfig {
 
@@ -21,7 +21,13 @@ public class GeneratorConfig {
 
     public static GeneratorConfig build(DatasourceConfig datasourceConfig) {
         GeneratorConfig generatorConfig = new GeneratorConfig();
-        BeanUtils.copyProperties(datasourceConfig, generatorConfig);
+        generatorConfig.setDbName(datasourceConfig.getDbName());
+        generatorConfig.setDbType(datasourceConfig.getDbType());
+        generatorConfig.setHost(datasourceConfig.getHost());
+        generatorConfig.setPort(datasourceConfig.getPort());
+        generatorConfig.setUsername(datasourceConfig.getUsername());
+        generatorConfig.setPassword(datasourceConfig.getPassword());
+        generatorConfig.setSchemaName(datasourceConfig.getSchemaName());
         return generatorConfig;
     }
 

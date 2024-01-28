@@ -14,7 +14,7 @@ public class CsharpColumnTypeConverter implements ColumnTypeConverter {
     static {
         TYPE_MAP.put(TypeEnum.BIT.getType(), "bool");
         TYPE_MAP.put(TypeEnum.BOOLEAN.getType(), "bool");
-        TYPE_MAP.put(TypeEnum.TINYINT.getType(), "byte");
+        TYPE_MAP.put(TypeEnum.TINYINT.getType(), "int");
         TYPE_MAP.put(TypeEnum.SMALLINT.getType(), "int");
         TYPE_MAP.put(TypeEnum.INT.getType(), "int");
         TYPE_MAP.put(TypeEnum.BIGINT.getType(), "long");

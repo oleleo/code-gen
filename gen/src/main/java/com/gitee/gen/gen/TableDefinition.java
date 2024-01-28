@@ -1,7 +1,5 @@
 package com.gitee.gen.gen;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -128,7 +126,6 @@ public class TableDefinition {
      *
      * @return 返回主键信息，如果没有则抛出异常
      */
-    @JsonIgnore
     public ColumnDefinition getPkColumn() {
         ColumnDefinition pk = null;
         for (ColumnDefinition column : columnDefinitions) {

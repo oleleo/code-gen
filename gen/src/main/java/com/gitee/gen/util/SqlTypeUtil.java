@@ -37,7 +37,7 @@ public class SqlTypeUtil {
 		javaTypeMap.put("smallmoney", "BigDecimal");
 		javaTypeMap.put("sql_variant", "String");
 		javaTypeMap.put("text", "String");
-		javaTypeMap.put("tinyint", "byte");
+		javaTypeMap.put("tinyint", "int");
 		javaTypeMap.put("timestamp", "Date");
 		javaTypeMap.put("uniqueidentifier", "String");
 		javaTypeMap.put("varbinary", "byte[]");
@@ -70,7 +70,7 @@ public class SqlTypeUtil {
 		javaBoxTypeMap.put("smallmoney", "BigDecimal");
 		javaBoxTypeMap.put("sql_variant", "String");
 		javaBoxTypeMap.put("text", "String");
-		javaBoxTypeMap.put("tinyint", "Byte");
+		javaBoxTypeMap.put("tinyint", "Integer");
 		javaBoxTypeMap.put("timestamp", "Date");
 		javaBoxTypeMap.put("uniqueidentifier", "String");
 		javaBoxTypeMap.put("varbinary", "Byte[]");
@@ -108,7 +108,7 @@ public class SqlTypeUtil {
 		mybatisTypeMap.put("varbinary", "BLOB");
 		mybatisTypeMap.put("varchar", "VARCHAR");
 	}
-	
+
 	/**
 	 * 将sql字段类型转换为java字段类型
 	 * @param sqlType 数据库字段类型
@@ -118,7 +118,7 @@ public class SqlTypeUtil {
 		String javaType = javaTypeMap.get(sqlType);
 		return javaType == null ? "String" : javaType;
 	}
-	
+
 	/**
 	 * 将sql字段类型转换为java装箱字段类型
 	 * @param sqlType 数据库字段类型
@@ -128,7 +128,7 @@ public class SqlTypeUtil {
 		String javaType = javaBoxTypeMap.get(sqlType);
 		return javaType == null ? "String" : javaType;
 	}
-	
+
 	/**
 	 * 将sql字段类型转换为mybatis的jdbcType
 	 * @param sqlType 数据库字段类型
@@ -138,5 +138,5 @@ public class SqlTypeUtil {
 		String javaType = mybatisTypeMap.get(sqlType);
 		return javaType == null ? "VARCHAR" : javaType;
 	}
-	
+
 }

@@ -10,11 +10,10 @@ import com.gitee.gen.gen.SQLService;
 import com.gitee.gen.gen.SQLServiceFactory;
 import com.gitee.gen.gen.TableDefinition;
 import com.gitee.gen.service.DatasourceConfigService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.noear.solon.annotation.Controller;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.annotation.Mapping;
+import org.noear.solon.annotation.Path;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,39 +22,39 @@ import java.util.stream.Stream;
 /**
  * @author tanghc
  */
-@RestController
-@RequestMapping("datasource")
+@Controller
+@Mapping("datasource")
 public class DatasourceConfigController {
 
-    @Autowired
+    @Inject
     private DatasourceConfigService datasourceConfigService;
 
-    @RequestMapping("/add")
-    public Result add(@RequestBody DatasourceConfig datasourceConfig) {
+    @Mapping("/add")
+    public Result add(DatasourceConfig datasourceConfig) {
         datasourceConfigService.insert(datasourceConfig);
         return Action.ok();
     }
 
-    @RequestMapping("/list")
+    @Mapping("/list")
     public Result list() {
         List<DatasourceConfig> datasourceConfigList = datasourceConfigService.listAll();
         return Action.ok(datasourceConfigList);
     }
 
-    @RequestMapping("/update")
-    public Result update(@RequestBody DatasourceConfig datasourceConfig) {
+    @Mapping("/update")
+    public Result update(DatasourceConfig datasourceConfig) {
         datasourceConfigService.update(datasourceConfig);
         return Action.ok();
     }
 
-    @RequestMapping("/del")
-    public Result del(@RequestBody DatasourceConfig datasourceConfig) {
+    @Mapping("/del")
+    public Result del(DatasourceConfig datasourceConfig) {
         datasourceConfigService.delete(datasourceConfig);
         return Action.ok();
     }
 
-    @RequestMapping("/table/{id}")
-    public Result listTable(@PathVariable("id") int id) {
+    @Mapping("/table/{id}")
+    public Result listTable(@Path("id") int id) {
         DatasourceConfig dataSourceConfig = datasourceConfigService.getById(id);
         GeneratorConfig generatorConfig = GeneratorConfig.build(dataSourceConfig);
         SQLService service = SQLServiceFactory.build(generatorConfig);
@@ -64,8 +63,8 @@ public class DatasourceConfigController {
     }
 
 
-    @RequestMapping("/test")
-    public Result test(@RequestBody DatasourceConfig datasourceConfig) {
+    @Mapping("/test")
+    public Result test(DatasourceConfig datasourceConfig) {
         String error = DBConnect.testConnection(GeneratorConfig.build(datasourceConfig));
         if (error != null) {
             return Action.err(error);
@@ -73,8 +72,8 @@ public class DatasourceConfigController {
         return Action.ok();
     }
 
-    @RequestMapping("/dbtype")
-    public Result dbType(@RequestBody DatasourceConfig datasourceConfig) {
+    @Mapping("/dbtype")
+    public Result dbType(DatasourceConfig datasourceConfig) {
         List<DbTypeShow> dbTypeShowList = Stream.of(DbType.values())
                 .map(dbType -> new DbTypeShow(dbType.getDisplayName(), dbType.getType()))
                 .collect(Collectors.toList());

@@ -1,6 +1,6 @@
 package com.gitee.gen.util;
 
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
@@ -31,13 +31,13 @@ public class FieldUtil {
      * @return 返回转换后的字段
      */
     public static String underlineFilter(String field) {
-        if (StringUtils.hasText(field)) {
+        if (StringUtils.isNotBlank(field)) {
             char underLine = '_';
             int underLineCountLeading = findCharCount(field, underLine, false);
             int underLineCountTailing = findCharCount(field, underLine, true);
             // 去除首尾'_'
-            field = StringUtils.trimLeadingCharacter(field, underLine);
-            field = StringUtils.trimTrailingCharacter(field, underLine);
+            field = StringUtil.trimLeadingCharacter(field, underLine);
+            field = StringUtil.trimTrailingCharacter(field, underLine);
             if (isSingleAllUpper(field)) {
                 return field.toLowerCase();
             }
@@ -121,7 +121,7 @@ public class FieldUtil {
      * @return 返回新字段
      */
     public static String dotFilter(String field) {
-        if (StringUtils.hasText(field)) {
+        if (StringUtils.isNotBlank(field)) {
             if (field.contains(".")) {
                 String[] words = field.split("\\.");
                 StringBuilder ret = new StringBuilder();
@@ -141,7 +141,7 @@ public class FieldUtil {
      * @return 返回新字段
      */
     public static String upperFirstLetter(String str) {
-        if (StringUtils.hasText(str)) {
+        if (StringUtils.isNotBlank(str)) {
             String firstUpper = str.substring(0, 1).toUpperCase();
             str = firstUpper + str.substring(1);
         }
@@ -155,7 +155,7 @@ public class FieldUtil {
      * @return 返回新内容
      */
     public static String lowerFirstLetter(String str) {
-        if (StringUtils.hasText(str)) {
+        if (StringUtils.isNotBlank(str)) {
             String firstLower = str.substring(0, 1).toLowerCase();
             str = firstLower + str.substring(1);
         }

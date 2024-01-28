@@ -4,11 +4,11 @@ import com.gitee.gen.common.Action;
 import com.gitee.gen.common.Result;
 import com.gitee.gen.entity.TemplateGroup;
 import com.gitee.gen.service.TemplateGroupService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.annotation.Path;
+
+import org.noear.solon.annotation.Mapping;
+import org.noear.solon.annotation.Controller;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,11 +18,11 @@ import java.util.Objects;
  * @date Date : 2020-12-15 9:51
  * @Description: TODO
  */
-@RestController
-@RequestMapping("group")
+@Controller
+@Mapping("group")
 public class TemplateGroupController {
 
-    @Autowired
+    @Inject
     private TemplateGroupService templateGroupService;
 
     /**
@@ -30,7 +30,7 @@ public class TemplateGroupController {
      *
      * @return 返回集合，没有返回空List
      */
-    @RequestMapping("list")
+    @Mapping("list")
     public Result listAll() {
         List<TemplateGroup> templateGroups = templateGroupService.listAll();
         return Action.ok(templateGroups);
@@ -43,8 +43,8 @@ public class TemplateGroupController {
      * @param id 主键
      * @return 返回记录，没有返回null
      */
-    @RequestMapping("get/{id}")
-    public Result get(@PathVariable("id") int id) {
+    @Mapping("get/{id}")
+    public Result get(@Path("id") int id) {
         TemplateGroup group = templateGroupService.getById(id);
         return Action.ok(group);
     }
@@ -55,8 +55,8 @@ public class TemplateGroupController {
      * @param templateGroup 新增的记录
      * @return 返回影响行数
      */
-    @RequestMapping("add")
-    public Result insert(@RequestBody TemplateGroup templateGroup) {
+    @Mapping("add")
+    public Result insert(TemplateGroup templateGroup) {
         TemplateGroup group = templateGroupService.getByName(templateGroup.getGroupName());
         if (group != null) {
             throw new RuntimeException(templateGroup.getGroupName() + " 已存在");
@@ -71,8 +71,8 @@ public class TemplateGroupController {
      * @param templateGroup 修改的记录
      * @return 返回影响行数
      */
-    @RequestMapping("update")
-    public Result update(@RequestBody TemplateGroup templateGroup) {
+    @Mapping("update")
+    public Result update(TemplateGroup templateGroup) {
         TemplateGroup group = templateGroupService.getByName(templateGroup.getGroupName());
         if (group != null && !Objects.equals(group.getId(), templateGroup.getId())) {
             throw new RuntimeException(templateGroup.getGroupName() + " 已存在");
@@ -87,8 +87,8 @@ public class TemplateGroupController {
      * @param templateGroup 待删除的记录
      * @return 返回影响行数
      */
-    @RequestMapping("del")
-    public Result delete(@RequestBody TemplateGroup templateGroup) {
+    @Mapping("del")
+    public Result delete(TemplateGroup templateGroup) {
         templateGroupService.deleteGroup(templateGroup);
         return Action.ok();
     }

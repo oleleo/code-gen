@@ -4,7 +4,7 @@ import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
 import com.gitee.gen.gen.TableDefinition;
 import com.gitee.gen.gen.TableSelector;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +41,7 @@ public class PostgreSqlTableSelector extends TableSelector {
         if (schema == null) {
             schema = "";
         }
-        if (StringUtils.hasText(schema)) {
+        if (StringUtils.isNotBlank(schema)) {
             schema = String.format("AND schemaname = '%s'", schema);
         }
         List<String> tableNames = wrapTableNames();

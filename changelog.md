@@ -1,5 +1,23 @@
 # changelog
 
+## 2.0.0
+
+- 底层框架改为solon，启动更快，内存更小（64M）
+
+1.x升级到2.0
+
+```text
+如果使用内置数据库则不需要改动，可以把启动内存改成64M
+
+如果使用MYSQL数据库
+
+打开conf/app.yml
+
+注释sqlite3数据库连接，打开下面的mysql连接
+```
+
+执行`run.sh`启动
+
 ## 1.6.3
 
 - 字段长度信息增加支持pgsql [pr](https://gitee.com/durcframework/code-gen/pulls/32)
