@@ -4,6 +4,8 @@
       :data="tableData"
       border
       highlight-current-row
+      :cell-style="cellStyleSmall()"
+      :header-cell-style="headCellStyleSmall()"
     >
       <el-table-column
         prop="generateTime"

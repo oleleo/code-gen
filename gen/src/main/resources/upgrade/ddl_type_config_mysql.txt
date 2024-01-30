@@ -1,0 +1,8 @@
+CREATE TABLE `type_config`
+(
+    `id`         int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `db_type` varchar(64)  NULL DEFAULT NULL COMMENT '数据库类型',
+    `base_type` varchar(64)  NULL DEFAULT NULL COMMENT '基本类型',
+    `box_type` varchar(64)  NULL DEFAULT NULL COMMENT '装箱类型',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB COMMENT = '字段类型配置表';

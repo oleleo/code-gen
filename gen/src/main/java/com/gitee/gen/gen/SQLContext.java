@@ -2,8 +2,8 @@ package com.gitee.gen.gen;
 
 import com.gitee.gen.common.IdWorker;
 import com.gitee.gen.util.FieldUtil;
-import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,7 +25,7 @@ public class SQLContext {
      * 表结构定义
      */
     private final TableDefinition tableDefinition;
-    private final JavaColumnDefinition javaPkColumn;
+    private final ColumnDefinition javaPkColumn;
     /**
      * 包名
      */
@@ -55,7 +55,7 @@ public class SQLContext {
         this.tableDefinition = tableDefinition;
         // 默认为全字母小写的类名
         this.packageName = getJavaBeanName().toLowerCase();
-        this.javaPkColumn = (JavaColumnDefinition) this.tableDefinition.getPkColumn();
+        this.javaPkColumn = this.tableDefinition.getPkColumn();
     }
 
     public String getDatetime() {
@@ -71,7 +71,7 @@ public class SQLContext {
     }
 
     public int getRandomInt() {
-        return RandomUtils.nextInt(1, Integer.MAX_VALUE);
+        return RandomUtils.nextInt(Integer.MAX_VALUE);
     }
 
     public long getRandomLong() {

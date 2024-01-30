@@ -4,7 +4,7 @@ import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
 import com.gitee.gen.gen.TableDefinition;
 import com.gitee.gen.gen.TableSelector;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 import java.util.Map;

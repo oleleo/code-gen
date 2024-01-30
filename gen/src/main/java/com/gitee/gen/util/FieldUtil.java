@@ -1,6 +1,6 @@
 package com.gitee.gen.util;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Objects;
 
@@ -142,8 +142,7 @@ public class FieldUtil {
      */
     public static String upperFirstLetter(String str) {
         if (StringUtils.isNotBlank(str)) {
-            String firstUpper = str.substring(0, 1).toUpperCase();
-            str = firstUpper + str.substring(1);
+            return str.substring(0, 1).toUpperCase() + str.substring(1);
         }
         return str;
     }
@@ -156,8 +155,7 @@ public class FieldUtil {
      */
     public static String lowerFirstLetter(String str) {
         if (StringUtils.isNotBlank(str)) {
-            String firstLower = str.substring(0, 1).toLowerCase();
-            str = firstLower + str.substring(1);
+            return str.substring(0, 1).toLowerCase() + str.substring(1);
         }
         return str;
     }

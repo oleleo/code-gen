@@ -4,7 +4,7 @@ import com.gitee.gen.service.UpgradeService;
 import com.gitee.gen.util.StringUtil;
 import com.gitee.gen.util.SystemUtil;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.noear.solon.Solon;
 import org.noear.solon.annotation.Bean;
 import org.noear.solon.annotation.Configuration;

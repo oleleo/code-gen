@@ -90,6 +90,19 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/type',
+    component: Layout,
+    meta: { title: '类型管理', icon: 'form' },
+    children: [
+      {
+        path: 'config',
+        name: 'TypeConfig',
+        component: () => import('@/views/type/index'),
+        meta: { title: '类型管理' }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

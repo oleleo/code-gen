@@ -3,7 +3,7 @@ package com.gitee.gen.gen;
 import com.gitee.gen.gen.converter.ColumnTypeConverter;
 import com.gitee.gen.gen.converter.JavaColumnTypeConverter;
 import com.gitee.gen.util.FieldUtil;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;

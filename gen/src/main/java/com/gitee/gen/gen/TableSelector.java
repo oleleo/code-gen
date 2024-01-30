@@ -1,6 +1,7 @@
 package com.gitee.gen.gen;
 
 
+import com.gitee.gen.gen.converter.ColumnTypeConverter;
 import org.noear.solon.Utils;
 
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public abstract class TableSelector {
     private ColumnSelector columnSelector;
     private GeneratorConfig generatorConfig;
     private List<String> schTableNames;
+
+    private ColumnTypeConverter columnTypeConverter;
 
     public TableSelector(ColumnSelector columnSelector, GeneratorConfig generatorConfig) {
         this.generatorConfig = generatorConfig;
@@ -41,7 +44,7 @@ public abstract class TableSelector {
             TableDefinition tableDefinition = this.buildTableDefinition(rowMap);
             String tableName = tableDefinition.getTableName();
             List<ColumnDefinition> columnDefinitions = columnSelector.getColumnDefinitions(tableName);
-            tableDefinition.setColumnDefinitions(buildRealColumnDefinitions(columnDefinitions, JavaColumnDefinition::new));
+            tableDefinition.setColumnDefinitions(buildRealColumnDefinitions(columnDefinitions, ColumnDefinition::new));
             tableDefinition.setCsharpColumnDefinitions(buildRealColumnDefinitions(columnDefinitions, CsharpColumnDefinition::new));
             tablesList.add(tableDefinition);
         }
@@ -61,6 +64,7 @@ public abstract class TableSelector {
                     t.setIsPk(columnDefinition.getIsPk());
                     t.setComment(columnDefinition.getComment());
                     t.setIsNullable(columnDefinition.getIsNullable());
+                    t.setColumnTypeConverter(columnTypeConverter);
                     return t;
                 })
                 .collect(Collectors.toList());
@@ -115,4 +119,7 @@ public abstract class TableSelector {
         this.schTableNames = schTableNames;
     }
 
+    public void setColumnTypeConverter(ColumnTypeConverter columnTypeConverter) {
+        this.columnTypeConverter = columnTypeConverter;
+    }
 }

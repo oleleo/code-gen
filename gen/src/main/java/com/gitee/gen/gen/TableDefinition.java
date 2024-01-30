@@ -59,7 +59,7 @@ public class TableDefinition {
      */
     public boolean getHasDateField() {
         for (ColumnDefinition definition : columnDefinitions) {
-            if (Date.class.getSimpleName().equals(((JavaColumnDefinition) definition).getJavaType())) {
+            if (Date.class.getSimpleName().equals((definition).getJavaType())) {
                 return true;
             }
         }
@@ -68,7 +68,7 @@ public class TableDefinition {
 
     public boolean getHasLocalDateField() {
         for (ColumnDefinition definition : columnDefinitions) {
-            if (LocalDate.class.getSimpleName().equals(((JavaColumnDefinition) definition).getJavaType())) {
+            if (LocalDate.class.getSimpleName().equals((definition).getJavaType())) {
                 return true;
             }
         }
@@ -77,7 +77,7 @@ public class TableDefinition {
 
     public boolean getHasLocalDateTimeField() {
         for (ColumnDefinition definition : columnDefinitions) {
-            if (LocalDateTime.class.getSimpleName().equals(((JavaColumnDefinition) definition).getJavaType())) {
+            if (LocalDateTime.class.getSimpleName().equals((definition).getJavaType())) {
                 return true;
             }
         }
@@ -91,7 +91,7 @@ public class TableDefinition {
      */
     public boolean getHasBigDecimalField() {
         for (ColumnDefinition definition : columnDefinitions) {
-            if ("BigDecimal".equals(((JavaColumnDefinition) definition).getJavaType())) {
+            if ("BigDecimal".equals((definition).getJavaType())) {
                 return true;
             }
         }
@@ -114,7 +114,7 @@ public class TableDefinition {
      */
     public boolean getHasLongField() {
         for (ColumnDefinition definition : columnDefinitions) {
-            if ("Long".equals(((JavaColumnDefinition) definition).getJavaType())) {
+            if ("Long".equals((definition).getJavaType())) {
                 return true;
             }
         }

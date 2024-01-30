@@ -2,7 +2,9 @@ package com.gitee.gen.gen;
 
 import com.gitee.gen.gen.converter.ColumnTypeConverter;
 import com.gitee.gen.util.FieldUtil;
-import org.apache.commons.lang3.StringUtils;
+import com.gitee.gen.util.SqlTypeUtil;
+import com.gitee.gen.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 表字段信息
@@ -41,7 +43,14 @@ public class ColumnDefinition {
     /**
      * 字段是否允许为null
      */
-    private boolean isNullable = false;
+    private boolean isNullable;
+
+
+    private ColumnTypeConverter columnTypeConverter;
+
+    public void setColumnTypeConverter(ColumnTypeConverter columnTypeConverter) {
+        this.columnTypeConverter = columnTypeConverter;
+    }
 
     /**
      * 数据库字段名首字母小写
@@ -76,7 +85,6 @@ public class ColumnDefinition {
      *
      * @return 返回基本类型
      */
-
     public String getFieldType() {
         return getColumnTypeConverter().convertType(type);
     }
@@ -86,10 +94,146 @@ public class ColumnDefinition {
      *
      * @return 返回装箱类型
      */
-
     public String getFieldTypeBox() {
         return getColumnTypeConverter().convertTypeBox(getType());
     }
+
+
+
+    public String getMybatisJdbcType() {
+        return SqlTypeUtil.TYPE_MYBATIS_MAP.getOrDefault(getType(), "VARCHAR");
+    }
+
+    /**
+     * 返回java字段名,并且第一个字母大写
+     *
+     * @return 返回字段名
+     * @see #getFieldNamePascal()
+     */
+    @Deprecated
+    public String getJavaFieldNameUF() {
+        return FieldUtil.upperFirstLetter(getJavaFieldName());
+    }
+
+
+    //   ---- name start ----
+
+    /**
+     * 返回java字段
+     *
+     * @return 返回java字段
+     * @see #getFieldNameCamel()
+     */
+    @Deprecated
+    public String getJavaFieldName() {
+        String fieldName = FieldUtil.underlineFilter(getColumnName());
+        if(StringUtils.isEmpty(fieldName)){
+            return fieldName;
+        }
+        fieldName = fieldName.replaceAll("_", "");
+        return FieldUtil.lowerFirstLetter(fieldName);
+    }
+
+    /**
+     * 小驼峰命名，如：userAge
+     * @return
+     */
+    public String getFieldNameCamel() {
+        return getJavaFieldName();
+    }
+
+    /**
+     * 大驼峰命名，如：UserAge
+     * @return
+     */
+    public String getFieldNamePascal() {
+        return FieldUtil.upperFirstLetter(getJavaFieldName());
+    }
+
+    /**
+     * 蛇形命名，如：user_age
+     * @return
+     */
+    public String getFieldNameSnake() {
+        String name = getColumnName();
+        name = StringUtil.trimTrailingCharacter(name, '_');
+        name = StringUtil.trimLeadingCharacter(name, '_');
+        return name.toLowerCase();
+    }
+
+    /**
+     * 蛇形命名大写，如：USER_AGE
+     * @return
+     */
+    public String getFieldNameSnakeBig() {
+        return getFieldNameSnake().toUpperCase();
+    }
+
+    /**
+     * 烤串命名，如：user-name
+     * @return
+     */
+    public String getFieldKebab() {
+        String name = this.getFieldNameSnake();
+        return name.replace('_', '-');
+    }
+
+    /**
+     * 烤串命名大写，如：USER-NAME
+     * @return
+     */
+    public String getFieldKebabBig() {
+        return this.getFieldKebab().toUpperCase();
+    }
+
+    /**
+     * 帕斯卡蛇形命名，如：User_Name
+     * @return
+     */
+    public String getFieldNamePascalSnake() {
+        String fieldNameSnake = this.getFieldNameSnake();
+        String[] split = fieldNameSnake.split("_");
+        for (int i = 0; i < split.length; i++) {
+            split[i] = FieldUtil.upperFirstLetter(split[i]);
+        }
+        return String.join("_", split);
+    }
+
+    /**
+     * 帕斯卡烤串命名，如：User-Name
+     * @return
+     */
+    public String getFieldNamePascalKebab() {
+        String fieldNameSnake = this.getFieldNameSnake();
+        String[] split = fieldNameSnake.split("_");
+        for (int i = 0; i < split.length; i++) {
+            split[i] = FieldUtil.upperFirstLetter(split[i]);
+        }
+        return String.join("-", split);
+    }
+
+    //   ---- name end ----
+
+
+    /**
+     * 获得基本类型,int,float
+     *
+     * @return 返回基本类型
+     */
+    public String getJavaType() {
+        return getFieldType();
+    }
+
+    /**
+     * 获得装箱类型,Integer,Float
+     *
+     * @return 返回装箱类型
+     */
+
+    public String getJavaTypeBox() {
+        return getFieldTypeBox();
+    }
+
 
     /**
      * 是否是自增主键
@@ -145,7 +289,7 @@ public class ColumnDefinition {
     }
 
     public ColumnTypeConverter getColumnTypeConverter() {
-        throw new UnsupportedOperationException("未覆盖com.gitee.gen.gen.ColumnDefinition.getColumnTypeConverter方法");
+        return columnTypeConverter;
     }
 
     public Boolean getIsNullable() {

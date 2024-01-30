@@ -4,7 +4,7 @@ import com.gitee.gen.App;
 import com.gitee.gen.entity.ColumnInfo;
 import com.gitee.gen.mapper.UpgradeMapper;
 import com.gitee.gen.util.SystemUtil;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.solon.annotation.Db;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.annotation.Inject;
@@ -94,7 +94,7 @@ public class UpgradeService {
             try {
                 InputStream is = Files.newInputStream(Paths.get(filepath));
                 String val = IoUtil.transferToString(is);
-                return Integer.parseInt(val);
+                return Integer.parseInt(val.trim());
             } catch (IOException e) {
                 log.error("read 'version.txt' error", e);
             }
@@ -135,6 +135,28 @@ public class UpgradeService {
 
     private void doUpgrade() {
         upgradeV1_6_0();
+        upgradeV2_0_0();
+    }
+
+    private void upgradeV2_0_0() {
+        if (lastVersion < 200000) {
+            createTable("type_config");
+            runSql("insert into type_config(db_type, base_type, box_type) values\n" +
+                    "('bit', 'boolean', 'Boolean')\n" +
+                    ",('boolean', 'boolean', 'Boolean')\n" +
+                    ",('tinyint', 'int', 'Integer')\n" +
+                    ",('smallint', 'int', 'Integer')\n" +
+                    ",('int', 'int', 'Integer')\n" +
+                    ",('bigint', 'long', 'Long')\n" +
+                    ",('float', 'float', 'Float')\n" +
+                    ",('double', 'double', 'Double')\n" +
+                    ",('decimal', 'BigDecimal', 'BigDecimal')\n" +
+                    ",('varchar', 'String', 'String')\n" +
+                    ",('datetime', 'Date', 'Date')\n" +
+                    ",('date', 'Date', 'Date')\n" +
+                    ",('blob', 'String', 'String')\n" +
+                    ",('jsonb', 'String', 'String')");
+        }
     }
 
     private void upgradeV1_6_0() {

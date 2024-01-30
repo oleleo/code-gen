@@ -2,6 +2,7 @@ package com.gitee.gen.util;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.log.NullLogChute;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -16,6 +17,8 @@ public class VelocityUtil {
 	}
 
 	static {
+		// 禁止输出日志
+		Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, new NullLogChute());
 		Velocity.init();
 	}
 

@@ -1,5 +1,7 @@
 package com.gitee.gen.util;
 
+import com.gitee.gen.gen.TypeEnum;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,6 +109,23 @@ public class SqlTypeUtil {
 		mybatisTypeMap.put("uniqueidentifier", "VARCHAR");
 		mybatisTypeMap.put("varbinary", "BLOB");
 		mybatisTypeMap.put("varchar", "VARCHAR");
+	}
+
+	public static final Map<String, String> TYPE_MYBATIS_MAP = new HashMap<>(64);
+
+	static {
+		TYPE_MYBATIS_MAP.put(TypeEnum.BIT.getType(), "BOOLEAN");
+		TYPE_MYBATIS_MAP.put(TypeEnum.BOOLEAN.getType(), "BOOLEAN");
+		TYPE_MYBATIS_MAP.put(TypeEnum.TINYINT.getType(), "TINYINT");
+		TYPE_MYBATIS_MAP.put(TypeEnum.SMALLINT.getType(), "INTEGER");
+		TYPE_MYBATIS_MAP.put(TypeEnum.INT.getType(), "INTEGER");
+		TYPE_MYBATIS_MAP.put(TypeEnum.BIGINT.getType(), "BIGINT");
+		TYPE_MYBATIS_MAP.put(TypeEnum.FLOAT.getType(), "FLOAT");
+		TYPE_MYBATIS_MAP.put(TypeEnum.DOUBLE.getType(), "DOUBLE");
+		TYPE_MYBATIS_MAP.put(TypeEnum.DECIMAL.getType(), "DECIMAL");
+		TYPE_MYBATIS_MAP.put(TypeEnum.VARCHAR.getType(), "VARCHAR");
+		TYPE_MYBATIS_MAP.put(TypeEnum.DATETIME.getType(), "TIMESTAMP");
+		TYPE_MYBATIS_MAP.put(TypeEnum.BLOB.getType(), "BLOB");
 	}
 
 	/**

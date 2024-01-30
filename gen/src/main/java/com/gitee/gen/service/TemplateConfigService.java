@@ -4,7 +4,7 @@ import com.gitee.gen.entity.TemplateConfig;
 import com.gitee.gen.mapper.TemplateConfigMapper;
 import com.gitee.gen.util.StringUtil;
 import com.gitee.gen.util.TemplateMetaUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.solon.annotation.Db;
 import org.noear.solon.annotation.Component;
 import org.smartboot.http.common.utils.CollectionUtils;

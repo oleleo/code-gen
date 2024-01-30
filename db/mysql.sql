@@ -10,26 +10,22 @@ CREATE TABLE `datasource_config`
 (
     `id`           int(11) UNSIGNED                                        NOT NULL AUTO_INCREMENT,
     `db_type`      int(11)                                                 NOT NULL DEFAULT 0 COMMENT '数据库类型，1：MySql, 2:Oracle, 3:sqlserver',
-    `driver_class` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci  NULL     DEFAULT '' COMMENT '数据库驱动',
-    `db_name`      varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci  NOT NULL DEFAULT '' COMMENT '数据库名称',
-    `host`         varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci  NOT NULL DEFAULT '' COMMENT '数据库host',
+    `driver_class` varchar(64)   NULL     DEFAULT '' COMMENT '数据库驱动',
+    `db_name`      varchar(64)   NOT NULL DEFAULT '' COMMENT '数据库名称',
+    `host`         varchar(64)   NOT NULL DEFAULT '' COMMENT '数据库host',
     `port`         int(11)                                                 NOT NULL DEFAULT 0 COMMENT '数据库端口',
-    `username`     varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci  NOT NULL DEFAULT '' COMMENT '数据库用户名',
-    `password`     varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci  NOT NULL DEFAULT '' COMMENT '数据库密码',
+    `username`     varchar(64)   NOT NULL DEFAULT '' COMMENT '数据库用户名',
+    `password`     varchar(64)   NOT NULL DEFAULT '' COMMENT '数据库密码',
     `is_deleted`   int(11)                                                 NOT NULL DEFAULT 0 COMMENT '是否已删除，1：已删除，0：未删除',
-    `package_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL     DEFAULT NULL,
-    `del_prefix`   varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL     DEFAULT NULL,
+    `package_name` varchar(100)  NULL     DEFAULT NULL,
+    `del_prefix`   varchar(200)  NULL     DEFAULT NULL,
     `group_id`     int(11)                                                 NULL     DEFAULT NULL,
-    `schema_name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL     DEFAULT NULL,
-    `author`       varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL     DEFAULT NULL,
-    `db_desc`       varchar(64) character set utf8 collate utf8_general_ci  null     default null comment '数据库别名',
-    `db_group_name` varchar(64) character set utf8 collate utf8_general_ci  null     default null comment '数据库分组名称',
+    `schema_name`  varchar(100)  NULL     DEFAULT NULL,
+    `author`       varchar(255)  NULL     DEFAULT NULL,
+    `db_desc`       varchar(64)   null     default null comment '数据库别名',
+    `db_group_name` varchar(64)   null     default null comment '数据库分组名称',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
-  CHARACTER SET = utf8
-  COLLATE = utf8_general_ci COMMENT = '数据源配置表'
-  ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB COMMENT = '数据源配置表';
 
 -- ----------------------------
 -- Records of datasource_config
@@ -42,15 +38,11 @@ DROP TABLE IF EXISTS `generate_history`;
 CREATE TABLE `generate_history`
 (
     `id`             int(11)                                                NOT NULL AUTO_INCREMENT,
-    `config_content` text CHARACTER SET utf8 COLLATE utf8_general_ci        NULL,
-    `md5_value`      varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+    `config_content` text         NULL,
+    `md5_value`      varchar(64)  NULL DEFAULT NULL,
     `generate_time`  datetime                                               NOT NULL,
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
-  CHARACTER SET = utf8
-  COLLATE = utf8_general_ci
-  ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB COMMENT='生成历史';
 
 -- ----------------------------
 -- Records of generate_history
@@ -63,19 +55,15 @@ DROP TABLE IF EXISTS `template_config`;
 CREATE TABLE `template_config`
 (
     `id`         int(11) UNSIGNED                                        NOT NULL AUTO_INCREMENT,
-    `name`       varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci  NOT NULL DEFAULT '' COMMENT '模板名称',
-    `folder`     varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci  NOT NULL DEFAULT '' COMMENT '目录名称',
-    `file_name`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '文件名称',
-    `content`    text CHARACTER SET utf8 COLLATE utf8_general_ci         NOT NULL COMMENT '内容',
+    `name`       varchar(64)   NOT NULL DEFAULT '' COMMENT '模板名称',
+    `folder`     varchar(64)   NOT NULL DEFAULT '' COMMENT '目录名称',
+    `file_name`  varchar(128)  NOT NULL DEFAULT '' COMMENT '文件名称',
+    `content`    text          NOT NULL COMMENT '内容',
     `is_deleted` int(11)                                                 NOT NULL DEFAULT 0 COMMENT '是否删除，1：已删除，0：未删除',
     `group_id`   int(11)                                                 NULL     DEFAULT NULL,
-    `group_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL     DEFAULT NULL,
+    `group_name` varchar(100)  NULL     DEFAULT NULL,
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 6
-  CHARACTER SET = utf8
-  COLLATE = utf8_general_ci COMMENT = '模板表'
-  ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB COMMENT='模板表';
 
 -- ----------------------------
 -- Records of template_config
@@ -108,17 +96,41 @@ DROP TABLE IF EXISTS `template_group`;
 CREATE TABLE `template_group`
 (
     `id`         int(11) UNSIGNED                                        NOT NULL AUTO_INCREMENT,
-    `group_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模板组名称',
+    `group_name` varchar(100)  NULL DEFAULT NULL COMMENT '模板组名称',
     `is_deleted` int(11)                                                 NULL DEFAULT 0 COMMENT '是否删除，1：已删除，0：未删除',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 2
-  CHARACTER SET = utf8
-  COLLATE = utf8_general_ci COMMENT = '模板组表'
-  ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB COMMENT = '模板组表';
 
 -- ----------------------------
 -- Records of template_group
 -- ----------------------------
 INSERT INTO `template_group`
 VALUES (1, 'default', 0);
+
+
+DROP TABLE IF EXISTS `type_config`;
+CREATE TABLE `type_config`
+(
+    `id`         int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `db_type` varchar(64)  NULL DEFAULT NULL COMMENT '数据库类型',
+    `base_type` varchar(64)  NULL DEFAULT NULL COMMENT '基本类型',
+    `box_type` varchar(64)  NULL DEFAULT NULL COMMENT '装箱类型',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB COMMENT = '字段类型配置表';
+
+insert into type_config(db_type, base_type, box_type) values
+('bit', 'boolean', 'Boolean')
+,('boolean', 'boolean', 'Boolean')
+,('tinyint', 'int', 'Integer')
+,('smallint', 'int', 'Integer')
+,('int', 'int', 'Integer')
+,('bigint', 'long', 'Long')
+,('float', 'float', 'Float')
+,('double', 'double', 'Double')
+,('decimal', 'BigDecimal', 'BigDecimal')
+,('varchar', 'String', 'String')
+,('datetime', 'Date', 'Date')
+,('date', 'Date', 'Date')
+,('blob', 'String', 'String')
+,('jsonb', 'String', 'String')
+;

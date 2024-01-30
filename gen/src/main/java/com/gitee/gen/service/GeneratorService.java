@@ -9,9 +9,10 @@ import com.gitee.gen.gen.SQLService;
 import com.gitee.gen.gen.SQLServiceFactory;
 import com.gitee.gen.gen.TableDefinition;
 import com.gitee.gen.gen.TableSelector;
+import com.gitee.gen.gen.converter.ColumnTypeConverter;
 import com.gitee.gen.util.FormatUtil;
 import com.gitee.gen.util.VelocityUtil;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.annotation.Inject;
@@ -36,6 +37,9 @@ public class GeneratorService {
 
     @Inject
     private GenerateHistoryService generateHistoryService;
+
+    @Inject
+    private TypeConfigService typeConfigService;
 
     @Inject("${gen.format-xml:false}")
     private String formatXml;
@@ -111,6 +115,7 @@ public class GeneratorService {
 
         TableSelector tableSelector = service.getTableSelector(generatorConfig);
         tableSelector.setSchTableNames(tableNames);
+        tableSelector.setColumnTypeConverter(typeConfigService.buildColumnTypeConverter());
 
         List<TableDefinition> tableDefinitions = tableSelector.getTableDefinitions();
 
