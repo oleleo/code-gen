@@ -61,7 +61,7 @@ public class ColumnDefinition {
     }
 
     public String getLabel() {
-        return StringUtils.isNotBlank(comment) ? comment : columnName;
+        return StringUtils.isNotBlank(comment) ? comment : getFieldNameCamel();
     }
 
     public void setMaxLength(Integer maxLength) {
@@ -90,12 +90,30 @@ public class ColumnDefinition {
     }
 
     /**
+     * 获得基本类型,int,float
+     *
+     * @return 返回基本类型
+     */
+    public String getTypeBase() {
+        return getFieldType();
+    }
+
+    /**
      * 获得装箱类型,Integer,Float
      *
      * @return 返回装箱类型
      */
     public String getFieldTypeBox() {
         return getColumnTypeConverter().convertTypeBox(getType());
+    }
+
+    /**
+     * 获得装箱类型,Integer,Float
+     *
+     * @return 返回装箱类型
+     */
+    public String getTypeBox() {
+        return getFieldTypeBox();
     }
 
 
@@ -173,21 +191,21 @@ public class ColumnDefinition {
      * 烤串命名，如：user-name
      * @return
      */
-    public String getFieldKebab() {
+    public String getFieldNameKebab() {
         String name = this.getFieldNameSnake();
         return name.replace('_', '-');
     }
 
     /**
-     * 烤串命名大写，如：USER-NAME
+     * 烤串命名大写，如：USER-AGE
      * @return
      */
-    public String getFieldKebabBig() {
-        return this.getFieldKebab().toUpperCase();
+    public String getFieldNameKebabBig() {
+        return this.getFieldNameKebab().toUpperCase();
     }
 
     /**
-     * 帕斯卡蛇形命名，如：User_Name
+     * 帕斯卡蛇形命名，如：User_Age
      * @return
      */
     public String getFieldNamePascalSnake() {
@@ -200,7 +218,7 @@ public class ColumnDefinition {
     }
 
     /**
-     * 帕斯卡烤串命名，如：User-Name
+     * 帕斯卡烤串命名，如：User-Age
      * @return
      */
     public String getFieldNamePascalKebab() {

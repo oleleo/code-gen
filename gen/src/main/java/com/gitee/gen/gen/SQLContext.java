@@ -100,7 +100,7 @@ public class SQLContext {
     }
 
     /**
-     * 返回类名
+     * 返回类名 UserInfo
      * @return
      */
     public String getClassName() {
@@ -128,6 +128,51 @@ public class SQLContext {
     }
 
     /**
+     * 返回类名，如：UserInfo
+     * @return 类名
+     */
+    public String getClassNamePascal() {
+        return getClassName();
+    }
+
+    /**
+     * 返回类名且首字母小写，如：userInfo
+     * @return 类名
+     */
+    public String getClassNameCamel() {
+        return getJavaBeanNameLF();
+    }
+
+    /**
+     * 返回类名且小写，如：userinfo
+     * @return 类名
+     */
+    public String getClassNameLower() {
+        return getClassName().toLowerCase();
+    }
+
+    /**
+     * 小写类名且横杠相连，如：user-info
+     * @return 类名
+     */
+    public String getClassNameKebab() {
+        return getJavaBeanNameHB();
+    }
+
+    /**
+     * 返回类名且横杠相连，如：User-Info
+     * @return 类名
+     */
+    public String getClassNamePascalKebab() {
+        String tableName = tableDefinition.getTableName();
+        String[] split = tableName.split("_");
+        for (int i = 0; i < split.length; i++) {
+            split[i] = FieldUtil.upperFirstLetter(split[i]);
+        }
+        return String.join("-", split);
+    }
+
+    /**
      * 返回Java类名全小写
      *
      * @return
@@ -139,7 +184,7 @@ public class SQLContext {
     /**
      * 返回Java类名驼峰转横杠
      *
-     * @return
+     * @return User-Info
      */
     public String getJavaBeanNameHB() {
         String tableName = tableDefinition.getTableName();

@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-backtop />
     <el-row :gutter="20">
-      <el-col :span="16">
+      <el-col :span="15">
         <el-button-group :class="{ 'hasFix': needFix }" style="margin-bottom: 10px;z-index: 999">
           <el-button type="primary" @click="onSave">保 存</el-button>
           <el-button @click="goRoute('/template/list')">返 回</el-button>
@@ -12,37 +12,51 @@
           :rules="formRules"
           :model="formData"
           size="mini"
-          label-position="top"
         >
-          <el-form-item prop="groupId" label="组名称">
-            <el-select
-              v-model="formData.groupId"
-              placeholder="选择模板所在组"
-            >
-              <el-option
-                v-for="item in groupData"
-                :key="item.id"
-                :label="item.groupName"
-                :value="item.id"
-              >
-                {{ item.groupName }}
-              </el-option>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item prop="name" label="模板名称">
-            <el-input v-model="formData.name" show-word-limit maxlength="64" />
-          </el-form-item>
-          <el-form-item prop="folder" label="文件目录">
-            <el-input v-model="formData.folder" placeholder="为空则是模板名" show-word-limit maxlength="64" />
-          </el-form-item>
-          <el-form-item prop="fileName" label="文件名称">
-            <el-input v-model="formData.fileName" placeholder="可使用velocity变量" show-word-limit maxlength="100" />
-          </el-form-item>
-          <el-form-item prop="content" label="模板内容">
+          <table class="tpl-table">
+            <tr>
+              <th>组名称</th>
+              <td>
+                <el-form-item prop="groupId" label="">
+                  <el-select
+                    v-model="formData.groupId"
+                    placeholder="选择模板所在组"
+                  >
+                    <el-option
+                      v-for="item in groupData"
+                      :key="item.id"
+                      :label="item.groupName"
+                      :value="item.id"
+                    >
+                      {{ item.groupName }}
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </td>
+              <th>模板名称</th>
+              <td>
+                <el-form-item prop="name" label="">
+                  <el-input v-model="formData.name" show-word-limit maxlength="64" style="width: 200px" />
+                </el-form-item>
+              </td>
+              <th>文件目录</th>
+              <td>
+                <el-form-item prop="folder" label="">
+                  <el-input v-model="formData.folder" placeholder="为空则是模板名" show-word-limit maxlength="64" style="width: 200px" />
+                </el-form-item>
+              </td>
+            </tr>
+            <tr>
+              <th>文件名称</th>
+              <td colspan="5">
+                <el-form-item prop="fileName" label="">
+                  <el-input v-model="formData.fileName" placeholder="可使用velocity变量" show-word-limit maxlength="100" style="width: 500px" />
+                </el-form-item>
+              </td>
+            </tr>
+          </table>
+          <el-form-item prop="content" label="">
             <div style="display: inline-block;margin-bottom: 5px;">
-              <el-link type="primary" :underline="false" href="https://www.cnblogs.com/codingsilence/archive/2011/03/29/2146580.html" target="_blank">Velocity语法</el-link>
-              <span class="split">|</span>
               <el-dropdown @command="changeCodeTheme">
                 <span class="el-dropdown-link">
                   代码样式<i class="el-icon-arrow-down el-icon--right"></i>
@@ -62,17 +76,15 @@
           </el-form-item>
         </el-form>
       </el-col>
-      <el-col :span="8">
-        <div :class="{ 'hasFix': needFix }" style="font-size: 14px;">
+      <el-col :span="9">
+        <div :class="{ 'hasFix': needFix }" style="font-size: 14px;margin-left: 10px">
           <h4 style="margin: 5px 0">
             Velocity变量
             <span class="velocity-tip">
               点击变量直接插入
             </span>
+            <el-link type="primary" :underline="false" @click="openLearn">Velocity语法</el-link>
           </h4>
-          <el-tabs v-model="activeName" @tab-click="onTabClick">
-            <el-tab-pane v-for="item in velocityConfig" :key="item.name" :label="item.label" :name="item.name" :content="item" />
-          </el-tabs>
           <div class="velocity-var">
             <el-tree
               :data="treeData"
@@ -91,10 +103,35 @@
         </div>
       </el-col>
     </el-row>
+    <el-drawer
+      :visible.sync="drawer"
+      :with-header="false"
+      :direction="direction"
+      size="40%"
+    >
+      <mavon-editor
+        v-model="content"
+        :boxShadow="false"
+        :subfield="false"
+        defaultOpen="preview"
+        :editable="false"
+        :toolbarsFlag="false"
+      />
+    </el-drawer>
+
   </div>
 </template>
 
 <style>
+.tpl-table {
+  color: #606266;
+  font-size: 14px;
+  margin-bottom: 10px;
+  width: 100%
+}
+.tpl-table tr th {padding-right: 10px;}
+.tpl-table tr td .el-form-item--mini {margin-bottom: 0 !important;}
+
   .el-form-item--mini .el-form-item__content,
   .el-form-item--mini .el-form-item__label,
   .el-form-item__content {
@@ -137,6 +174,7 @@
 </style>
 
 <script>
+import { mavonEditor } from 'mavon-editor'
 import { codemirror } from 'vue-codemirror'
 
 import 'codemirror/theme/neat.css'
@@ -159,7 +197,7 @@ require('codemirror/mode/velocity/velocity')
 const TEMPLATE_CODE_THEME = 'gen.template.code.theme'
 
 export default {
-  components: { codemirror },
+  components: { codemirror, mavonEditor },
   data() {
     return {
       groupData: [],
@@ -213,7 +251,11 @@ export default {
         label: 'expression'
       },
       needFix: false,
-      keywordHelpShow: false
+      keywordHelpShow: false,
+
+      content: '',
+      drawer: false,
+      direction: 'rtl'
     }
   },
   created() {
@@ -262,13 +304,13 @@ export default {
         })
         this.treeData = content.data
       })
-      this.getFile(`velocity/csharp.json?q=${new Date().getTime()}`, content => {
-        this.velocityConfig.push({
-          name: 'csharp',
-          label: 'C#变量',
-          data: content.data
-        })
-      })
+      // this.getFile(`velocity/csharp.json?q=${new Date().getTime()}`, content => {
+      //   this.velocityConfig.push({
+      //     name: 'csharp',
+      //     label: 'C#变量',
+      //     data: content.data
+      //   })
+      // })
     },
     loadGroups(groupId) {
       this.post(`/group/list`, {}, function(resp) {
@@ -312,6 +354,16 @@ export default {
     changeCodeTheme(theme){
       this.cmOptions.theme = theme
       this.setAttr(TEMPLATE_CODE_THEME,theme)
+    },
+    openLearn() {
+      if (this.content && this.content.length > 0) {
+        this.drawer = true
+      } else {
+        this.getFile(`help/velocity.md?q=${new Date().getTime()}`, content => {
+          this.content = content
+          this.drawer = true
+        });
+      }
     }
   }
 }

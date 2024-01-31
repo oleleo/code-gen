@@ -13,20 +13,44 @@
           "text": "主键数据库类型"
         },
         {
-          "expression": "${pk.javaFieldName}",
-          "text": "主键java字段名"
+          "expression": "${pk.typeBase}",
+          "text": "主键字段基本类型，如：int"
         },
         {
-          "expression": "${pk.javaFieldNameUF}",
-          "text": "主键java字段名首字母大写"
+          "expression": "${pk.typeBox}",
+          "text": "主键字段装箱类型,如：Integer"
         },
         {
-          "expression": "${pk.javaType}",
-          "text": "主键字段的java类型"
+          "expression": "${pk.fieldNameCamel}",
+          "text": "Camel风格，如：userAge"
         },
         {
-          "expression": "${pk.javaTypeBox}",
-          "text": "主键字段装箱类型,如Integer"
+          "expression": "${pk.fieldNamePascal}",
+          "text": "Pascal风格，如：UserAge"
+        },
+        {
+          "expression": "${pk.fieldNameSnake}",
+          "text": "Snake风格，如：user_age"
+        },
+        {
+          "expression": "${pk.fieldNameSnakeBig}",
+          "text": "Snake风格大写，如：USER_AGE"
+        },
+        {
+          "expression": "${pk.fieldNamePascalSnake}",
+          "text": "PascalSnake风格，如：User_Age"
+        },
+        {
+          "expression": "${pk.fieldNameKebab}",
+          "text": "Kebab风格，如：user-age"
+        },
+        {
+          "expression": "${pk.fieldNameKebabBig}",
+          "text": "Kebab风格大写，如：USER-AGE"
+        },
+        {
+          "expression": "${pk.fieldNamePascalKebab}",
+          "text": "PascalKebab风格，如：User-Age"
         },
         {
           "expression": "${pk.isIdentity}",
@@ -42,7 +66,7 @@
         },
         {
           "expression": "${pk.label}",
-          "text": "返回注释，没有则返回数据库字段名"
+          "text": "返回注释，没有则返回fieldNameCamel"
         }
       ]
     },
@@ -67,48 +91,36 @@
           "text": "删除前缀"
         },
         {
-          "expression": "${context.javaBeanName}",
-          "text": "Java类名"
+          "expression": "${context.classNamePascal}",
+          "text": "类名，如：UserInfo"
         },
         {
-          "expression": "${context.javaBeanNameLF}",
-          "text": "Java类名且首字母小写"
+          "expression": "${context.classNameCamel}",
+          "text": "类名且首字母小写，如：userInfo"
         },
         {
-          "expression": "${context.javaBeanNameL}",
-          "text": "Java类名全部小写"
+          "expression": "${context.classNameLower}",
+          "text": "类名全部小写，如：userinfo"
         },
         {
-          "expression": "${context.javaBeanNameHB}",
-          "text": "Java类名驼峰转横杠"
+          "expression": "${context.classNameKebab}",
+          "text": "类名驼峰横杠，如：user-info"
+        },
+        {
+          "expression": "${context.classNamePascalKebab}",
+          "text": "类名驼峰横杠，如：User-Info"
         },
         {
           "expression": "${context.datetime}",
-          "text": "日期时间，年月日时分秒"
+          "text": "日期时间，如：2024-01-31 20:53:50"
         },
         {
           "expression": "${context.date}",
-          "text": "日期，年月日"
+          "text": "日期，如：2024-01-31"
         },
         {
           "expression": "${context.time}",
-          "text": "时间，时分秒"
-        },
-        {
-          "expression": "${context.pkName}",
-          "text": "表主键名"
-        },
-        {
-          "expression": "${context.javaPkName}",
-          "text": "表主键对应的java字段名"
-        },
-        {
-          "expression": "${context.javaPkType}",
-          "text": "主键的java类型"
-        },
-        {
-          "expression": "${context.mybatisPkType}",
-          "text": "主键对应的mybatis类型"
+          "text": "时间，如：20:53:50"
         },
         {
           "expression": "${context.randomInt}",
@@ -163,28 +175,48 @@
           "text": "表中字段名"
         },
         {
-          "expression": "${column.columnNameLF}",
-          "text": "表中字段名首字母小写"
-        },
-        {
           "expression": "${column.type}",
           "text": "字段的数据库类型"
         },
         {
-          "expression": "${column.javaFieldName}",
-          "text": "java字段名"
+          "expression": "${column.typeBase}",
+          "text": "字段基本类型，如：int/float"
         },
         {
-          "expression": "${column.javaFieldNameUF}",
-          "text": "java字段名首字母大写"
-        },
-        {
-          "expression": "${column.javaType}",
-          "text": "字段的java类型"
-        },
-        {
-          "expression": "${column.javaTypeBox}",
+          "expression": "${column.typeBox}",
           "text": "字段装箱类型,如Integer"
+        },
+        {
+          "expression": "${column.fieldNameCamel}",
+          "text": "Camel风格，如：userAge"
+        },
+        {
+          "expression": "${column.fieldNamePascal}",
+          "text": "Pascal风格，如：UserAge"
+        },
+        {
+          "expression": "${column.fieldNameSnake}",
+          "text": "Snake风格，如：user_age"
+        },
+        {
+          "expression": "${column.fieldNameSnakeBig}",
+          "text": "Snake风格大写，如：USER_AGE"
+        },
+        {
+          "expression": "${column.fieldNamePascalSnake}",
+          "text": "PascalSnake风格，如：User_Age"
+        },
+        {
+          "expression": "${column.fieldNameKebab}",
+          "text": "Kebab风格，如：user-age"
+        },
+        {
+          "expression": "${column.fieldNameKebabBig}",
+          "text": "Kebab风格大写，如：USER-AGE"
+        },
+        {
+          "expression": "${column.fieldNamePascalKebab}",
+          "text": "PascalKebab风格，如：User-Age"
         },
         {
           "expression": "${column.isIdentity}",
@@ -208,11 +240,11 @@
         },
         {
           "expression": "${column.label}",
-          "text": "返回注释，没有则返回数据库字段名"
+          "text": "返回注释，没有则返回fieldNameCamel"
         },
         {
           "expression": "${column.maxLength}",
-          "text": "字段长度"
+          "text": "字段最大长度"
         },
         {
           "expression": "${column.scale}",

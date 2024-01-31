@@ -8,6 +8,8 @@ import org.noear.solon.annotation.Controller;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.annotation.Mapping;
 
+import java.util.List;
+
 @Controller
 @Mapping("type")
 public class TypeConfigController {
@@ -40,12 +42,14 @@ public class TypeConfigController {
     /**
      * 修改，忽略null字段
      *
-     * @param typeConfig 修改的记录
+     * @param typeConfigList 修改的记录
      * @return 返回影响行数
      */
     @Mapping("update")
-    public Result update(TypeConfig typeConfig) {
-        typeConfigService.updateIgnoreNull(typeConfig);
+    public Result update(List<TypeConfig> typeConfigList) {
+        for (TypeConfig typeConfig : typeConfigList) {
+            typeConfigService.updateIgnoreNull(typeConfig);
+        }
         return Action.ok();
     }
 

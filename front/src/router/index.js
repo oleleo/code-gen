@@ -93,7 +93,8 @@ export const constantRoutes = [
   {
     path: '/type',
     component: Layout,
-    meta: { title: '类型管理', icon: 'form' },
+    meta: { title: '类型管理', icon: 'example' },
+    redirect: '/type/config',
     children: [
       {
         path: 'config',

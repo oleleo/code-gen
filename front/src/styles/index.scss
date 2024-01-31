@@ -84,3 +84,21 @@ div:focus {
   margin-bottom: 1px;
 }
 .cell .el-button {padding: 0;}
+
+.param-table {
+  .el-form {
+    width: 100%;
+    display: inline-block;
+    .el-form-item {
+      margin-bottom: 0;
+      .el-form-item__content {
+        .el-form-item__error {
+          position: inherit;
+        }
+      }
+    }
+  }
+  .el-switch {
+    margin-bottom: 2px;
+  }
+}
