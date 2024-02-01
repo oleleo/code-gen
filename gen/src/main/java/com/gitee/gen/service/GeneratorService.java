@@ -9,7 +9,6 @@ import com.gitee.gen.gen.SQLService;
 import com.gitee.gen.gen.SQLServiceFactory;
 import com.gitee.gen.gen.TableDefinition;
 import com.gitee.gen.gen.TableSelector;
-import com.gitee.gen.gen.converter.ColumnTypeConverter;
 import com.gitee.gen.util.FormatUtil;
 import com.gitee.gen.util.VelocityUtil;
 import org.apache.commons.lang.StringUtils;

@@ -4,7 +4,6 @@ import com.gitee.gen.App;
 import com.gitee.gen.entity.ColumnInfo;
 import com.gitee.gen.mapper.UpgradeMapper;
 import com.gitee.gen.util.SystemUtil;
-import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.solon.annotation.Db;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.annotation.Inject;

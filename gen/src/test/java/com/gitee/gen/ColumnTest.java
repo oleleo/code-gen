@@ -14,14 +14,14 @@ public class ColumnTest {
         ColumnDefinition columnDefinition = new ColumnDefinition();
         columnDefinition.setColumnName("user_age");
 
-        Assert.assertEquals("userAge", columnDefinition.getFieldNameCamel());
-        Assert.assertEquals("UserAge", columnDefinition.getFieldNamePascal());
-        Assert.assertEquals("user_age", columnDefinition.getFieldNameSnake());
-        Assert.assertEquals("USER_AGE", columnDefinition.getFieldNameSnakeBig());
-        Assert.assertEquals("User_Age", columnDefinition.getFieldNamePascalSnake());
-        Assert.assertEquals("user-age", columnDefinition.getFieldNameKebab());
-        Assert.assertEquals("USER-AGE", columnDefinition.getFieldNameKebabBig());
-        Assert.assertEquals("User-Age", columnDefinition.getFieldNamePascalKebab());
+        Assert.assertEquals("userAge", columnDefinition.getNameCamel());
+        Assert.assertEquals("UserAge", columnDefinition.getNamePascal());
+        Assert.assertEquals("user_age", columnDefinition.getNameSnake());
+        Assert.assertEquals("USER_AGE", columnDefinition.getNameSnakeBig());
+        Assert.assertEquals("User_Age", columnDefinition.getNamePascalSnake());
+        Assert.assertEquals("user-age", columnDefinition.getNameKebab());
+        Assert.assertEquals("USER-AGE", columnDefinition.getNameKebabBig());
+        Assert.assertEquals("User-Age", columnDefinition.getNamePascalKebab());
     }
 
 }

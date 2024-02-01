@@ -1,7 +1,6 @@
 package com.gitee.gen.util;
 
 import com.gitee.gen.entity.TemplateConfig;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.Collections;
 import java.util.HashMap;

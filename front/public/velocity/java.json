@@ -5,10 +5,6 @@
       "text": "",
       "children": [
         {
-          "expression": "${pk.columnName}",
-          "text": "主键表字段名"
-        },
-        {
           "expression": "${pk.type}",
           "text": "主键数据库类型"
         },
@@ -21,35 +17,39 @@
           "text": "主键字段装箱类型,如：Integer"
         },
         {
-          "expression": "${pk.fieldNameCamel}",
+          "expression": "${pk.name}",
+          "text": "主键表字段名"
+        },
+        {
+          "expression": "${pk.nameCamel}",
           "text": "Camel风格，如：userAge"
         },
         {
-          "expression": "${pk.fieldNamePascal}",
+          "expression": "${pk.namePascal}",
           "text": "Pascal风格，如：UserAge"
         },
         {
-          "expression": "${pk.fieldNameSnake}",
+          "expression": "${pk.nameSnake}",
           "text": "Snake风格，如：user_age"
         },
         {
-          "expression": "${pk.fieldNameSnakeBig}",
+          "expression": "${pk.nameSnakeBig}",
           "text": "Snake风格大写，如：USER_AGE"
         },
         {
-          "expression": "${pk.fieldNamePascalSnake}",
+          "expression": "${pk.namePascalSnake}",
           "text": "PascalSnake风格，如：User_Age"
         },
         {
-          "expression": "${pk.fieldNameKebab}",
+          "expression": "${pk.nameKebab}",
           "text": "Kebab风格，如：user-age"
         },
         {
-          "expression": "${pk.fieldNameKebabBig}",
+          "expression": "${pk.nameKebabBig}",
           "text": "Kebab风格大写，如：USER-AGE"
         },
         {
-          "expression": "${pk.fieldNamePascalKebab}",
+          "expression": "${pk.namePascalKebab}",
           "text": "PascalKebab风格，如：User-Age"
         },
         {
@@ -171,10 +171,6 @@
           "text": "foreach循环下标，从1开始"
         },
         {
-          "expression": "${column.columnName}",
-          "text": "表中字段名"
-        },
-        {
           "expression": "${column.type}",
           "text": "字段的数据库类型"
         },
@@ -184,51 +180,55 @@
         },
         {
           "expression": "${column.typeBox}",
-          "text": "字段装箱类型,如Integer"
+          "text": "字段装箱类型，如Integer"
         },
         {
-          "expression": "${column.fieldNameCamel}",
+          "expression": "${column.name}",
+          "text": "表字段名，如：user_age"
+        },
+        {
+          "expression": "${column.nameCamel}",
           "text": "Camel风格，如：userAge"
         },
         {
-          "expression": "${column.fieldNamePascal}",
+          "expression": "${column.namePascal}",
           "text": "Pascal风格，如：UserAge"
         },
         {
-          "expression": "${column.fieldNameSnake}",
+          "expression": "${column.nameSnake}",
           "text": "Snake风格，如：user_age"
         },
         {
-          "expression": "${column.fieldNameSnakeBig}",
+          "expression": "${column.nameSnakeBig}",
           "text": "Snake风格大写，如：USER_AGE"
         },
         {
-          "expression": "${column.fieldNamePascalSnake}",
+          "expression": "${column.namePascalSnake}",
           "text": "PascalSnake风格，如：User_Age"
         },
         {
-          "expression": "${column.fieldNameKebab}",
+          "expression": "${column.nameKebab}",
           "text": "Kebab风格，如：user-age"
         },
         {
-          "expression": "${column.fieldNameKebabBig}",
+          "expression": "${column.nameKebabBig}",
           "text": "Kebab风格大写，如：USER-AGE"
         },
         {
-          "expression": "${column.fieldNamePascalKebab}",
+          "expression": "${column.namePascalKebab}",
           "text": "PascalKebab风格，如：User-Age"
         },
         {
-          "expression": "${column.isIdentity}",
-          "text": "是否自增,返回boolean"
+          "expression": "${column.isPk}",
+          "text": "是否主键，返回boolean"
         },
         {
-          "expression": "${column.isPk}",
-          "text": "是否主键,返回boolean"
+          "expression": "${column.isIdentity}",
+          "text": "是否自增，返回boolean"
         },
         {
           "expression": "${column.isIdentityPk}",
-          "text": "是否自增主键,返回boolean"
+          "text": "是否自增主键，返回boolean"
         },
         {
           "expression": "${column.mybatisJdbcType}",
@@ -252,7 +252,7 @@
         },
         {
           "expression": "${column.isNullable}",
-          "text": "字段是否可空,返回boolean"
+          "text": "字段是否可空，返回boolean"
         }
       ]
     }

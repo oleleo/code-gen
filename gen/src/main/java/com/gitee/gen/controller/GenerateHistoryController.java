@@ -11,9 +11,9 @@ import com.gitee.gen.entity.TemplateConfig;
 import com.gitee.gen.service.DatasourceConfigService;
 import com.gitee.gen.service.GenerateHistoryService;
 import com.gitee.gen.service.TemplateConfigService;
+import org.noear.solon.annotation.Controller;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.annotation.Mapping;
-import org.noear.solon.annotation.Controller;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

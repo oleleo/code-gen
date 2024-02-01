@@ -61,7 +61,7 @@ public class ColumnDefinition {
     }
 
     public String getLabel() {
-        return StringUtils.isNotBlank(comment) ? comment : getFieldNameCamel();
+        return StringUtils.isNotBlank(comment) ? comment : getNameCamel();
     }
 
     public void setMaxLength(Integer maxLength) {
@@ -126,7 +126,7 @@ public class ColumnDefinition {
      * 返回java字段名,并且第一个字母大写
      *
      * @return 返回字段名
-     * @see #getFieldNamePascal()
+     * @see #getNamePascal()
      */
     @Deprecated
     public String getJavaFieldNameUF() {
@@ -137,10 +137,18 @@ public class ColumnDefinition {
     //   ---- name start ----
 
     /**
+     * 返回表字段名
+     * @return
+     */
+    public String getName() {
+        return getColumnName();
+    }
+
+    /**
      * 返回java字段
      *
      * @return 返回java字段
-     * @see #getFieldNameCamel()
+     * @see #getNameCamel()
      */
     @Deprecated
     public String getJavaFieldName() {
@@ -156,7 +164,7 @@ public class ColumnDefinition {
      * 小驼峰命名，如：userAge
      * @return
      */
-    public String getFieldNameCamel() {
+    public String getNameCamel() {
         return getJavaFieldName();
     }
 
@@ -164,7 +172,7 @@ public class ColumnDefinition {
      * 大驼峰命名，如：UserAge
      * @return
      */
-    public String getFieldNamePascal() {
+    public String getNamePascal() {
         return FieldUtil.upperFirstLetter(getJavaFieldName());
     }
 
@@ -172,7 +180,7 @@ public class ColumnDefinition {
      * 蛇形命名，如：user_age
      * @return
      */
-    public String getFieldNameSnake() {
+    public String getNameSnake() {
         String name = getColumnName();
         name = StringUtil.trimTrailingCharacter(name, '_');
         name = StringUtil.trimLeadingCharacter(name, '_');
@@ -183,16 +191,16 @@ public class ColumnDefinition {
      * 蛇形命名大写，如：USER_AGE
      * @return
      */
-    public String getFieldNameSnakeBig() {
-        return getFieldNameSnake().toUpperCase();
+    public String getNameSnakeBig() {
+        return getNameSnake().toUpperCase();
     }
 
     /**
      * 烤串命名，如：user-name
      * @return
      */
-    public String getFieldNameKebab() {
-        String name = this.getFieldNameSnake();
+    public String getNameKebab() {
+        String name = this.getNameSnake();
         return name.replace('_', '-');
     }
 
@@ -200,16 +208,16 @@ public class ColumnDefinition {
      * 烤串命名大写，如：USER-AGE
      * @return
      */
-    public String getFieldNameKebabBig() {
-        return this.getFieldNameKebab().toUpperCase();
+    public String getNameKebabBig() {
+        return this.getNameKebab().toUpperCase();
     }
 
     /**
      * 帕斯卡蛇形命名，如：User_Age
      * @return
      */
-    public String getFieldNamePascalSnake() {
-        String fieldNameSnake = this.getFieldNameSnake();
+    public String getNamePascalSnake() {
+        String fieldNameSnake = this.getNameSnake();
         String[] split = fieldNameSnake.split("_");
         for (int i = 0; i < split.length; i++) {
             split[i] = FieldUtil.upperFirstLetter(split[i]);
@@ -221,8 +229,8 @@ public class ColumnDefinition {
      * 帕斯卡烤串命名，如：User-Age
      * @return
      */
-    public String getFieldNamePascalKebab() {
-        String fieldNameSnake = this.getFieldNameSnake();
+    public String getNamePascalKebab() {
+        String fieldNameSnake = this.getNameSnake();
         String[] split = fieldNameSnake.split("_");
         for (int i = 0; i < split.length; i++) {
             split[i] = FieldUtil.upperFirstLetter(split[i]);

@@ -7,10 +7,9 @@ import com.gitee.gen.entity.DatasourceConfig;
 import com.gitee.gen.gen.GeneratorConfig;
 import com.gitee.gen.service.DatasourceConfigService;
 import com.gitee.gen.service.GeneratorService;
-import org.noear.solon.annotation.Inject;
-
-import org.noear.solon.annotation.Mapping;
 import org.noear.solon.annotation.Controller;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.annotation.Mapping;
 
 /**
  * @author tanghc

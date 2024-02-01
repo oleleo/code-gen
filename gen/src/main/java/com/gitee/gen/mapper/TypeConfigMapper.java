@@ -1,8 +1,9 @@
 package com.gitee.gen.mapper;
 
-import java.util.List;
-import org.apache.ibatis.annotations.Mapper;
 import com.gitee.gen.entity.TypeConfig;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface TypeConfigMapper {

@@ -8,11 +8,10 @@ import com.gitee.gen.service.TemplateConfigService;
 import com.gitee.gen.service.TemplateGroupService;
 import com.gitee.gen.util.TemplateMetaUtils;
 import org.apache.commons.lang.StringUtils;
-import org.noear.solon.annotation.Inject;
-import org.noear.solon.annotation.Path;
-
-import org.noear.solon.annotation.Mapping;
 import org.noear.solon.annotation.Controller;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.annotation.Mapping;
+import org.noear.solon.annotation.Path;
 
 import java.util.List;
 import java.util.Map;
