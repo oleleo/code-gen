@@ -2,11 +2,11 @@
 package ${context.packageName}.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import ${context.packageName}.dao.entity.${context.javaBeanName}DO;
+import ${context.packageName}.dao.entity.${context.javaBeanName};
 
 /**
  * @author ${context.author}
  */
-public interface ${context.javaBeanName}Dao extends BaseMapper<${context.javaBeanName}DO> {
-	
+public interface ${context.javaBeanName}Mapper extends BaseMapper<${context.javaBeanName}> {
+
 }
