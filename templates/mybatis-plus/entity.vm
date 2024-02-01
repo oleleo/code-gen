@@ -1,4 +1,4 @@
-## filename=${context.javaBeanName}DO.java, folder=entity
+## filename=${context.javaBeanName}.java, folder=entity
 #set($fileName="${context.javaBeanName}")
 package ${context.packageName}.dao.entity;
 

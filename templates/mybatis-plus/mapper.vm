@@ -1,4 +1,4 @@
-## filename=${context.javaBeanName}Dao.java, folder=mapper
+## filename=${context.javaBeanName}Mapper.java, folder=mapper
 package ${context.packageName}.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
