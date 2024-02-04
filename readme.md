@@ -37,7 +37,7 @@
 docker run --name gen --restart=always \
   -p 6969:6969 \
   -e JAVA_OPTS="-server -Xms64m -Xmx64m" \
-  -v /etc/gen/app.yml:/gen/conf/app.yml \
+  -v ~/gen.db:/gen/gen.db \
   -d registry.cn-hangzhou.aliyuncs.com/tanghc/gen:2.0.0
 ```
 
