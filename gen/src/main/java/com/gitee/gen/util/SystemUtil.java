@@ -1,5 +1,9 @@
 package com.gitee.gen.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 /**
  * @author tanghc
  */
@@ -10,7 +14,14 @@ public class SystemUtil {
      * @return 返回路径
      */
     public static String getBinPath() {
-        return System.getProperty("user.dir");
+        String path = SystemUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        try {
+            path = URLDecoder.decode(path, "UTF-8");
+            path = StringUtil.trimTrailingCharacter(path, '/');
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        return path;
     }
 
     public static String getUserHome() {
