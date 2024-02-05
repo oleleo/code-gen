@@ -5,6 +5,8 @@ import com.gitee.gen.entity.SystemConfig;
 import com.gitee.gen.mapper.UpgradeMapper;
 import com.gitee.gen.util.SystemUtil;
 import org.apache.ibatis.solon.annotation.Db;
+import org.noear.solon.Solon;
+import org.noear.solon.Utils;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.core.AppClassLoader;
@@ -60,7 +62,7 @@ public class UpgradeService {
         upgrade(oldVersion);
     }
 
-    public static void initDatabase() {
+    public void initDatabase() {
         File dbFile = getDbFile();
         if (!dbFile.exists()) {
             try {
@@ -80,9 +82,19 @@ public class UpgradeService {
         }
     }
 
-    private static File getDbFile() {
-        String currentPath = SystemUtil.getBinPath();
-        return new File(currentPath + "/" + DB_FILE_NAME);
+    private File getDbFile() {
+        String localDbPath = getLocalDbPath();
+        log.info("SQLite3 Database file:{}", localDbPath);
+        return new File(localDbPath);
+    }
+
+    public static String getLocalDbPath() {
+        String dbPath = Solon.cfg().get("LOCAL_DB", "");
+        if (Utils.isNotBlank(dbPath)) {
+            return dbPath.replace("${user.home}", SystemUtil.getUserHome());
+        } else {
+            return SystemUtil.getBinPath() + "/" + DB_FILE_NAME;
+        }
     }
 
     private int getOldVersion() {

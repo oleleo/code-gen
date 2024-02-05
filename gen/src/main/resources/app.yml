@@ -3,8 +3,11 @@ solon.app:
 server:
   port: 6969
 
+
+
 # sqlite3
-DATASOURCE_URL: jdbc:sqlite:gen.db
+#LOCAL_DB: ${user.home}/gen.db
+DATASOURCE_URL: "jdbc:sqlite:"
 DATASOURCE_DRIVE: org.sqlite.JDBC
 DATASOURCE_USERNAME:
 DATASOURCE_PASSWORD:

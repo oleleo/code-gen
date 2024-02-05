@@ -1,7 +1,6 @@
 package com.gitee.gen;
 
 import com.gitee.gen.config.ConnectionHandler;
-import com.gitee.gen.service.UpgradeService;
 import org.noear.solon.Solon;
 import org.noear.solon.web.cors.CrossFilter;
 
@@ -9,7 +8,6 @@ import org.noear.solon.web.cors.CrossFilter;
 public class App {
 
     public static void main(String[] args) {
-        UpgradeService.initDatabase();
         Solon.start(App.class, args, app->{
             //例：增加全局处理（用过滤器模式）//对静态资源亦有效
             app.filter(-1, new CrossFilter().allowedOrigins("*")); //加-1 优先级更高

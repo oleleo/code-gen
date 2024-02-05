@@ -29,6 +29,10 @@ public class Config {
     //typed=true，表示默认数据源。@Db 可不带名字注入
     @Bean(name = "db1", typed = true)
     public DataSource db1(@Inject("${gen.db1}") BasicDataSource ds) {
+        if (ds.getDriverClassName().contains("sqlite")) {
+            String url = ds.getUrl();
+            ds.setUrl(url + UpgradeService.getLocalDbPath());
+        }
         return ds;
     }
 
@@ -40,6 +44,7 @@ public class Config {
 
     @Init
     public void start() {
+        upgradeService.initDatabase();
         upgradeService.init();
         initStaticFile();
     }
@@ -58,11 +63,6 @@ public class Config {
         }
         log.info("前端资源目录：{}", frontRoot);
 
-//        String frontLocation = "file:" + frontRoot;
         StaticMappings.add("/", new FileStaticRepository(frontRoot));
-//        StaticMappings.add("/favicon.ico", new FileStaticRepository(frontRoot + "/favicon.ico"));
-//        StaticMappings.add("/static/", new FileStaticRepository(frontRoot + "/static/"));
-//        StaticMappings.add("/velocity/", new FileStaticRepository(frontRoot + "/velocity/"));
-
     }
 }
