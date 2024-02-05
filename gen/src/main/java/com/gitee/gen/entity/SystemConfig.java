@@ -1,87 +1,72 @@
 package com.gitee.gen.entity;
 
-import java.util.Date;
 
 /**
- * @author thc
+ * 系统配置表
  */
 public class SystemConfig {
+	private Integer id;
+	/** 配置项 */
+	private String configKey;
+	/** 配置值 */
+	private String configValue;
+	/** 备注 */
+	private String remark;
 
-    /**
-     * 主键id
-     */
-    private Integer id;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    /**
-     * datasource_config.id
-     */
-    private Integer datasourceId;
+	public Integer getId() {
+		return this.id;
+	}
 
-    /**
-     * 配置key
-     */
-    private String configKey;
+	public void setConfigKey(String configKey) {
+		this.configKey = configKey;
+	}
 
-    /**
-     * 配置value
-     */
-    private String configValue;
+	public String getConfigKey() {
+		return this.configKey;
+	}
 
-    /**
-     * 是否全局变量,1:是，0：否
-     */
-    private Integer isGlobal;
+	public void setConfigValue(String configValue) {
+		this.configValue = configValue;
+	}
 
-    /**
-     * 添加时间
-     */
-    private Date addTime;
+	public String getConfigValue() {
+		return this.configValue;
+	}
 
-    public Integer getId() {
-        return id;
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getRemark() {
+		return this.remark;
+	}
+
+
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) {return false;}
+        SystemConfig that = (SystemConfig) o;
+        return id.equals(that.id);
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(id);
     }
 
-    public Integer getDatasourceId() {
-        return datasourceId;
+    @Override
+    public String toString() {
+        return "SystemConfig{" +
+		",id='" + id + "'" +
+		",configKey='" + configKey + "'" +
+		",configValue='" + configValue + "'" +
+		",remark='" + remark + "'" +
+                '}';
     }
 
-    public void setDatasourceId(Integer datasourceId) {
-        this.datasourceId = datasourceId;
-    }
-
-    public String getConfigKey() {
-        return configKey;
-    }
-
-    public void setConfigKey(String configKey) {
-        this.configKey = configKey;
-    }
-
-    public String getConfigValue() {
-        return configValue;
-    }
-
-    public void setConfigValue(String configValue) {
-        this.configValue = configValue;
-    }
-
-    public Integer getIsGlobal() {
-        return isGlobal;
-    }
-
-    public void setIsGlobal(Integer isGlobal) {
-        this.isGlobal = isGlobal;
-    }
-
-    public Date getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
-    }
 }

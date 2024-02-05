@@ -6,24 +6,23 @@
 - 步骤简单，只需配置一个数据源，然后勾选模板即可生成代码。
 - 默认提供了通用的实体类、mybatis接口、mybatis配置文件模板，可以快速开发mybatis应用。
 
-> 用到的技术：Solon + Mybatis + Vue
+> 用到的技术：[Solon](https://solon.noear.org/) + Mybatis + Vue
 
 ## 使用步骤
 
 - 前往[发行版页面](https://gitee.com/durcframework/code-gen/releases)，下载最新版本zip文件
-- 解压zip，如果是Mac/Linux操作系统，运行`startup.sh`文件启动，Windows操作系统双击`startup.bat`启动
+- 解压zip，如果是Mac/Linux操作系统，运行`run.sh`文件启动，Windows操作系统双击`run.bat`启动
 - 浏览器访问`http://localhost:6969/`
 
 默认端口是6969，更改端口号按如下方式：
 
 方式1：
 
-- Mac/Linux操作系统：打开`startup.sh`文件，修改`--server.port`参数值
-- Windows操作系统打开`startup.bat`进行修改
+打开`conf/app.yml`，修改`server.port`值
 
 方式2：
 
-打开`conf/app.yml`，修改`server.port`值
+指定JVM参数`-Dserver.port=6666`
 
 ### docker运行
 
@@ -38,7 +37,7 @@ docker run --name gen --restart=always \
   -p 6969:6969 \
   -e JAVA_OPTS="-server -Xms64m -Xmx64m" \
   -v ~/gen.db:/gen/gen.db \
-  -d registry.cn-hangzhou.aliyuncs.com/tanghc/gen:2.0.0
+  -d registry.cn-hangzhou.aliyuncs.com/tanghc/gen:latest
 ```
 
 浏览器访问`http://ip:6969/`
@@ -75,7 +74,7 @@ docker run --name gen --restart=always \
 
 ## 本地开发
 
-- 运行`gen`下的`com.gitee.gen.App`（SpringBoot工程）
+- 运行`gen`下的`com.gitee.gen.App`（solon-web工程）
 - 运行`front`下的前端项目，详见：[readme](./front/README.md)
 
 ## 参与贡献

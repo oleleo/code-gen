@@ -118,6 +118,17 @@ CREATE TABLE `type_config`
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB COMMENT = '字段类型配置表';
 
+DROP TABLE IF EXISTS `system_config`;
+CREATE TABLE `system_config`
+(
+    `id`         int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `config_key` varchar(64)  NULL DEFAULT NULL COMMENT '配置项',
+    `config_value` varchar(256)  NULL DEFAULT NULL COMMENT '配置值',
+    `remark` varchar(128)  NULL DEFAULT NULL COMMENT '备注',
+    UNIQUE KEY `uk_config_key` (`config_key`) USING BTREE,
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB COMMENT = '系统配置表';
+
 insert into type_config(db_type, base_type, box_type) values
 ('bit', 'boolean', 'Boolean')
 ,('boolean', 'boolean', 'Boolean')

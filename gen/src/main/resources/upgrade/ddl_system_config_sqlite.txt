@@ -1,0 +1,7 @@
+CREATE TABLE `system_config`
+(
+    `id`         integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `config_key` varchar(64)  NULL DEFAULT NULL,
+    `config_value` varchar(256)  NULL DEFAULT NULL,
+    `remark` varchar(128)  NULL DEFAULT NULL
+);

@@ -1,7 +1,7 @@
 package com.gitee.gen.service;
 
-import com.gitee.gen.App;
 import com.gitee.gen.entity.ColumnInfo;
+import com.gitee.gen.entity.SystemConfig;
 import com.gitee.gen.mapper.UpgradeMapper;
 import com.gitee.gen.util.SystemUtil;
 import org.apache.ibatis.solon.annotation.Db;
@@ -16,12 +16,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+
 
 /**
  * 升级
@@ -40,11 +39,14 @@ public class UpgradeService {
 
     // 版本号，格式：xx.yy.zz，如：1.16.0,1.16.11
     private static final int CURRENT_VERSION = 200000;
-
-    private static int lastVersion;
+    public static final String GEN_VERSION = "GEN_VERSION";
+    private static final String DB_FILE_NAME = "gen.db";
 
     @Db
     private UpgradeMapper upgradeMapper;
+
+    @Inject
+    private SystemConfigService systemConfigService;
 
     @Inject("${gen.db1.driverClassName}")
     private String driverClassName;
@@ -52,16 +54,13 @@ public class UpgradeService {
     @Inject("${gen.db-name:gen}")
     private String dbName;
 
-    @Inject("${gen.db-file-name:gen.db}")
-    private String dbFileName;
-
     public void init() {
-        initDatabase();
-        lastVersion = getLocalVersion();
-        upgrade();
+        this.createTable("system_config");
+        int oldVersion = getOldVersion();
+        upgrade(oldVersion);
     }
 
-    private void initDatabase() {
+    public static void initDatabase() {
         File dbFile = getDbFile();
         if (!dbFile.exists()) {
             try {
@@ -69,7 +68,7 @@ public class UpgradeService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            try (InputStream inputStream = App.class.getClassLoader().getResourceAsStream("gen_init.db")) {
+            try (InputStream inputStream = AppClassLoader.getSystemResourceAsStream("gen_init.db")) {
                 Path path = dbFile.toPath();
                 log.info("初始化数据库文件, path={}", path);
                 OutputStream outputStream = Files.newOutputStream(path);
@@ -81,85 +80,68 @@ public class UpgradeService {
         }
     }
 
-    private File getDbFile() {
+    private static File getDbFile() {
         String currentPath = SystemUtil.getBinPath();
-        return new File(currentPath + "/" + dbFileName);
+        return new File(currentPath + "/" + DB_FILE_NAME);
     }
 
-    private static int getLocalVersion() {
-        String filepath = getVersionFile();
-        File versionFile = new File(filepath);
-        if (versionFile.exists()) {
-            try {
-                InputStream is = Files.newInputStream(Paths.get(filepath));
-                String val = IoUtil.transferToString(is);
-                return Integer.parseInt(val.trim());
-            } catch (IOException e) {
-                log.error("read 'version.txt' error", e);
-            }
-        }
-        return 0;
+    private int getOldVersion() {
+        return systemConfigService.getValue(GEN_VERSION)
+                .map(Integer::parseInt)
+                .orElse(0);
     }
 
-    private static void writeNewVersion() {
-        String filepath = getVersionFile();
-        try {
-            OutputStream out = Files.newOutputStream(Paths.get(filepath));
-            byte[] bytes = String.valueOf(CURRENT_VERSION).getBytes(StandardCharsets.UTF_8);
-            out.write(bytes); //  write(byte[] b)
-            out.close();
-        } catch (IOException e) {
-            throw new RuntimeException("初始version失败", e);
-        }
-    }
-
-    private static String getVersionFile() {
-        String filename = "version.txt";
-       return SystemUtil.getBinPath() + "/" + filename;
+    private void writeNewVersion() {
+        SystemConfig systemConfig = new SystemConfig();
+        systemConfig.setConfigKey(GEN_VERSION);
+        systemConfig.setConfigValue(String.valueOf(CURRENT_VERSION));
+        systemConfig.setRemark("版本号");
+        systemConfigService.saveOrUpdate(systemConfig);
     }
 
     /**
      * 升级
      */
-    public void upgrade() {
-        if (lastVersion == 0) {
+    public void upgrade(int oldVersion) {
+        if (oldVersion == 0) {
             upgradeV1_4_0();
             upgradeV1_4_12();
             upgradeV1_4_17();
             upgradeV1_5_2();
         }
-        doUpgrade();
+        doUpgrade(oldVersion);
         writeNewVersion();
     }
 
-    private void doUpgrade() {
-        upgradeV1_6_0();
-        upgradeV2_0_0();
+    private void doUpgrade(int oldVersion) {
+        upgradeV1_6_0(oldVersion);
+        upgradeV2_0_0(oldVersion);
     }
 
-    private void upgradeV2_0_0() {
-        if (lastVersion < 200000) {
-            createTable("type_config");
-            runSql("insert into type_config(db_type, base_type, box_type) values\n" +
-                    "('bit', 'boolean', 'Boolean')\n" +
-                    ",('boolean', 'boolean', 'Boolean')\n" +
-                    ",('tinyint', 'int', 'Integer')\n" +
-                    ",('smallint', 'int', 'Integer')\n" +
-                    ",('int', 'int', 'Integer')\n" +
-                    ",('bigint', 'long', 'Long')\n" +
-                    ",('float', 'float', 'Float')\n" +
-                    ",('double', 'double', 'Double')\n" +
-                    ",('decimal', 'BigDecimal', 'BigDecimal')\n" +
-                    ",('varchar', 'String', 'String')\n" +
-                    ",('datetime', 'Date', 'Date')\n" +
-                    ",('date', 'Date', 'Date')\n" +
-                    ",('blob', 'String', 'String')\n" +
-                    ",('jsonb', 'String', 'String')");
+    private void upgradeV2_0_0(int oldVersion) {
+        if (oldVersion < 200000) {
+            createTable("type_config", () -> {
+                runSql("insert into type_config(db_type, base_type, box_type) values\n" +
+                        "('bit', 'boolean', 'Boolean')\n" +
+                        ",('boolean', 'boolean', 'Boolean')\n" +
+                        ",('tinyint', 'int', 'Integer')\n" +
+                        ",('smallint', 'int', 'Integer')\n" +
+                        ",('int', 'int', 'Integer')\n" +
+                        ",('bigint', 'long', 'Long')\n" +
+                        ",('float', 'float', 'Float')\n" +
+                        ",('double', 'double', 'Double')\n" +
+                        ",('decimal', 'BigDecimal', 'BigDecimal')\n" +
+                        ",('varchar', 'String', 'String')\n" +
+                        ",('datetime', 'Date', 'Date')\n" +
+                        ",('date', 'Date', 'Date')\n" +
+                        ",('blob', 'String', 'String')\n" +
+                        ",('jsonb', 'String', 'String')");
+            });
         }
     }
 
-    private void upgradeV1_6_0() {
-        if (lastVersion < 101600) {
+    private void upgradeV1_6_0(int oldVersion) {
+        if (oldVersion < 101600) {
             this.addColumn(TABLE_DATASOURCE_CONFIG, "db_desc", "varchar(64)");
             this.addColumn(TABLE_DATASOURCE_CONFIG, "db_group_name", "varchar(64)");
         }
@@ -236,13 +218,20 @@ public class UpgradeService {
      * @param tableName 表名
      * @return 创建成功返回true
      */
-    public boolean createTable(String tableName) {
+    public boolean createTable(String tableName, Runnable afterCreated) {
         if (!isTableExist(tableName)) {
             String sql = this.loadDDL(tableName);
             upgradeMapper.runSql(sql);
+            if (afterCreated != null) {
+                afterCreated.run();
+            }
             return true;
         }
         return false;
+    }
+
+    public boolean createTable(String tableName) {
+        return createTable(tableName, null);
     }
 
     private String loadDDL(String tableName) {
@@ -251,7 +240,6 @@ public class UpgradeService {
         String tmp_sqlite = "ddl_%s_sqlite.txt";
         String tmp = isDm() ? tmp_dm : (isMysql() ? tmp_mysql : tmp_sqlite);
         String filename = "upgrade/" + String.format(tmp, tableName);
-//        ClassPathResource resource = new ClassPathResource(filename);
         InputStream inputStream = AppClassLoader.getSystemResourceAsStream(filename);
         if (inputStream == null) {
             throw new RuntimeException("找不到文件：" + filename);
