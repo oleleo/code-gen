@@ -1,7 +1,9 @@
-
 .gitee
 db
+front
 log
 script
 templates
-front/node_modules
+*.sh
+readme.md
+changelog.md
