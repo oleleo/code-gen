@@ -10,23 +10,23 @@
 
 ## 使用步骤
 
+### 方式1：本地zip部署
+
 - 前往[发行版页面](https://gitee.com/durcframework/code-gen/releases)，下载最新版本zip文件
 - 解压zip，如果是Mac/Linux操作系统，运行`run.sh`文件启动，Windows操作系统双击`run.bat`启动
 - 浏览器访问`http://localhost:6969/`
 
 默认端口是6969，更改端口号按如下方式：
 
-方式1：
-
 打开`conf/app.yml`，修改`server.port`值
 
-方式2：
+或者
 
 指定JVM参数`-Dserver.port=6666`
 
-### docker运行
+### 方式2：docker运行
 
-- 方式一：下载公共镜像
+- 下载公共镜像
 
 `docker pull registry.cn-hangzhou.aliyuncs.com/tanghc/gen:latest`
 
@@ -35,8 +35,8 @@
 ```shell
 docker run --name gen --restart=always \
   -p 6969:6969 \
-  -e JAVA_OPTS="-server -Xms64m -Xmx64m" \
-  -v ~/gen.db:/gen/gen.db \
+  -e JAVA_OPTS="-server -Xms64m -Xmx64m -DLOCAL_DB=/opt/gen/gen.db" \
+  -v /opt/gen/:/opt/gen/ \
   -d registry.cn-hangzhou.aliyuncs.com/tanghc/gen:latest
 ```
 
@@ -44,7 +44,8 @@ docker run --name gen --restart=always \
 
 后续更新替换jar文件和dist文件夹即可。
 
-- 方式二：本地构建镜像
+
+### 本地构建镜像
 
 
 clone代码，然后执行`docker-build.sh`脚本
@@ -54,9 +55,9 @@ clone代码，然后执行`docker-build.sh`脚本
 ```shell
 docker run --name gen --restart=always \
   -p 6969:6969 \
-  -e JAVA_OPTS="-server -Xms128m -Xmx128m" \
-  -v /etc/gen/app.yml:/gen/conf/app.yml \
-  -d registry.cn-hangzhou.aliyuncs.com/tanghc/gen:2.0.0
+  -e JAVA_OPTS="-server -Xms64m -Xmx64m -DLOCAL_DB=/opt/gen/gen.db" \
+  -v /opt/gen/:/opt/gen/ \
+  -d <镜像ID>
 ```
 
 ## 其它
