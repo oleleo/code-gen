@@ -10,6 +10,8 @@
 
 将`gen.jar`、`conf`、`lib`、`dist`、`run.sh`放入到gen目录下并覆盖
 
+非MySql数据库需要将驱动包（如ojdbc6.jar）放到`gen/lib`下
+
 ```text
 如果使用内置数据库（gen.db）则不需要改动，可以把启动内存改成64M
 
