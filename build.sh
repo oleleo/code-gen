@@ -25,11 +25,12 @@ echo "开始构建服务端..."
 mvn clean package
 
 # 复制文件
+
+rm -rf $dist_dir
+
 if [ ! -d "$target_dir" ]; then
   mkdir -p $target_dir
 fi
-
-rm -rf $target_dir/*
 
 # 复制前端资源
 echo "复制前端文件到$target_dir"
