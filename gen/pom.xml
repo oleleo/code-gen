@@ -26,13 +26,7 @@
     <dependencies>
         <dependency>
             <groupId>org.noear</groupId>
-            <artifactId>solon-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.noear</groupId>
-                    <artifactId>solon.view.freemarker</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>solon-api</artifactId>
         </dependency>
 
         <dependency>
