@@ -84,6 +84,31 @@ docker run --name gen --restart=always \
 - 运行`gen`下的`com.gitee.gen.App`（solon-web工程）
 - 运行`front`下的前端项目，详见：[readme](./front/README.md)
 
+## 使用Mysql存储
+
+
+- 创建数据库, [SQL文件](https://gitee.com/durcframework/code-gen/blob/master/db/mysql.sql)
+- 打开app.yml文件
+- 注释下面内容
+
+```
+#DATASOURCE_URL: "jdbc:sqlite:"
+#DATASOURCE_DRIVE: org.sqlite.JDBC
+#DATASOURCE_USERNAME:
+#DATASOURCE_PASSWORD:
+```
+
+- 打开mysql配置：
+
+```
+DATASOURCE_URL: jdbc:mysql://localhost:3306/gen?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+DATASOURCE_DRIVE: com.mysql.cj.jdbc.Driver
+DATASOURCE_USERNAME: root
+DATASOURCE_PASSWORD: root
+```
+
+修改用户名密码，重启应用
+
 ## 参与贡献
 
 欢迎贡献代码，完善功能，PR请提交到`pr`分支
