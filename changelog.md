@@ -1,5 +1,10 @@
 # changelog
 
+## 2.0.1
+
+- 新增`${context.dbNameCamel}` 数据库名驼峰，如：shopOrder
+- 新增`${context.dbNameClean}` 数据库名驼峰，如：shoporder
+
 ## 2.0.0
 
 - 【新增】底层框架改为solon，启动更快，内存更小（64M）
