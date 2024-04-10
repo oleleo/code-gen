@@ -24,13 +24,13 @@ db:
   host: localhost:3306
   url: jdbc:mysql://${db.host}/gen?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
   drive: com.mysql.cj.jdbc.Driver
-  username:
-  password:
+  username: a
+  password: b
 
 gen.db2:
   url: ${db.url}
   driverClassName: ${db.drive}
-  username: ${db.username}
+  userName: ${db.username}
   password: ${db.password}
 
 # 配置数据源对应的 mybatis 信息（要与 DataSource bean 的名字对上）
