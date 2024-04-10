@@ -3,7 +3,7 @@ solon.app:
 server:
   port: 6969
 
-USE_DBMS: true
+USE_DBMS: false
 
 # sqlite3
 #LOCAL_DB: ${user.home}/gen.db

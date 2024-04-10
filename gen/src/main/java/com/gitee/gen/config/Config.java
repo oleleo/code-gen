@@ -35,6 +35,7 @@ public class Config {
             String url = ds.getUrl();
             ds.setUrl(url + UpgradeService.getLocalDbPath());
         }
+        log.info("使用本地数据库，url:{}", ds.getUrl());
         return ds;
     }
 
