@@ -41,8 +41,13 @@ public class Config {
 
     @Bean(name = "db1", typed = true)
     @Condition(onProperty="${USE_DBMS} = true")
-    public DataSource db2(@Inject("${gen.db2}") BasicDataSource ds) {
-        log.info("使用DBMS，url:{}", ds.getUrl());
+    public DataSource db2(@Inject("${gen.db2}") BasicDataSource ds, @Inject("${DB_HOST}") String dbHost) {
+        String url = ds.getUrl();
+        if (StringUtils.isNotBlank(dbHost)) {
+            url = url.replace("${DB_HOST}", dbHost);
+            ds.setUrl(url);
+        }
+        log.info("使用DBMS存储数据，url={}", ds.getUrl());
         return ds;
     }
 

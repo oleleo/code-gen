@@ -14,6 +14,7 @@ DATASOURCE_PASSWORD:
 
 # mysql
 DB_HOST: localhost:3306
+DB_URL: jdbc:mysql://${DB_HOST}/gen?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
 DB_DRIVE: com.mysql.cj.jdbc.Driver
 DB_USERNAME: root
 DB_PASSWORD: root
@@ -26,7 +27,7 @@ gen.db1:
   password: ${DATASOURCE_PASSWORD}
 
 gen.db2:
-  url: jdbc:mysql://${DB_HOST}/gen?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+  url: ${DB_URL}
   driverClassName: ${DB_DRIVE}
   userName: ${DB_USERNAME}
   password: ${DB_PASSWORD}
