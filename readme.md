@@ -61,10 +61,33 @@ clone代码，然后执行`docker-build.sh`脚本
 ```shell
 docker run --name gen --restart=always \
   -p 6969:6969 \
-  -e JAVA_OPTS="-server -Xms64m -Xmx64m -DLOCAL_DB=/opt/gen/gen.db" \
+  -e JAVA_OPTS="-server -Djava.ext.dirs=$JAVA_HOME/lib/ext:/gen/ext -Xms64m -Xmx64m -DLOCAL_DB=/opt/gen/gen.db" \
   -v /opt/gen/:/opt/gen/ \
+  -v /opt/gen/conf/:/gen/conf/ \
+  -v /opt/gen/ext:/gen/ext \
   -d <镜像ID>
 ```
+
+## 其它数据库支持
+
+
+默认支持mysql数据库，如果要支持其它数据库，如Oracle，步骤如下：
+
+将驱动放入ext文件夹下
+
+- docker直接重启服务
+
+- 本地运行
+
+设置环境变量JAVA_HOME，指向java安装目录
+
+编辑`run.sh`文件，添加启动参数：`-Djava.ext.dirs=$JAVA_HOME/jre/lib/ext:./ext`
+
+添加后如下：
+
+`java -Djava.ext.dirs=$JAVA_HOME/jre/lib/ext:./ext -Dsolon.config.add=./conf/app.yml -Duser.timezone=Asia/Shanghai -jar -Xms64m -Xmx64m gen.jar`
+
+执行`sh run.sh`启动
 
 ## 其它
 
@@ -86,6 +109,7 @@ docker run --name gen --restart=always \
 
 ## 使用Mysql存储
 
+默认使用SQLITE3存储，如果要使用mysql存储，需要做如下配置
 
 - 创建数据库, [SQL文件](https://gitee.com/durcframework/code-gen/blob/master/db/mysql.sql)
 - 打开app.yml文件
@@ -98,7 +122,7 @@ docker run --name gen --restart=always \
 #DATASOURCE_PASSWORD:
 ```
 
-- 打开mysql配置：
+- 打开mysql配置，并修改用户名密码
 
 ```
 DATASOURCE_URL: jdbc:mysql://localhost:3306/gen?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
@@ -107,7 +131,7 @@ DATASOURCE_USERNAME: root
 DATASOURCE_PASSWORD: root
 ```
 
-修改用户名密码，重启应用
+执行`sh run.sh`启动
 
 ## 参与贡献
 
