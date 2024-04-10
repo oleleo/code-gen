@@ -30,7 +30,7 @@ db:
 gen.db2:
   url: ${db.url}
   driverClassName: ${db.drive}
-  userName: ${db.username}
+  username: ${db.username}
   password: ${db.password}
 
 # 配置数据源对应的 mybatis 信息（要与 DataSource bean 的名字对上）
