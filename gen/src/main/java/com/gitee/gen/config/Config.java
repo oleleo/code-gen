@@ -29,7 +29,7 @@ public class Config {
     //此下的 db1 与 mybatis.db1 将对应在起来 //可以用 @Db("db1") 注入mapper
     //typed=true，表示默认数据源。@Db 可不带名字注入
     @Bean(name = "db1", typed = true)
-    @Condition(onProperty="${USE_DBMS} = false")
+    @Condition(onProperty="${db.enable} = false")
     public DataSource db1(@Inject("${gen.db1}") BasicDataSource ds) {
         if (ds.getDriverClassName().contains("sqlite")) {
             String url = ds.getUrl();
@@ -40,11 +40,11 @@ public class Config {
     }
 
     @Bean(name = "db1", typed = true)
-    @Condition(onProperty="${USE_DBMS} = true")
-    public DataSource db2(@Inject("${gen.db2}") BasicDataSource ds, @Inject("${DB_HOST}") String dbHost) {
+    @Condition(onProperty="${db.enable} = true")
+    public DataSource db2(@Inject("${gen.db2}") BasicDataSource ds, @Inject("${db.host}") String dbHost) {
         String url = ds.getUrl();
         if (StringUtils.isNotBlank(dbHost)) {
-            url = url.replace("${DB_HOST}", dbHost);
+            url = url.replace("${db.host}", dbHost);
             ds.setUrl(url);
         }
         log.info("使用DBMS存储数据，url={}", ds.getUrl());

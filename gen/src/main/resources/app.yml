@@ -3,7 +3,6 @@ solon.app:
 server:
   port: 6969
 
-USE_DBMS: false
 
 # sqlite3
 #LOCAL_DB: ${user.home}/gen.db
@@ -12,13 +11,6 @@ DATASOURCE_DRIVE: org.sqlite.JDBC
 DATASOURCE_USERNAME:
 DATASOURCE_PASSWORD:
 
-# mysql
-DB_HOST: localhost:3306
-DB_URL: jdbc:mysql://${DB_HOST}/gen?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
-DB_DRIVE: com.mysql.cj.jdbc.Driver
-DB_USERNAME: root
-DB_PASSWORD: root
-
 # 配置数据源
 gen.db1:
   url: ${DATASOURCE_URL}
@@ -26,11 +18,20 @@ gen.db1:
   userName: ${DATASOURCE_USERNAME}
   password: ${DATASOURCE_PASSWORD}
 
+# mysql
+db:
+  enable: true
+  host: localhost:3306
+  url: jdbc:mysql://${db.host}/gen?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+  drive: com.mysql.cj.jdbc.Driver
+  username:
+  password:
+
 gen.db2:
-  url: ${DB_URL}
-  driverClassName: ${DB_DRIVE}
-  userName: ${DB_USERNAME}
-  password: ${DB_PASSWORD}
+  url: ${db.url}
+  driverClassName: ${db.drive}
+  userName: ${db.username}
+  password: ${db.password}
 
 # 配置数据源对应的 mybatis 信息（要与 DataSource bean 的名字对上）
 mybatis.db1:
