@@ -7,6 +7,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.lang.StringUtils;
 import org.noear.solon.Solon;
 import org.noear.solon.annotation.Bean;
+import org.noear.solon.annotation.Condition;
 import org.noear.solon.annotation.Configuration;
 import org.noear.solon.annotation.Init;
 import org.noear.solon.annotation.Inject;
@@ -28,11 +29,19 @@ public class Config {
     //此下的 db1 与 mybatis.db1 将对应在起来 //可以用 @Db("db1") 注入mapper
     //typed=true，表示默认数据源。@Db 可不带名字注入
     @Bean(name = "db1", typed = true)
+    @Condition(onProperty="${USE_DBMS} = false")
     public DataSource db1(@Inject("${gen.db1}") BasicDataSource ds) {
         if (ds.getDriverClassName().contains("sqlite")) {
             String url = ds.getUrl();
             ds.setUrl(url + UpgradeService.getLocalDbPath());
         }
+        return ds;
+    }
+
+    @Bean(name = "db1", typed = true)
+    @Condition(onProperty="${USE_DBMS} = true")
+    public DataSource db2(@Inject("${gen.db2}") BasicDataSource ds) {
+        log.info("使用DBMS，url:{}", ds.getUrl());
         return ds;
     }
 

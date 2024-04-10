@@ -11,4 +11,5 @@ ADD dist/gen /gen/
 
 # set jvm
 ENV JAVA_OPTS="-server -Xmx64m -Xms64m"
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Dsolon.config.add=/gen/conf/app.yml -Duser.timezone=Asia/Shanghai -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom -jar /gen/gen.jar" ]
+ENV CONFIG_FILE="/gen/conf/app.yml"
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Dsolon.config.add=$CONFIG_FILE -Duser.timezone=Asia/Shanghai -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom -jar /gen/gen.jar" ]

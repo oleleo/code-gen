@@ -50,7 +50,10 @@ public class UpgradeService {
     @Inject
     private SystemConfigService systemConfigService;
 
-    @Inject("${gen.db1.driverClassName}")
+    @Inject("${USE_DBMS:false}")
+    private boolean useDbms;
+
+    @Inject("${gen.db2.driverClassName}")
     private String driverClassName;
 
     @Inject("${gen.db-name:gen}")
@@ -298,11 +301,11 @@ public class UpgradeService {
     }
 
     private boolean isMysql() {
-        return this.driverClassName.contains("mysql");
+        return useDbms && this.driverClassName.contains("mysql");
     }
 
     private boolean isDm() {
-        return this.driverClassName.contains("dm");
+        return useDbms && this.driverClassName.contains("dm");
     }
 
 }
