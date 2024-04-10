@@ -20,7 +20,7 @@ gen.db1:
 
 # mysql
 db:
-  enable: true
+  enable: false
   host: localhost:3306
   url: jdbc:mysql://${db.host}/gen?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
   drive: com.mysql.cj.jdbc.Driver
