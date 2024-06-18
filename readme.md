@@ -42,6 +42,8 @@
 docker run --name gen --restart=always \
   -p 6969:6969 \
   -v /opt/gen/:/opt/gen/ \
+  -v /opt/gen/conf/:/gen/conf/ \
+  -v /opt/gen/ext:/gen/ext \
   -d registry.cn-hangzhou.aliyuncs.com/tanghc/gen:latest
 ```
 
@@ -73,13 +75,16 @@ docker run --name gen --restart=always \
 
 将驱动放入ext文件夹下
 
-- docker直接重启服务
+- docker
+
+1. 将数据库驱动放到`/opt/gen/ext`下
+2. 重启docker
 
 - 本地运行
 
-设置环境变量JAVA_HOME，指向java安装目录
-
-编辑`run.sh`文件，添加启动参数：`-Djava.ext.dirs=$JAVA_HOME/jre/lib/ext:./ext`
+1. 将数据库驱动放到`gen/ext`下
+2. 设置环境变量JAVA_HOME，指向java安装目录
+3. 编辑`run.sh`文件，添加启动参数：`-Djava.ext.dirs=$JAVA_HOME/jre/lib/ext:./ext`
 
 添加后如下：
 
