@@ -42,7 +42,7 @@ public class Config {
     @Bean(name = "db1", typed = true)
     @Condition(onProperty="${dbms.enable} = true")
     public DataSource db2(@Inject("${gen.db2}") BasicDataSource ds) {
-        log.info("使用DBMS存储数据，url={}", ds.getUrl());
+        log.info("使用DBMS存储数据，url={}, user={}, pwd={}", ds.getUrl(), ds.getUsername(), ds.getPassword());
         return ds;
     }
 
