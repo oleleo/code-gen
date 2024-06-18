@@ -14,7 +14,7 @@ gen.db1:
 
 # mysql
 dbms:
-  enable: true
+  enable: false
   host: localhost:3306
   database: gen
   username: root
