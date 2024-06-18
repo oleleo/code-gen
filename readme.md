@@ -41,7 +41,6 @@
 ```shell
 docker run --name gen --restart=always \
   -p 6969:6969 \
-  -e JAVA_OPTS="-server -Xms64m -Xmx64m -DLOCAL_DB=/opt/gen/gen.db" \
   -v /opt/gen/:/opt/gen/ \
   -d registry.cn-hangzhou.aliyuncs.com/tanghc/gen:latest
 ```
@@ -61,7 +60,6 @@ clone代码，然后执行`docker-build.sh`脚本
 ```shell
 docker run --name gen --restart=always \
   -p 6969:6969 \
-  -e JAVA_OPTS="-server -Djava.ext.dirs=$JAVA_HOME/lib/ext:/gen/ext -Xms64m -Xmx64m -DLOCAL_DB=/opt/gen/gen.db" \
   -v /opt/gen/:/opt/gen/ \
   -v /opt/gen/conf/:/gen/conf/ \
   -v /opt/gen/ext:/gen/ext \
@@ -113,22 +111,18 @@ docker run --name gen --restart=always \
 
 - 创建数据库, [SQL文件](https://gitee.com/durcframework/code-gen/blob/master/db/mysql.sql)
 - 打开app.yml文件
-- 注释下面内容
 
-```
-#DATASOURCE_URL: "jdbc:sqlite:"
-#DATASOURCE_DRIVE: org.sqlite.JDBC
-#DATASOURCE_USERNAME:
-#DATASOURCE_PASSWORD:
-```
+- 修改如下配置
 
-- 打开mysql配置，并修改用户名密码
-
-```
-DATASOURCE_URL: jdbc:mysql://localhost:3306/gen?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
-DATASOURCE_DRIVE: com.mysql.cj.jdbc.Driver
-DATASOURCE_USERNAME: root
-DATASOURCE_PASSWORD: root
+```yaml
+dbms:
+  # 设置为true
+  enable: true
+  # 设置数据库地址，库名，连接账号
+  host: localhost:3306
+  database: gen
+  username: root
+  password: root
 ```
 
 执行`sh run.sh`启动

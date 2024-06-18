@@ -50,7 +50,7 @@ public class UpgradeService {
     @Inject
     private SystemConfigService systemConfigService;
 
-    @Inject("${USE_DBMS:false}")
+    @Inject("${dbms.enable:false}")
     private boolean useDbms;
 
     @Inject("${gen.db2.driverClassName}")
@@ -66,6 +66,10 @@ public class UpgradeService {
     }
 
     public void initDatabase() {
+        if (useDbms) {
+            log.info("使用DBMS，跳过sqlit3文件初始化");
+            return;
+        }
         File dbFile = getDbFile();
         if (!dbFile.exists()) {
             try {
