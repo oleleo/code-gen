@@ -15,10 +15,10 @@ gen.db1:
 # mysql
 dbms:
   enable: false
-  host: localhost:3306
+#  host: localhost:3306
   database: gen
-  username: root
-  password: root
+#  username: root
+#  password: root
 
 gen.db2:
   url: jdbc:mysql://${dbms.host}/${dbms.database}?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
