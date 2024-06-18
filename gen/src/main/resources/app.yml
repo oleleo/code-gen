@@ -21,10 +21,10 @@ dbms:
 #  password: root
 
 gen.db2:
-  url: jdbc:mysql://${dbms.host}/${dbms.database}?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+  url: jdbc:mysql://${dbms.host:}/${dbms.database}?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
   driverClassName: com.mysql.cj.jdbc.Driver
-  userName: ${dbms.username}
-  password: ${dbms.password}
+  userName: ${dbms.username:}
+  password: ${dbms.password:}
 
 # 配置数据源对应的 mybatis 信息（要与 DataSource bean 的名字对上）
 mybatis.db1:
