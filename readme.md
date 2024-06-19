@@ -26,10 +26,6 @@
 
 > 升级：后续升级覆盖gen.jar和dist文件夹即可
 
-- 数据库支持
-
-默认支持mysql数据库，如果要支持其他数据库将驱动包放到`gen/lib`下
-
 ### 方式2：docker运行
 
 - 下载公共镜像
@@ -73,8 +69,6 @@ docker run --name gen --restart=always \
 
 默认支持mysql数据库，如果要支持其它数据库，如Oracle，步骤如下：
 
-将驱动放入ext文件夹下
-
 - docker
 
 1. 将数据库驱动放到`/opt/gen/ext`下
@@ -91,6 +85,28 @@ docker run --name gen --restart=always \
 `java -Djava.ext.dirs=$JAVA_HOME/jre/lib/ext:./ext -Dsolon.config.add=./conf/app.yml -Duser.timezone=Asia/Shanghai -jar -Xms64m -Xmx64m gen.jar`
 
 执行`sh run.sh`启动
+
+
+## 使用Mysql存储
+
+默认使用SQLITE3存储，如果要使用mysql存储，需要做如下配置
+
+- 创建数据库, [SQL文件](https://gitee.com/durcframework/code-gen/blob/master/db/mysql.sql)
+- 打开app.yml文件，docker环境下在`/opt/gen/conf`下新建一个`app.yml`文件
+- 添加/修改如下配置
+
+```yaml
+dbms:
+  # 设置为true
+  enable: true
+  # 设置数据库地址，库名，连接账号
+  host: localhost:3306
+  database: gen
+  username: root
+  password: root
+```
+
+重启服务
 
 ## 其它
 
@@ -110,27 +126,6 @@ docker run --name gen --restart=always \
 - 运行`gen`下的`com.gitee.gen.App`（solon-web工程）
 - 运行`front`下的前端项目，详见：[readme](./front/README.md)
 
-## 使用Mysql存储
-
-默认使用SQLITE3存储，如果要使用mysql存储，需要做如下配置
-
-- 创建数据库, [SQL文件](https://gitee.com/durcframework/code-gen/blob/master/db/mysql.sql)
-- 打开app.yml文件
-
-- 修改如下配置
-
-```yaml
-dbms:
-  # 设置为true
-  enable: true
-  # 设置数据库地址，库名，连接账号
-  host: localhost:3306
-  database: gen
-  username: root
-  password: root
-```
-
-执行`sh run.sh`启动
 
 ## 参与贡献
 
