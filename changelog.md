@@ -1,5 +1,9 @@
 # changelog
 
+## 2.0.2
+
+- 支持其它数据库代码生成，具体参考项目首页说明
+
 ## 2.0.1
 
 - 新增`${context.dbNameCamel}` 数据库名驼峰，如：shopOrder
