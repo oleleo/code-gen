@@ -56,7 +56,7 @@ public class UpgradeService {
     @Inject("${gen.db2.driverClassName}")
     private String driverClassName;
 
-    @Inject("${gen.db-name:gen}")
+    @Inject("${dbms.database:gen}")
     private String dbName;
 
     public void init() {
@@ -219,12 +219,17 @@ public class UpgradeService {
      */
     public boolean addColumn(String tableName, String columnName, String type) {
         if (!isColumnExist(tableName, columnName)) {
-            if (isMysql()) {
-                upgradeMapper.addColumnMysql(tableName, columnName, type);
-            } else if (isDm()) {
-                upgradeMapper.addColumnDm(tableName, columnName, type);
-            } else {
-                upgradeMapper.addColumn(tableName, columnName, type);
+            try {
+                if (isMysql()) {
+                    upgradeMapper.addColumnMysql(tableName, columnName, type);
+                } else if (isDm()) {
+                    upgradeMapper.addColumnDm(tableName, columnName, type);
+                } else {
+                    upgradeMapper.addColumn(tableName, columnName, type);
+                }
+            } catch (Exception e) {
+                log.error("add column error, tableName={}, columnName={}, type={}",
+                        tableName, columnName, type, e);
             }
             return true;
         }
