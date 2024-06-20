@@ -45,8 +45,6 @@ docker run --name gen --restart=always \
 
 浏览器访问`http://ip:6969/`
 
-后续更新替换jar文件和dist文件夹即可。
-
 
 ### 本地构建镜像
 
