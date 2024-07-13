@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ${pkg}.dao.entity.${entityClass};
 import ${pkg}.service.${serviceClass}Service;
+
+import javax.validation.Valid;
 
 /**
  * @author ${context.author}
@@ -42,7 +45,7 @@ public class ${entityClass}Controller {
         PageInfo<${entityClass}> pageInfo = ${serviceObj}.page(query);
         return Result.ok(pageInfo);
     }
-    
+
     /**
      * 新增
      *
@@ -50,12 +53,12 @@ public class ${entityClass}Controller {
      * @return 返回主键id
      */
     @PostMapping("/save")
-    public Result<${pk.javaTypeBox}> save(${entityClass} $entityObj) {
+    public Result<${pk.javaTypeBox}> save(@Valid @RequestBody ${entityClass} $entityObj) {
         ${serviceObj}.save($entityObj);
         // 返回添加后的主键值
         return Result.ok(${entityObj}.getId());
     }
-    
+
     /**
      * 详情
      *
@@ -67,7 +70,7 @@ public class ${entityClass}Controller {
     	${entityClass} record = ${serviceObj}.getById(id);
         return Result.ok(record);
     }
-    
+
     /**
      * 修改
      *
@@ -75,11 +78,11 @@ public class ${entityClass}Controller {
      * @return
      */
     @PutMapping("/update")
-    public Result<?> update(${entityClass} $entityObj) {
+    public Result<?> update(@Valid @RequestBody ${entityClass} $entityObj) {
         ${serviceObj}.update($entityObj);
         return Result.ok();
     }
-     
+
     /**
      * 删除
      *
@@ -91,5 +94,5 @@ public class ${entityClass}Controller {
         ${serviceObj}.deleteById(id);
         return Result.ok();
     }
-    
+
 }
